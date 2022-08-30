@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button } from 'react-native'
+import { View, Text, TextInput, Button } from 'react-native';
 import auth from '@react-native-firebase/auth';
 
 export default function EmailLogin() {
@@ -44,5 +44,5 @@ export default function EmailLogin() {
             <TextInput placeholder='password' onChangeText={enteredPasswordHandler} value={enteredPassword} />
             <Button title='Log-in' onPress={logInUser} />
         </View>
-    )
+    );
 }
