@@ -21,6 +21,9 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "pl.dakil.mywalletrn",
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
@@ -28,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2d6ac7d3-7655-44b4-9612-33b722f1bbd4"
+      }
     }
   }
 }

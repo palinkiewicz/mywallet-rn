@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "639721758917",
+    "project_id": "my-wallet-01",
+    "storage_bucket": "my-wallet-01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:639721758917:android:343d00cb9fb68e970b10ac",
+        "android_client_info": {
+          "package_name": "pl.dakil.mywalletrn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "639721758917-kijvjoivkt5p4a0llp597bg0mfeojodp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "pl.dakil.mywalletrn",
+            "certificate_hash": "84f2b20d45f9a5c2d290cf8dc96dfe333b38a1b9"
+          }
+        },
+        {
+          "client_id": "639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtjJlvLhbSgGGmJZpvCKHmCZEA9mzdIoU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
