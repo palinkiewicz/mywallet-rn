@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
+import { View, TextInput } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import { Button } from 'react-native-paper';
 
 export default function EmailSignup() {
     const [enteredEmail, setEnteredEmail] = useState('');
@@ -40,7 +41,9 @@ export default function EmailSignup() {
         <View>
             <TextInput placeholder='email' onChangeText={enteredEmailHandler} value={enteredEmail} />
             <TextInput placeholder='password' onChangeText={enteredPasswordHandler} value={enteredPassword} />
-            <Button title='Sign-up' onPress={createNewUser} />
+            <Button mode="contained" onPress={() => console.log('Pressed')}>
+                Sign up
+            </Button>
         </View>
     );
 }
