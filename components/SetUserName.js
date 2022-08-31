@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, TextInput, Button } from 'react-native'
+import React, { useState } from 'react';
+import { View, TextInput, Button } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
 export default function SetUserName({ userid }) {
@@ -22,5 +22,5 @@ export default function SetUserName({ userid }) {
             <TextInput placeholder='Input username' onChangeText={enteredNameHandler} value={enteredName} />
             <Button title='Set username' onPress={setUserName} />
         </View>
-    )
+    );
 }
