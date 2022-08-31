@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import EmailLogin from './components/auth/EmailLogin';
 import EmailSignup from './components/auth/EmailSignup';
 import GoogleLogin from './components/auth/GoogleLogin';
+import UserLoggedIn from './components/UserLoggedIn';
 
 export default function App() {
     GoogleSignin.configure({
@@ -27,10 +28,6 @@ export default function App() {
         return subscriber; // unsubscribe on unmount
     }, []);
 
-    function signOut() {
-        auth().signOut().then(() => console.log('User signed out!'));
-    }
-
     if (initializing) return null;
 
     // User signed-out view
@@ -46,11 +43,8 @@ export default function App() {
 
     // User logged-in view
     return (
-        <View>
-            <Text>Welcome {user.email}</Text>
-            <Button title='Sign-out' onPress={signOut} />
-        </View>
-    );
+        <UserLoggedIn user={user} />
+    )
 }
 
 const styles = StyleSheet.create({
