@@ -17,7 +17,7 @@ export default function EmailSignUpScreen({ navigation }) {
             </View>
             <View style={styles.signUpWrapper}>
                 <Text>Already have an account?</Text>
-                <Button style={styles.signUpButton} onPress={() => {navigation.navigate('Welcome')}}>Sign in</Button>
+                <Button style={styles.signInButton} onPress={() => {navigation.navigate('Welcome')}}>Sign in</Button>
             </View>
         </View>
     )
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingBottom: 16
     },
-    signUpButton: {
+    signInButton: {
         marginTop: 8
     },
 });

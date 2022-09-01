@@ -1,25 +1,42 @@
 import auth from '@react-native-firebase/auth';
 
-export default function logInUserWithEmail(email, password) {
-    if (email == '') {
-        return console.error('Please enter an email.')
+export default async function logInUserWithEmail(email, password) {
+    if (email == '' && password == '') {
+        return [
+            {type: 'email', msg: 'Please provide an email.'},
+            {type: 'password', msg: 'Please provide a password.'}
+        ];
+    } else if (email == '') {
+        return [{type: 'email', msg: 'Please provide an email.'}];
     } else if (password == '') {
-        return console.error('Please enter a password.')
+        return [{type: 'password', msg: 'Please provide a password.'}];
     }
 
-    auth().signInWithEmailAndPassword(email, password)
+    let toReturn = false;
+
+    await auth().signInWithEmailAndPassword(email, password)
         .then(() => {
             console.log('User signed in!');
         })
         .catch(error => {
-            if (error.code == 'auth/user-not-found') {
-                console.log('User not found.')
-            } else if (error.code == 'auth/wrong-password') {
-                console.log('Wrong password.')
-            } else if (error.code === 'auth/invalid-email') {
-                console.log('That email address is invalid!');
+            switch (error.code) {
+                case 'auth/user-disabled':
+                    toReturn = [{type: 'email', msg: 'This account has been disabled.'}];
+                    return;
+                case 'auth/user-not-found':
+                    toReturn = [{type: 'email', msg: 'There is no such a user.'}];
+                    return;
+                case 'auth/invalid-email':
+                    toReturn = [{type: 'email', msg: 'That email address is invalid!'}];
+                    return;
+                case 'auth/wrong-password':
+                    toReturn = [{type: 'password', msg: 'The password is invalid.'}];
+                    return;
+                default:
+                    toReturn = error.code;
             }
-
-            console.error(error.code);
         });
+
+    if (toReturn) return toReturn;
+    else return false;
 }
