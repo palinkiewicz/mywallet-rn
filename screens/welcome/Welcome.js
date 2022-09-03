@@ -1,27 +1,27 @@
-import { useState } from 'react';
-import { View, StyleSheet } from 'react-native'
+import { useState, useEffect } from 'react';
+import { View, StyleSheet, Keyboard, Dimensions, StatusBar } from 'react-native'
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import logInUserWithGoogle from '../../components/auth/GoogleLogin';
 import logInUserWithEmail from '../../components/auth/EmailLogin';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 export default function WelcomeScreen({ navigation }) {
     const [enteredEmail, setEnteredEmail] = useState('');
     const [enteredPassword, setEnteredPassword] = useState('');
-
-    const [emailErrorOccured, setEmailErrorOccured] = useState(false);
-    const [emailHelperText, setEmailHelperText] = useState('');
-    const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
-    const [passwordHelperText, setPasswordHelperText] = useState('');
 
     const onSignInButton = async () => {
         let error = await logInUserWithEmail(enteredEmail, enteredPassword);
         if (error) handleLogInWithEmailError(error);
     }
 
+    // Displaying errors that occured while trying to sign in
+    const [emailErrorOccured, setEmailErrorOccured] = useState(false);
+    const [emailHelperText, setEmailHelperText] = useState('');
+    const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
+    const [passwordHelperText, setPasswordHelperText] = useState('');
+
     const handleLogInWithEmailError = (error) => {
         // Reset screen's error data
-        setEmailErrorOccured(false);
-        setPasswordErrorOccured(false);
 
         error.forEach(errorData => {
             switch (errorData.type) {
@@ -37,8 +37,32 @@ export default function WelcomeScreen({ navigation }) {
         });
     }
 
+    const windowHeight = Dimensions.get('window').height + StatusBar.currentHeight;
+    const viewHeight = useSharedValue(windowHeight);
+
+    const viewAnimatedStyle = useAnimatedStyle(() => {
+        return {
+            height: viewHeight.value
+        };
+    }, [viewHeight]);
+
+    useEffect(() => {
+        const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+            viewHeight.value = withTiming(windowHeight - e.endCoordinates.height, {duration: 140});
+        });
+
+        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+            viewHeight.value = withTiming(windowHeight, {duration: 140});
+        });
+
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
+
     return (
-        <View style={[styles.screenWrapper]}>
+        <Animated.View style={[styles.screenWrapper, viewAnimatedStyle]}>
             <View style={styles.mainView}>
                 <Text style={styles.welcomeText} variant='headlineMedium'>Welcome to myWallet</Text>
                 <View style={styles.signInWrapper}>
@@ -46,7 +70,8 @@ export default function WelcomeScreen({ navigation }) {
                         style={styles.textInput}
                         label='Email'
                         onChangeText={(text) => {
-                            setEnteredEmail(text)
+                            setEmailErrorOccured(false);
+                            setEnteredEmail(text);
                         }}
                         error={emailErrorOccured}
                         value={enteredEmail}
@@ -58,7 +83,8 @@ export default function WelcomeScreen({ navigation }) {
                         secureTextEntry
                         right={<TextInput.Icon icon="eye"/>}
                         onChangeText={(text) => {
-                            setEnteredPassword(text)
+                            setPasswordErrorOccured(false);
+                            setEnteredPassword(text);
                         }}
                         error={passwordErrorOccured}
                         value={enteredPassword}
@@ -73,13 +99,13 @@ export default function WelcomeScreen({ navigation }) {
                 <Text>Don't have an account?</Text>
                 <Button style={styles.signUpButton} onPress={() => {navigation.navigate('Sign up')}}>Sign up now</Button>
             </View>
-        </View>
+        </Animated.View>
     )
 }
 
 const styles = StyleSheet.create({
     screenWrapper: {
-        flex: 1,
+        // flex: 1,
     },
     mainView: {
         flex: 1,
