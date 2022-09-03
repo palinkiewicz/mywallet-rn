@@ -9,16 +9,17 @@ export default function WelcomeScreen({ navigation }) {
     const [enteredEmail, setEnteredEmail] = useState('');
     const [enteredPassword, setEnteredPassword] = useState('');
 
-    const onSignInButton = async () => {
-        let error = await logInUserWithEmail(enteredEmail, enteredPassword);
-        if (error) handleLogInWithEmailError(error);
-    }
-
+    // //
     // Displaying errors that occured while trying to sign in
     const [emailErrorOccured, setEmailErrorOccured] = useState(false);
     const [emailHelperText, setEmailHelperText] = useState('');
     const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
     const [passwordHelperText, setPasswordHelperText] = useState('');
+
+    const onSignInButton = async () => {
+        let error = await logInUserWithEmail(enteredEmail, enteredPassword);
+        if (error) handleLogInWithEmailError(error);
+    }
 
     const handleLogInWithEmailError = (error) => {
         // Reset screen's error data
@@ -37,7 +38,11 @@ export default function WelcomeScreen({ navigation }) {
         });
     }
 
-    const windowHeight = Dimensions.get('window').height + StatusBar.currentHeight;
+    // //
+    // Animating view when showing the keyboard
+    var windowHeight = Dimensions.get('window').height;
+    // If divice has notch, status bar height must be added to windowHeight
+    if (StatusBar.currentHeight > 24) windowHeight += StatusBar.currentHeight;
     const viewHeight = useSharedValue(windowHeight);
 
     const viewAnimatedStyle = useAnimatedStyle(() => {
@@ -61,6 +66,8 @@ export default function WelcomeScreen({ navigation }) {
         };
     }, []);
 
+    // //
+    // Screen display
     return (
         <Animated.View style={[styles.screenWrapper, viewAnimatedStyle]}>
             <View style={styles.mainView}>
@@ -105,7 +112,7 @@ export default function WelcomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     screenWrapper: {
-        // flex: 1,
+
     },
     mainView: {
         flex: 1,
