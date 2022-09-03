@@ -1,9 +1,19 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, Keyboard, Dimensions, StatusBar } from 'react-native'
+import {
+    View,
+    StyleSheet,
+    Keyboard,
+    Dimensions,
+    StatusBar,
+} from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import logInUserWithGoogle from '../../components/auth/GoogleLogin';
 import logInUserWithEmail from '../../components/auth/EmailLogin';
-import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withTiming,
+} from 'react-native-reanimated';
 
 export default function WelcomeScreen({ navigation }) {
     const [enteredEmail, setEnteredEmail] = useState('');
@@ -19,12 +29,12 @@ export default function WelcomeScreen({ navigation }) {
     const onSignInButton = async () => {
         let error = await logInUserWithEmail(enteredEmail, enteredPassword);
         if (error) handleLogInWithEmailError(error);
-    }
+    };
 
     const handleLogInWithEmailError = (error) => {
         // Reset screen's error data
 
-        error.forEach(errorData => {
+        error.forEach((errorData) => {
             switch (errorData.type) {
                 case 'email':
                     setEmailErrorOccured(true);
@@ -36,7 +46,7 @@ export default function WelcomeScreen({ navigation }) {
                     return;
             }
         });
-    }
+    };
 
     // //
     // Animating view when showing the keyboard
@@ -47,17 +57,23 @@ export default function WelcomeScreen({ navigation }) {
 
     const viewAnimatedStyle = useAnimatedStyle(() => {
         return {
-            height: viewHeight.value
+            height: viewHeight.value,
         };
     }, [viewHeight]);
 
     useEffect(() => {
-        const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
-            viewHeight.value = withTiming(windowHeight - e.endCoordinates.height, {duration: 140});
-        });
+        const showSubscription = Keyboard.addListener(
+            'keyboardDidShow',
+            (e) => {
+                viewHeight.value = withTiming(
+                    windowHeight - e.endCoordinates.height,
+                    { duration: 140 }
+                );
+            }
+        );
 
-        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
-            viewHeight.value = withTiming(windowHeight, {duration: 140});
+        const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+            viewHeight.value = withTiming(windowHeight, { duration: 140 });
         });
 
         return () => {
@@ -69,13 +85,15 @@ export default function WelcomeScreen({ navigation }) {
     // //
     // Screen display
     return (
-        <Animated.View style={[styles.screenWrapper, viewAnimatedStyle]}>
+        <Animated.View style={viewAnimatedStyle}>
             <View style={styles.mainView}>
-                <Text style={styles.welcomeText} variant='headlineMedium'>Welcome to myWallet</Text>
+                <Text style={styles.welcomeText} variant="headlineMedium">
+                    Welcome to myWallet
+                </Text>
                 <View style={styles.signInWrapper}>
                     <TextInput
                         style={styles.textInput}
-                        label='Email'
+                        label="Email"
                         onChangeText={(text) => {
                             setEmailErrorOccured(false);
                             setEnteredEmail(text);
@@ -83,12 +101,14 @@ export default function WelcomeScreen({ navigation }) {
                         error={emailErrorOccured}
                         value={enteredEmail}
                     />
-                    <HelperText type='error' visible={emailErrorOccured}>{emailHelperText}</HelperText>
+                    <HelperText type="error" visible={emailErrorOccured}>
+                        {emailHelperText}
+                    </HelperText>
                     <TextInput
                         style={styles.textInput}
-                        label='Password'
+                        label="Password"
                         secureTextEntry
-                        right={<TextInput.Icon icon="eye"/>}
+                        right={<TextInput.Icon icon="eye" />}
                         onChangeText={(text) => {
                             setPasswordErrorOccured(false);
                             setEnteredPassword(text);
@@ -96,41 +116,61 @@ export default function WelcomeScreen({ navigation }) {
                         error={passwordErrorOccured}
                         value={enteredPassword}
                     />
-                    <HelperText type='error' visible={passwordErrorOccured}>{passwordHelperText}</HelperText>
-                    <Button style={styles.signInButton} mode='contained' onPress={onSignInButton}>Sign in</Button>
+                    <HelperText type="error" visible={passwordErrorOccured}>
+                        {passwordHelperText}
+                    </HelperText>
+                    <Button
+                        style={styles.signInButton}
+                        mode="contained"
+                        onPress={onSignInButton}
+                    >
+                        Sign in
+                    </Button>
                 </View>
-                <Text style={styles.textBetween} variant='labelSmall'>OR</Text>
-                <Button mode='contained-tonal' icon='google' onPress={logInUserWithGoogle}>Login with Google</Button>
+                <Text style={styles.textBetween} variant="labelSmall">
+                    OR
+                </Text>
+                <Button
+                    mode="contained-tonal"
+                    icon="google"
+                    onPress={logInUserWithGoogle}
+                >
+                    Login with Google
+                </Button>
             </View>
             <View style={styles.signUpWrapper}>
                 <Text>Don't have an account?</Text>
-                <Button style={styles.signUpButton} onPress={() => {navigation.navigate('Sign up')}}>Sign up now</Button>
+                <Button
+                    style={styles.signUpButton}
+                    onPress={() => {
+                        navigation.navigate('Sign up');
+                    }}
+                >
+                    Sign up now
+                </Button>
             </View>
         </Animated.View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
-    screenWrapper: {
-
-    },
     mainView: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
     welcomeText: {
-        marginVertical: 24
+        marginVertical: 24,
     },
     signInWrapper: {
         alignItems: 'stretch',
-        width: '80%'
+        width: '80%',
     },
     textInput: {
-        marginTop: 8
+        marginTop: 8,
     },
     signInButton: {
-        marginTop: 8
+        marginTop: 8,
     },
     textBetween: {
         paddingVertical: 16,
@@ -138,9 +178,9 @@ const styles = StyleSheet.create({
     signUpWrapper: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingBottom: 16
+        paddingBottom: 16,
     },
     signUpButton: {
-        marginTop: 8
+        marginTop: 8,
     },
 });
