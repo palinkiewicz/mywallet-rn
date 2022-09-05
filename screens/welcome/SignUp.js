@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
+import createNewUser from '../../components/auth/EmailSignUp';
 
 export default function SignUpScreen({ navigation }) {
     const [enteredEmail, setEnteredEmail] = useState('');
@@ -15,6 +16,34 @@ export default function SignUpScreen({ navigation }) {
     const [confirmPassErrorOccured, setConfirmPassErrorOccured] =
         useState(false);
     const [confirmPassHelperText, setConfirmPassHelperText] = useState('');
+
+    const onSignUpButton = async () => {
+        let errors = await createNewUser(
+            enteredEmail,
+            enteredPassword,
+            enteredConfirmPass
+        );
+        if (errors) handleSignUpWithEmailError(errors);
+    };
+
+    const handleSignUpWithEmailError = (errors) => {
+        errors.forEach((errorData) => {
+            switch (errorData.type) {
+                case 'email':
+                    setEmailErrorOccured(true);
+                    setEmailHelperText(errorData.msg);
+                    return;
+                case 'password':
+                    setPasswordErrorOccured(true);
+                    setPasswordHelperText(errorData.msg);
+                    return;
+                case 'confirmPassword':
+                    setConfirmPassErrorOccured(true);
+                    setConfirmPassHelperText(errorData.msg);
+                    return;
+            }
+        });
+    };
 
     return (
         <View style={[styles.screenWrapper]}>
@@ -55,7 +84,7 @@ export default function SignUpScreen({ navigation }) {
                         label="Confirm password"
                         secureTextEntry
                         onChangeText={(text) => {
-                            setpasswordConfirmationErrorOccured(false);
+                            setConfirmPassErrorOccured(false);
                             setEnteredConfirmPass(text);
                         }}
                         value={enteredConfirmPass}
@@ -67,7 +96,7 @@ export default function SignUpScreen({ navigation }) {
                     <Button
                         style={styles.signUpButton}
                         mode="contained"
-                        onPress={() => navigation.navigate('Home')}
+                        onPress={onSignUpButton}
                     >
                         Sign up
                     </Button>
