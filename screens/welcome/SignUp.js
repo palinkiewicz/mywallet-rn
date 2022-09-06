@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import createNewUser from '../../components/auth/EmailSignUp';
+import ScreenAnimatingOnKeyboard from '../../components/ScreenAnimatingOnKeyboard';
 
 export default function SignUpScreen({ navigation }) {
     const [emailEntered, setEmailEntered] = useState('');
@@ -44,7 +45,7 @@ export default function SignUpScreen({ navigation }) {
     };
 
     return (
-        <View style={[styles.screenWrapper]}>
+        <ScreenAnimatingOnKeyboard>
             <View style={styles.mainView}>
                 <Text style={styles.welcomeText} variant="headlineMedium">
                     Sign up to myWallet
@@ -117,7 +118,7 @@ export default function SignUpScreen({ navigation }) {
                     Sign in
                 </Button>
             </View>
-        </View>
+        </ScreenAnimatingOnKeyboard>
     );
 }
 
