@@ -1,19 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
     View,
     StyleSheet,
-    Keyboard,
-    Dimensions,
-    StatusBar,
 } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import logInUserWithGoogle from '../../components/auth/GoogleLogin';
 import logInUserWithEmail from '../../components/auth/EmailLogin';
-import Animated, {
-    useAnimatedStyle,
-    useSharedValue,
-    withTiming,
-} from 'react-native-reanimated';
+import ScreenAnimatingOnKeyboard from '../../components/ScreenAnimatingOnKeyboard';
 
 export default function WelcomeScreen({ navigation }) {
     const [emailEntered, setEmailEntered] = useState('');
@@ -43,44 +36,8 @@ export default function WelcomeScreen({ navigation }) {
         });
     };
 
-    // //
-    // Animating view when showing the keyboard
-    var windowHeight = Dimensions.get('window').height;
-    // If divice has notch, status bar height must be added to windowHeight
-    if (StatusBar.currentHeight > 24) windowHeight += StatusBar.currentHeight;
-
-    const viewHeight = useSharedValue(windowHeight);
-    const viewAnimatedStyle = useAnimatedStyle(() => {
-        return {
-            height: viewHeight.value,
-        };
-    }, []);
-
-    useEffect(() => {
-        const showSubscription = Keyboard.addListener(
-            'keyboardDidShow',
-            (e) => {
-                viewHeight.value = withTiming(
-                    windowHeight - e.endCoordinates.height,
-                    { duration: 140 }
-                );
-            }
-        );
-
-        const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
-            viewHeight.value = withTiming(windowHeight, { duration: 140 });
-        });
-
-        return () => {
-            showSubscription.remove();
-            hideSubscription.remove();
-        };
-    }, []);
-
-    // //
-    // Screen display
     return (
-        <Animated.View style={viewAnimatedStyle}>
+        <ScreenAnimatingOnKeyboard>
             <View style={styles.mainView}>
                 <Text style={styles.welcomeText} variant="headlineMedium">
                     Welcome to myWallet
@@ -144,7 +101,7 @@ export default function WelcomeScreen({ navigation }) {
                     Sign up now
                 </Button>
             </View>
-        </Animated.View>
+        </ScreenAnimatingOnKeyboard>
     );
 }
 
