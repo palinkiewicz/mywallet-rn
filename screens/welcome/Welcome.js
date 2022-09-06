@@ -16,25 +16,20 @@ import Animated, {
 } from 'react-native-reanimated';
 
 export default function WelcomeScreen({ navigation }) {
-    const [enteredEmail, setEnteredEmail] = useState('');
-    const [enteredPassword, setEnteredPassword] = useState('');
-
-    // //
-    // Displaying errors that occured while trying to sign in
+    const [emailEntered, setEmailEntered] = useState('');
     const [emailErrorOccured, setEmailErrorOccured] = useState(false);
     const [emailHelperText, setEmailHelperText] = useState('');
+    const [passwordEntered, setPasswordEntered] = useState('');
     const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
     const [passwordHelperText, setPasswordHelperText] = useState('');
 
     const onSignInButton = async () => {
-        let error = await logInUserWithEmail(enteredEmail, enteredPassword);
-        if (error) handleLogInWithEmailError(error);
+        let errors = await logInUserWithEmail(emailEntered, passwordEntered);
+        if (errors) handleLogInWithEmailError(errors);
     };
 
-    const handleLogInWithEmailError = (error) => {
-        // Reset screen's error data
-
-        error.forEach((errorData) => {
+    const handleLogInWithEmailError = (errors) => {
+        errors.forEach((errorData) => {
             switch (errorData.type) {
                 case 'email':
                     setEmailErrorOccured(true);
@@ -53,13 +48,13 @@ export default function WelcomeScreen({ navigation }) {
     var windowHeight = Dimensions.get('window').height;
     // If divice has notch, status bar height must be added to windowHeight
     if (StatusBar.currentHeight > 24) windowHeight += StatusBar.currentHeight;
-    const viewHeight = useSharedValue(windowHeight);
 
+    const viewHeight = useSharedValue(windowHeight);
     const viewAnimatedStyle = useAnimatedStyle(() => {
         return {
             height: viewHeight.value,
         };
-    }, [viewHeight]);
+    }, []);
 
     useEffect(() => {
         const showSubscription = Keyboard.addListener(
@@ -96,10 +91,10 @@ export default function WelcomeScreen({ navigation }) {
                         label="Email"
                         onChangeText={(text) => {
                             setEmailErrorOccured(false);
-                            setEnteredEmail(text);
+                            setEmailEntered(text);
                         }}
                         error={emailErrorOccured}
-                        value={enteredEmail}
+                        value={emailEntered}
                     />
                     <HelperText type="error" visible={emailErrorOccured}>
                         {emailHelperText}
@@ -111,10 +106,10 @@ export default function WelcomeScreen({ navigation }) {
                         right={<TextInput.Icon icon="eye" />}
                         onChangeText={(text) => {
                             setPasswordErrorOccured(false);
-                            setEnteredPassword(text);
+                            setPasswordEntered(text);
                         }}
                         error={passwordErrorOccured}
-                        value={enteredPassword}
+                        value={passwordEntered}
                     />
                     <HelperText type="error" visible={passwordErrorOccured}>
                         {passwordHelperText}
