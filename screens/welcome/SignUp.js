@@ -4,24 +4,22 @@ import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import createNewUser from '../../components/auth/EmailSignUp';
 
 export default function SignUpScreen({ navigation }) {
-    const [enteredEmail, setEnteredEmail] = useState('');
-    const [enteredPassword, setEnteredPassword] = useState('');
-    const [enteredConfirmPass, setEnteredConfirmPass] = useState('');
-
-    // Displaying errors that occured while trying to sign up
+    const [emailEntered, setEmailEntered] = useState('');
     const [emailErrorOccured, setEmailErrorOccured] = useState(false);
     const [emailHelperText, setEmailHelperText] = useState('');
+    const [passwordEntered, setPasswordEntered] = useState('');
     const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
     const [passwordHelperText, setPasswordHelperText] = useState('');
+    const [confirmPassEntered, setConfirmPassEntered] = useState('');
     const [confirmPassErrorOccured, setConfirmPassErrorOccured] =
         useState(false);
     const [confirmPassHelperText, setConfirmPassHelperText] = useState('');
 
     const onSignUpButton = async () => {
         let errors = await createNewUser(
-            enteredEmail,
-            enteredPassword,
-            enteredConfirmPass
+            emailEntered,
+            passwordEntered,
+            confirmPassEntered
         );
         if (errors) handleSignUpWithEmailError(errors);
     };
@@ -57,9 +55,9 @@ export default function SignUpScreen({ navigation }) {
                         label="Email"
                         onChangeText={(text) => {
                             setEmailErrorOccured(false);
-                            setEnteredEmail(text);
+                            setEmailEntered(text);
                         }}
-                        value={enteredEmail}
+                        value={emailEntered}
                         error={emailErrorOccured}
                     />
                     <HelperText type="error" visible={emailErrorOccured}>
@@ -71,9 +69,9 @@ export default function SignUpScreen({ navigation }) {
                         secureTextEntry
                         onChangeText={(text) => {
                             setPasswordErrorOccured(false);
-                            setEnteredPassword(text);
+                            setPasswordEntered(text);
                         }}
-                        value={enteredPassword}
+                        value={passwordEntered}
                         error={passwordErrorOccured}
                     />
                     <HelperText type="error" visible={passwordErrorOccured}>
@@ -85,9 +83,9 @@ export default function SignUpScreen({ navigation }) {
                         secureTextEntry
                         onChangeText={(text) => {
                             setConfirmPassErrorOccured(false);
-                            setEnteredConfirmPass(text);
+                            setConfirmPassEntered(text);
                         }}
-                        value={enteredConfirmPass}
+                        value={confirmPassEntered}
                         error={confirmPassErrorOccured}
                     />
                     <HelperText type="error" visible={confirmPassErrorOccured}>
