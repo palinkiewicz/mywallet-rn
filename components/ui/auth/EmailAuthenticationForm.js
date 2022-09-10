@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import { Button, TextInput, HelperText } from 'react-native-paper';
 import {
     AUTH_FORM_ERROR_INITIAL_STATE as initState,
-    AUTH_FORM_MODES as modes,
+    AUTH_MODES as modes,
 } from '../../../constants';
 import signInUserWithEmail from '../../logic/auth/EmailSignIn';
 import createNewUser from '../../logic/auth/EmailSignUp';

@@ -6,9 +6,9 @@ import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { SCREEN_NAMES } from './constants';
 import HomeScreen from './screens/Home';
-import WelcomeScreen from './screens/welcome/Welcome';
-import SignUpScreen from './screens/welcome/SignUp';
+import { SignIn, SignUp } from './screens/Authentication';
 
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
 
@@ -41,7 +41,7 @@ export default function App() {
         <PaperProvider theme={DefaultTheme}>
             <NavigationContainer theme={DefaultTheme}>
                 <Stack.Navigator
-                    initialRouteName="Home"
+                    initialRouteName={SCREEN_NAMES.HOME}
                     screenOptions={{
                         header: (props) => <PaperNavigationBar {...props} />,
                     }}
@@ -49,19 +49,22 @@ export default function App() {
                     {!user ? (
                         <>
                             <Stack.Screen
-                                name="Welcome"
-                                component={WelcomeScreen}
+                                name={SCREEN_NAMES.SIGN_IN}
+                                component={SignIn}
                                 options={{ headerShown: false }}
                             />
                             <Stack.Screen
-                                name="Sign up"
-                                component={SignUpScreen}
+                                name={SCREEN_NAMES.SIGN_UP}
+                                component={SignUp}
                                 options={{ headerShown: false }}
                             />
                         </>
                     ) : (
                         <>
-                            <Stack.Screen name="Home" component={HomeScreen} />
+                            <Stack.Screen
+                                name={SCREEN_NAMES.HOME}
+                                component={HomeScreen}
+                            />
                         </>
                     )}
                 </Stack.Navigator>
