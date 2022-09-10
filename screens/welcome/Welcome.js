@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
-import logInUserWithGoogle from '../../components/auth/GoogleLogin';
-import logInUserWithEmail from '../../components/auth/EmailLogin';
-import ScreenAnimatingOnKeyboard from '../../components/ScreenAnimatingOnKeyboard';
+import logInUserWithGoogle from '../../components/logic/auth/GoogleLogin';
+import logInUserWithEmail from '../../components/logic/auth/EmailLogin';
+import ScreenAnimatingOnKeyboard from '../../components/ui/ScreenAnimatingOnKeyboard';
 
 export default function WelcomeScreen({ navigation }) {
     const [emailEntered, setEmailEntered] = useState('');
@@ -92,7 +92,7 @@ export default function WelcomeScreen({ navigation }) {
                     icon="google"
                     onPress={logInUserWithGoogle}
                 >
-                    Login with Google
+                    Sign in with Google
                 </Button>
             </View>
             <View style={styles.signUpWrapper}>

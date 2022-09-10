@@ -10,7 +10,7 @@ import HomeScreen from './screens/Home';
 import WelcomeScreen from './screens/welcome/Welcome';
 import SignUpScreen from './screens/welcome/SignUp';
 
-import PaperNavigationBar from './components/PaperNavigationBar';
+import PaperNavigationBar from './components/ui/PaperNavigationBar';
 
 const Stack = createStackNavigator();
 

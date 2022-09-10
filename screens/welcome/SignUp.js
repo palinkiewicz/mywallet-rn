@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
-import logInUserWithGoogle from '../../components/auth/GoogleLogin';
-import createNewUser from '../../components/auth/EmailSignUp';
-import ScreenAnimatingOnKeyboard from '../../components/ScreenAnimatingOnKeyboard';
+import logInUserWithGoogle from '../../components/logic/auth/GoogleLogin';
+import createNewUser from '../../components/logic/auth/EmailSignUp';
+import ScreenAnimatingOnKeyboard from '../../components/ui/ScreenAnimatingOnKeyboard';
 
 export default function SignUpScreen({ navigation }) {
     const [emailEntered, setEmailEntered] = useState('');
