@@ -1,89 +1,17 @@
-import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Button, TextInput, HelperText } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
 import signInUserWithGoogle from '../../components/logic/auth/GoogleSignIn';
-import signInUserWithEmail from '../../components/logic/auth/EmailSignIn';
 import ScreenAnimatingOnKeyboard from '../../components/ui/ScreenAnimatingOnKeyboard';
+import EmailAuthenticationForm from '../../components/ui/auth/EmailAuthenticationForm';
 
 export default function WelcomeScreen({ navigation }) {
-    const [emailEntered, setEmailEntered] = useState('');
-    const [emailErrorOccured, setEmailErrorOccured] = useState(false);
-    const [emailHelperText, setEmailHelperText] = useState('');
-    const [passwordEntered, setPasswordEntered] = useState('');
-    const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
-    const [passwordHelperText, setPasswordHelperText] = useState('');
-    const [passwordShown, setPasswordShown] = useState(false);
-
-    const onSignInButton = async () => {
-        let errors = await signInUserWithEmail(emailEntered, passwordEntered);
-        if (errors) handleSignInWithEmailError(errors);
-    };
-
-    const handleSignInWithEmailError = (errors) => {
-        errors.forEach((errorData) => {
-            switch (errorData.type) {
-                case 'email':
-                    setEmailErrorOccured(true);
-                    setEmailHelperText(errorData.msg);
-                    return;
-                case 'password':
-                    setPasswordErrorOccured(true);
-                    setPasswordHelperText(errorData.msg);
-                    return;
-            }
-        });
-    };
-
     return (
         <ScreenAnimatingOnKeyboard>
             <View style={styles.mainView}>
                 <Text style={styles.welcomeText} variant="headlineMedium">
                     Welcome to myWallet
                 </Text>
-                <View style={styles.signInWrapper}>
-                    <TextInput
-                        style={styles.textInput}
-                        label="Email"
-                        onChangeText={(text) => {
-                            setEmailErrorOccured(false);
-                            setEmailEntered(text);
-                        }}
-                        error={emailErrorOccured}
-                        value={emailEntered}
-                    />
-                    <HelperText type="error" visible={emailErrorOccured}>
-                        {emailHelperText}
-                    </HelperText>
-                    <TextInput
-                        style={styles.textInput}
-                        label="Password"
-                        secureTextEntry={passwordShown ? false : true}
-                        right={
-                            <TextInput.Icon
-                                icon={passwordShown ? 'eye-off' : 'eye'}
-                                onPress={() => {
-                                    setPasswordShown(!passwordShown);
-                                }}
-                            />
-                        }
-                        onChangeText={(text) => {
-                            setPasswordErrorOccured(false);
-                            setPasswordEntered(text);
-                        }}
-                        error={passwordErrorOccured}
-                        value={passwordEntered}
-                    />
-                    <HelperText type="error" visible={passwordErrorOccured}>
-                        {passwordHelperText}
-                    </HelperText>
-                    <Button
-                        style={styles.signInButton}
-                        mode="contained"
-                        onPress={onSignInButton}
-                    >
-                        Sign in
-                    </Button>
-                </View>
+                <EmailAuthenticationForm mode='sign-in' />
                 <Text style={styles.textBetween} variant="labelSmall">
                     OR
                 </Text>
@@ -118,16 +46,6 @@ const styles = StyleSheet.create({
     },
     welcomeText: {
         marginVertical: 24,
-    },
-    signInWrapper: {
-        alignItems: 'stretch',
-        width: '80%',
-    },
-    textInput: {
-        marginTop: 8,
-    },
-    signInButton: {
-        marginTop: 8,
     },
     textBetween: {
         paddingVertical: 16,

@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import { AUTH_FORM_ERROR_INITIAL_STATE as initState } from '../../../constants';
 
 /**
  * A function that attempts to sign in a user with the Firebase Auth,
@@ -14,7 +15,7 @@ export default async function signInUserWithEmail(email, password) {
     if (password == '')
         errors.password = { active: true, msg: 'Please provide a password.' };
 
-    if (Object.keys(errors).length !== 0) return errors;
+    if (Object.keys(errors).length !== 0) return { ...initState, ...errors };
 
     // Calling the Firebase function that checks if arguments are valid and signs in a user.
     await auth()
@@ -50,6 +51,6 @@ export default async function signInUserWithEmail(email, password) {
         });
 
     // Returning errors if any, otherwise returning false as an indicator that there were no errors.
-    if (Object.keys(errors).length !== 0) return errors;
-    else return false;
+    if (Object.keys(errors).length !== 0) return { ...initState, ...errors };
+    else return initState;
 }

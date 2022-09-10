@@ -1,4 +1,5 @@
 import auth from '@react-native-firebase/auth';
+import { AUTH_FORM_ERROR_INITIAL_STATE as initState } from '../../../constants';
 
 /**
  * A function that attempts to create a new user in the Firebase Auth,
@@ -32,7 +33,7 @@ export default async function createNewUser(
             };
     }
 
-    if (Object.keys(errors).length !== 0) return errors;
+    if (Object.keys(errors).length !== 0) return { ...initState, ...errors };
 
     // Calling the Firebase function that checks if arguments are valid, and creates a new user in Auth.
     await auth()
@@ -67,6 +68,6 @@ export default async function createNewUser(
         });
 
     // Returning errors if any, otherwise returning false as an indicator that there were no errors.
-    if (Object.keys(errors).length !== 0) return errors;
-    else return false;
+    if (Object.keys(errors).length !== 0) return { ...initState, ...errors };
+    else return initState;
 }
