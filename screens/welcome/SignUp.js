@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
+import logInUserWithGoogle from '../../components/auth/GoogleLogin';
 import createNewUser from '../../components/auth/EmailSignUp';
 import ScreenAnimatingOnKeyboard from '../../components/ScreenAnimatingOnKeyboard';
 
@@ -103,7 +104,11 @@ export default function SignUpScreen({ navigation }) {
                 <Text style={styles.textBetween} variant="labelSmall">
                     OR
                 </Text>
-                <Button mode="contained-tonal" icon="google" onPress={() => {}}>
+                <Button
+                    mode="contained-tonal"
+                    icon="google"
+                    onPress={logInUserWithGoogle}
+                >
                     Sign up with Google
                 </Button>
             </View>
