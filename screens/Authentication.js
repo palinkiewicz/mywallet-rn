@@ -55,11 +55,11 @@ function AuthenticationScreen({ navigation, mode = modes.SIGN_IN }) {
  * Two exported functions using the AuthenticationScreen,
  * so it can be used as an actual React Navigation Screen.
  */
-export function SignIn({ navigation }) {
+export function SignInScreen({ navigation }) {
     return <AuthenticationScreen mode={modes.SIGN_IN} navigation={navigation} />
 }
 
-export function SignUp({ navigation }) {
+export function SignUpScreen({ navigation }) {
     return <AuthenticationScreen mode={modes.SIGN_UP} navigation={navigation} />
 }
 

@@ -8,7 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import { SCREEN_NAMES } from './constants';
 import HomeScreen from './screens/Home';
-import { SignIn, SignUp } from './screens/Authentication';
+import { SignInScreen, SignUpScreen } from './screens/Authentication';
 
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
 
@@ -50,12 +50,12 @@ export default function App() {
                         <>
                             <Stack.Screen
                                 name={SCREEN_NAMES.SIGN_IN}
-                                component={SignIn}
+                                component={SignInScreen}
                                 options={{ headerShown: false }}
                             />
                             <Stack.Screen
                                 name={SCREEN_NAMES.SIGN_UP}
-                                component={SignUp}
+                                component={SignUpScreen}
                                 options={{ headerShown: false }}
                             />
                         </>
