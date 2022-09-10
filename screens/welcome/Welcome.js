@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import {
-    View,
-    StyleSheet,
-} from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
 import logInUserWithGoogle from '../../components/auth/GoogleLogin';
 import logInUserWithEmail from '../../components/auth/EmailLogin';

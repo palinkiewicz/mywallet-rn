@@ -1,19 +1,22 @@
 import auth from '@react-native-firebase/auth';
 
+/**
+ * A function that attempts to sign in a user with the Firebase Auth,
+ * using the email and password provided as arguments,
+ * and returns errors if any.
+ */
 export default async function logInUserWithEmail(email, password) {
-    if (email == '' && password == '') {
-        return [
-            { type: 'email', msg: 'Please provide an email.' },
-            { type: 'password', msg: 'Please provide a password.' },
-        ];
-    } else if (email == '') {
-        return [{ type: 'email', msg: 'Please provide an email.' }];
-    } else if (password == '') {
-        return [{ type: 'password', msg: 'Please provide a password.' }];
-    }
+    let errors = [];
 
-    let toReturn = false;
+    // Checking is all the data is provided.
+    if (email == '')
+        errors.push({ type: 'email', msg: 'Please provide an email.' });
+    if (password == '')
+        errors.push({ type: 'password', msg: 'Please provide a password.' });
 
+    if (Object.keys(errors).length !== 0) return errors;
+
+    // Calling the Firebase function that checks if arguments are valid and signs in a user.
     await auth()
         .signInWithEmailAndPassword(email, password)
         .then(() => {
@@ -22,36 +25,31 @@ export default async function logInUserWithEmail(email, password) {
         .catch((error) => {
             switch (error.code) {
                 case 'auth/user-disabled':
-                    toReturn = [
-                        {
-                            type: 'email',
-                            msg: 'This account has been disabled.',
-                        },
-                    ];
-                    return;
+                    return errors.push({
+                        type: 'email',
+                        msg: 'This account has been disabled.',
+                    });
                 case 'auth/user-not-found':
-                    toReturn = [
-                        { type: 'email', msg: 'There is no such a user.' },
-                    ];
-                    return;
+                    return errors.push({
+                        type: 'email',
+                        msg: 'There is no such a user.',
+                    });
                 case 'auth/invalid-email':
-                    toReturn = [
-                        {
-                            type: 'email',
-                            msg: 'That email address is invalid!',
-                        },
-                    ];
-                    return;
+                    return errors.push({
+                        type: 'email',
+                        msg: 'That email address is invalid!',
+                    });
                 case 'auth/wrong-password':
-                    toReturn = [
-                        { type: 'password', msg: 'The password is invalid.' },
-                    ];
-                    return;
+                    return errors.push({
+                        type: 'password',
+                        msg: 'The password is invalid.',
+                    });
                 default:
-                    toReturn = error.code;
+                    console.error(error.code);
             }
         });
 
-    if (toReturn) return toReturn;
+    // Returning errors if any, otherwise returning false as an indicator that there were no errors.
+    if (Object.keys(errors).length !== 0) return errors;
     else return false;
 }
