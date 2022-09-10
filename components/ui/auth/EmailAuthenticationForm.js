@@ -42,24 +42,20 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
     };
 
     const onChangeInputText = (key, text) => {
-        let updatedObject = {};
-        updatedObject[key] = text;
-
         setDataEntered((current) => ({
             ...current,
-            ...updatedObject,
+            ...{ [key]: text },
         }));
 
         if (key in errors) {
-            let errorsUpdatedObject = {};
-            errorsUpdatedObject[key] = {
-                active: false,
-                msg: errors[key].msg,
-            };
-
             setErrors((current) => ({
                 ...current,
-                ...errorsUpdatedObject,
+                ...{
+                    [key]: {
+                        active: false,
+                        msg: errors[key].msg,
+                    },
+                },
             }));
         }
     };
