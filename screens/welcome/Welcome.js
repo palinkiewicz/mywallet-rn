@@ -12,6 +12,7 @@ export default function WelcomeScreen({ navigation }) {
     const [passwordEntered, setPasswordEntered] = useState('');
     const [passwordErrorOccured, setPasswordErrorOccured] = useState(false);
     const [passwordHelperText, setPasswordHelperText] = useState('');
+    const [passwordShown, setPasswordShown] = useState(false);
 
     const onSignInButton = async () => {
         let errors = await logInUserWithEmail(emailEntered, passwordEntered);
@@ -56,8 +57,15 @@ export default function WelcomeScreen({ navigation }) {
                     <TextInput
                         style={styles.textInput}
                         label="Password"
-                        secureTextEntry
-                        right={<TextInput.Icon icon="eye" />}
+                        secureTextEntry={passwordShown ? false : true}
+                        right={
+                            <TextInput.Icon
+                                icon={passwordShown ? 'eye-off' : 'eye'}
+                                onPress={() => {
+                                    setPasswordShown(!passwordShown);
+                                }}
+                            />
+                        }
                         onChangeText={(text) => {
                             setPasswordErrorOccured(false);
                             setPasswordEntered(text);
