@@ -19,6 +19,7 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
         confirmPassword: '',
     });
     const [errors, setErrors] = useState(initState);
+    const [passwordShown, setPasswordShown] = useState(false);
 
     const onProceedButton = async () => {
         let updatedErrors = {};
@@ -80,7 +81,19 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
             <TextInput
                 style={styles.textInput}
                 label="Password"
-                secureTextEntry
+                secureTextEntry={
+                    mode === modes.SIGN_IN && passwordShown ? false : true
+                }
+                right={
+                    mode === modes.SIGN_IN && (
+                        <TextInput.Icon
+                            icon={passwordShown ? 'eye-off' : 'eye'}
+                            onPress={() => {
+                                setPasswordShown(!passwordShown);
+                            }}
+                        />
+                    )
+                }
                 onChangeText={(text) => {
                     onChangeInputText('password', text);
                 }}
