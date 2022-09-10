@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-export default async function logInUserWithGoogle() {
+export default async function signInUserWithGoogle() {
     // Get the users ID token
     const { idToken } = await GoogleSignin.signIn();
 

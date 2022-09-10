@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
-import logInUserWithGoogle from '../../components/logic/auth/GoogleLogin';
-import logInUserWithEmail from '../../components/logic/auth/EmailLogin';
+import signInUserWithGoogle from '../../components/logic/auth/GoogleSignIn';
+import signInUserWithEmail from '../../components/logic/auth/EmailSignIn';
 import ScreenAnimatingOnKeyboard from '../../components/ui/ScreenAnimatingOnKeyboard';
 
 export default function WelcomeScreen({ navigation }) {
@@ -15,11 +15,11 @@ export default function WelcomeScreen({ navigation }) {
     const [passwordShown, setPasswordShown] = useState(false);
 
     const onSignInButton = async () => {
-        let errors = await logInUserWithEmail(emailEntered, passwordEntered);
-        if (errors) handleLogInWithEmailError(errors);
+        let errors = await signInUserWithEmail(emailEntered, passwordEntered);
+        if (errors) handleSignInWithEmailError(errors);
     };
 
-    const handleLogInWithEmailError = (errors) => {
+    const handleSignInWithEmailError = (errors) => {
         errors.forEach((errorData) => {
             switch (errorData.type) {
                 case 'email':
@@ -90,7 +90,7 @@ export default function WelcomeScreen({ navigation }) {
                 <Button
                     mode="contained-tonal"
                     icon="google"
-                    onPress={logInUserWithGoogle}
+                    onPress={signInUserWithGoogle}
                 >
                     Sign in with Google
                 </Button>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Button, TextInput, HelperText } from 'react-native-paper';
-import logInUserWithGoogle from '../../components/logic/auth/GoogleLogin';
+import signInUserWithGoogle from '../../components/logic/auth/GoogleSignIn';
 import createNewUser from '../../components/logic/auth/EmailSignUp';
 import ScreenAnimatingOnKeyboard from '../../components/ui/ScreenAnimatingOnKeyboard';
 
@@ -107,7 +107,7 @@ export default function SignUpScreen({ navigation }) {
                 <Button
                     mode="contained-tonal"
                     icon="google"
-                    onPress={logInUserWithGoogle}
+                    onPress={signInUserWithGoogle}
                 >
                     Sign up with Google
                 </Button>

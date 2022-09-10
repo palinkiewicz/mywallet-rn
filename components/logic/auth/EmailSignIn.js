@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
  * using the email and password provided as arguments,
  * and returns errors if any.
  */
-export default async function logInUserWithEmail(email, password) {
+export default async function signInUserWithEmail(email, password) {
     let errors = [];
 
     // Checking is all the data is provided.
