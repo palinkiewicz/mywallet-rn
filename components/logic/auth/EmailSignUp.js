@@ -5,27 +5,31 @@ import auth from '@react-native-firebase/auth';
  * using the email and password provided as arguments,
  * and returns errors if any.
  */
-export default async function createNewUser(email, password, confirmPassword = null) {
-    let errors = [];
+export default async function createNewUser(
+    email,
+    password,
+    confirmPassword = null
+) {
+    let errors = {};
 
     // Checking is all the data is provided.
     if (email === '')
-        errors.push({ type: 'email', msg: 'Please provide an email.' });
+        errors.email = { active: true, msg: 'Please provide an email.' };
 
     if (password === '')
-        errors.push({ type: 'password', msg: 'Please provide a password.' });
+        errors.password = { active: true, msg: 'Please provide a password.' };
 
     if (confirmPassword !== null) {
         if (confirmPassword === '')
-            errors.push({
-                type: 'confirmPassword',
+            errors.confirmPassword = {
+                active: true,
                 msg: 'Please rewrite the password provided above.',
-            });
+            };
         else if (password !== confirmPassword)
-            errors.push({
-                type: 'confirmPassword',
+            errors.confirmPassword = {
+                active: true,
                 msg: 'Passwords are not the same.',
-            });
+            };
     }
 
     if (Object.keys(errors).length !== 0) return errors;
@@ -39,18 +43,18 @@ export default async function createNewUser(email, password, confirmPassword = n
         .catch((error) => {
             switch (error.code) {
                 case 'auth/invalid-email':
-                    return errors.push({
-                        type: 'email',
+                    return (errors.email = {
+                        active: true,
                         msg: 'That email address is invalid!',
                     });
                 case 'auth/email-already-in-use':
-                    return errors.push({
-                        type: 'email',
+                    return (errors.email = {
+                        active: true,
                         msg: 'The email address is already in use!',
                     });
                 case 'auth/weak-password':
-                    return errors.push({
-                        type: 'password',
+                    return (errors.password = {
+                        active: true,
                         msg: 'The password is too weak!',
                     });
                 case 'auth/operation-not-allowed':

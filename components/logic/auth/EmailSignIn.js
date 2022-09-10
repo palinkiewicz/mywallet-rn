@@ -6,13 +6,13 @@ import auth from '@react-native-firebase/auth';
  * and returns errors if any.
  */
 export default async function signInUserWithEmail(email, password) {
-    let errors = [];
+    let errors = {};
 
     // Checking is all the data is provided.
     if (email == '')
-        errors.push({ type: 'email', msg: 'Please provide an email.' });
+        errors.email = { active: true, msg: 'Please provide an email.' };
     if (password == '')
-        errors.push({ type: 'password', msg: 'Please provide a password.' });
+        errors.password = { active: true, msg: 'Please provide a password.' };
 
     if (Object.keys(errors).length !== 0) return errors;
 
@@ -25,23 +25,23 @@ export default async function signInUserWithEmail(email, password) {
         .catch((error) => {
             switch (error.code) {
                 case 'auth/user-disabled':
-                    return errors.push({
-                        type: 'email',
+                    return (errors.email = {
+                        active: true,
                         msg: 'This account has been disabled.',
                     });
                 case 'auth/user-not-found':
-                    return errors.push({
-                        type: 'email',
+                    return (errors.email = {
+                        active: true,
                         msg: 'There is no such a user.',
                     });
                 case 'auth/invalid-email':
-                    return errors.push({
-                        type: 'email',
+                    return (errors.email = {
+                        active: true,
                         msg: 'That email address is invalid!',
                     });
                 case 'auth/wrong-password':
-                    return errors.push({
-                        type: 'password',
+                    return (errors.password = {
+                        active: true,
                         msg: 'The password is invalid.',
                     });
                 default:
