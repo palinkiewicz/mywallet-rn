@@ -2,24 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { Provider as PaperProvider, Appbar, Button } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { SCREEN_NAMES } from './constants';
 import HomeScreen from './screens/Home';
-import WelcomeScreen from './screens/Welcome';
+import { SignInScreen, SignUpScreen } from './screens/Authentication';
 
-import PaperNavigationBar from './components/PaperNavigationBar';
-import EmailLogin from './components/auth/EmailLogin';
-import EmailSignup from './components/auth/EmailSignup';
-import GoogleLogin from './components/auth/GoogleLogin';
-import UserLoggedIn from './components/UserLoggedIn';
+import PaperNavigationBar from './components/ui/PaperNavigationBar';
 
 const Stack = createStackNavigator();
 
 export default function App() {
     GoogleSignin.configure({
-        webClientId: '639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com'
+        webClientId:
+            '639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com',
     });
 
     // Set an initializing state whilst Firebase connects
@@ -39,41 +37,45 @@ export default function App() {
 
     if (initializing) return null;
 
-    const AuthAppView = () => {
-        // User signed-out view
-        if (!user) {
-            return (
-                <View>
-                    <EmailSignup />
-                    {/* <EmailLogin />
-                    <GoogleLogin /> */}
-                </View>
-            );
-        }
-
-        // User logged-in view
-        return (
-            <UserLoggedIn user={user} />
-        );
-    }
-
     return (
-        <PaperProvider>
-            <NavigationContainer>
+        <PaperProvider theme={DefaultTheme}>
+            <NavigationContainer theme={DefaultTheme}>
                 <Stack.Navigator
-                    initialRouteName={ user ? 'Home' : 'Welcome' }
+                    initialRouteName={SCREEN_NAMES.HOME}
                     screenOptions={{
                         header: (props) => <PaperNavigationBar {...props} />,
-                    }}>
-                    <Stack.Screen name='Home' component={HomeScreen} />
-                    <Stack.Screen name='Welcome' component={WelcomeScreen} options={{headerShown: false}} />
+                    }}
+                >
+                    {!user ? (
+                        <>
+                            <Stack.Screen
+                                name={SCREEN_NAMES.SIGN_IN}
+                                component={SignInScreen}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name={SCREEN_NAMES.SIGN_UP}
+                                component={SignUpScreen}
+                                options={{ headerShown: false }}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <Stack.Screen
+                                name={SCREEN_NAMES.HOME}
+                                component={HomeScreen}
+                            />
+                        </>
+                    )}
                 </Stack.Navigator>
             </NavigationContainer>
-            <StatusBar translucent backgroundColor="transparent" barStyle='dark-content' />
+            <StatusBar
+                translucent
+                backgroundColor="transparent"
+                barStyle="dark-content"
+            />
         </PaperProvider>
     );
 }
 
-const styles = StyleSheet.create({
-
-});
+const styles = StyleSheet.create({});
