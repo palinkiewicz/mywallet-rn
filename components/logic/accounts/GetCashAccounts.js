@@ -2,12 +2,12 @@ import firestore from '@react-native-firebase/firestore';
 
 /**
  * A function that returns a Firestore subscription,
- * in which it searches for every account associated with the provided userId
+ * in which it searches for every cash account associated with the provided userId
  * and sets a state value to the collected data using the provided setAccounts setter.
  *
  * Should be used inside the useEffect hook.
  */
-export default function getUserAccounts(user, setAccounts) {
+export default function getCashAccounts(user, setAccounts) {
     const subscriber = firestore()
         .collection('Accounts')
         .where('user_id', '==', user.uid)
