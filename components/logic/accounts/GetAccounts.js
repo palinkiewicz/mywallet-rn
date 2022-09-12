@@ -11,6 +11,7 @@ export default function getUserAccounts(user, setAccounts) {
     const subscriber = firestore()
         .collection('Accounts')
         .where('user_id', '==', user.uid)
+        .orderBy('date_created', 'asc')
         .onSnapshot({
             error: (e) => {
                 /**
