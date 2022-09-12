@@ -23,7 +23,7 @@ export default function getCashAccounts(user, setAccounts) {
                 const accounts = [];
 
                 querySnapshot.forEach((doc) => {
-                    accounts.push(doc.data());
+                    accounts.push({id: doc.id, data: doc.data()});
                 });
 
                 setAccounts(accounts);
