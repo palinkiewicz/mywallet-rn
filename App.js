@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { MaterialYouTheme } from './components/MaterialYouTheme';
 import { UserContext } from './components/logic/auth/UserContext';
 
 import { SCREEN_NAMES } from './constants';
@@ -39,9 +40,9 @@ export default function App() {
     if (initializing) return null;
 
     return (
-        <PaperProvider theme={DefaultTheme}>
+        <PaperProvider theme={MaterialYouTheme}>
             <UserContext.Provider value={user}>
-                <NavigationContainer theme={DefaultTheme}>
+                <NavigationContainer theme={MaterialYouTheme}>
                     <Stack.Navigator
                         initialRouteName={SCREEN_NAMES.HOME}
                         screenOptions={{
