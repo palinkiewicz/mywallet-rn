@@ -3,19 +3,23 @@ import { DefaultTheme } from 'react-native-paper';
 
 const palette = getPaletteSync();
 
-// The colors that are commented are the colors I wasn't able to get from the getPaletteSync()
+/**
+ * Most of the colors are from the palette and are set according to the https://m3.material.io/libraries/mdc-android/color-theming rules.
+ * Some colors are not from the palette, but they still follow the same rules (they are just constant colors).
+ * Commented colors are those I wasn't able to get from getPaletteSync().
+ */
 const getUpdatedColors = () => {
     if (deviceSupportsMaterialYou()) {
         return {
             background: palette.system_neutral1[1],
-            // error
-            // errorContainer
+            error: '#b3261e',
+            errorContainer: '#f9dedc',
             inverseOnSurface: palette.system_neutral1[11],
             inversePrimary: palette.system_accent1[4],
             inverseSurface: palette.system_neutral1[2],
             onBackground: palette.system_neutral1[11],
-            // onError
-            // onErrorContainer
+            onError: '#ffffff',
+            onErrorContainer: '#410e0b',
             onPrimary: palette.system_accent1[0],
             onPrimaryContainer: palette.system_accent1[11],
             onSecondary: palette.system_accent2[0],
