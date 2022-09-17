@@ -6,23 +6,23 @@ import firestore from '@react-native-firebase/firestore';
  * with updated an history array that has the updated value and name of a map on indexInHistory.
  */
 export default function updateCashAccountHistory(
-    docId,
-    indexInHistory,
-    history,
+    docId = null,
+    indexInHistory = null,
+    history = null,
     value = null,
     name = null
 ) {
     let errors = {};
 
     // Checking is all the required data provided and is it correct.
-    if (docId === '')
+    if (docId === null)
         errors.document = {
             active: true,
             msg: "It is not clear which account's record should be updated.",
         };
 
     if (
-        !indexInHistory ||
+        indexInHistory === null ||
         isNaN(indexInHistory) ||
         indexInHistory >= history.length ||
         indexInHistory < 0
@@ -32,7 +32,7 @@ export default function updateCashAccountHistory(
             msg: 'It is not clear which record should be updated.',
         };
 
-    if (!history)
+    if (history === null)
         errors.history = {
             active: true,
             msg: 'Accounts history is undefined.',
