@@ -10,7 +10,7 @@ export default function removeCashAccount(docId = null) {
     if (docId === null)
         errors.document = {
             active: true,
-            msg: "It is not clear which account should be removed.",
+            msg: 'It is not clear which account should be removed.',
         };
 
     if (Object.keys(errors).length !== 0) return errors;
