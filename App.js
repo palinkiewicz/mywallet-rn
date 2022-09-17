@@ -6,6 +6,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialYouTheme } from './components/MaterialYouTheme';
+import { UserContext } from './components/logic/auth/UserContext';
 
 import { SCREEN_NAMES } from './constants';
 import HomeScreen from './screens/Home';
@@ -40,36 +41,40 @@ export default function App() {
 
     return (
         <PaperProvider theme={MaterialYouTheme}>
-            <NavigationContainer theme={MaterialYouTheme}>
-                <Stack.Navigator
-                    initialRouteName={SCREEN_NAMES.HOME}
-                    screenOptions={{
-                        header: (props) => <PaperNavigationBar {...props} />,
-                    }}
-                >
-                    {!user ? (
-                        <>
-                            <Stack.Screen
-                                name={SCREEN_NAMES.SIGN_IN}
-                                component={SignInScreen}
-                                options={{ headerShown: false }}
-                            />
-                            <Stack.Screen
-                                name={SCREEN_NAMES.SIGN_UP}
-                                component={SignUpScreen}
-                                options={{ headerShown: false }}
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <Stack.Screen
-                                name={SCREEN_NAMES.HOME}
-                                component={HomeScreen}
-                            />
-                        </>
-                    )}
-                </Stack.Navigator>
-            </NavigationContainer>
+            <UserContext.Provider value={user}>
+                <NavigationContainer theme={MaterialYouTheme}>
+                    <Stack.Navigator
+                        initialRouteName={SCREEN_NAMES.HOME}
+                        screenOptions={{
+                            header: (props) => (
+                                <PaperNavigationBar {...props} />
+                            ),
+                        }}
+                    >
+                        {!user ? (
+                            <>
+                                <Stack.Screen
+                                    name={SCREEN_NAMES.SIGN_IN}
+                                    component={SignInScreen}
+                                    options={{ headerShown: false }}
+                                />
+                                <Stack.Screen
+                                    name={SCREEN_NAMES.SIGN_UP}
+                                    component={SignUpScreen}
+                                    options={{ headerShown: false }}
+                                />
+                            </>
+                        ) : (
+                            <>
+                                <Stack.Screen
+                                    name={SCREEN_NAMES.HOME}
+                                    component={HomeScreen}
+                                />
+                            </>
+                        )}
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </UserContext.Provider>
             <StatusBar
                 translucent
                 backgroundColor="transparent"
