@@ -1,6 +1,6 @@
-import { ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Drawer } from 'react-native-paper';
+import { Drawer, Text } from 'react-native-paper';
 import { useNavigationState } from '@react-navigation/native';
 import { MAIN_SCREENS } from '../../screens/_ScreensData';
 
@@ -15,6 +15,9 @@ export default function CustomDrawer({ navigation }) {
     return (
         <ScrollView>
             <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
+                <View style={styles.titleContainer}>
+                    <Text variant="titleLarge">myWallet</Text>
+                </View>
                 {MAIN_SCREENS.map(
                     (screen) =>
                         screen.onDrawer !== undefined && (
@@ -31,3 +34,12 @@ export default function CustomDrawer({ navigation }) {
         </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    titleContainer: {
+        paddingHorizontal: 28,
+        marginBottom: 8,
+        height: 64,
+        justifyContent: 'center',
+    },
+});
