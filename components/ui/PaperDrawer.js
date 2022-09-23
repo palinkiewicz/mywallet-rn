@@ -1,8 +1,8 @@
 import { ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Drawer } from 'react-native-paper';
-import { DRAWER_ITEMS } from '../../constants';
 import { useNavigationState } from '@react-navigation/native';
+import { MAIN_SCREENS } from '../../screens/_ScreensData';
 
 export default function CustomDrawer({ navigation }) {
     const activeRoute = useNavigationState((state) => {
@@ -15,17 +15,18 @@ export default function CustomDrawer({ navigation }) {
     return (
         <ScrollView>
             <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
-                {Object.keys(DRAWER_ITEMS).map((key) => (
-                    <Drawer.Item
-                        key={DRAWER_ITEMS[key].name}
-                        icon={DRAWER_ITEMS[key].icon}
-                        label={DRAWER_ITEMS[key].name}
-                        active={activeRoute === DRAWER_ITEMS[key].name}
-                        onPress={() =>
-                            navigation.navigate(DRAWER_ITEMS[key].name)
-                        }
-                    />
-                ))}
+                {MAIN_SCREENS.map(
+                    (screen) =>
+                        screen.onDrawer !== undefined && (
+                            <Drawer.Item
+                                key={screen.name}
+                                icon={screen.onDrawer.icon}
+                                label={screen.name}
+                                active={activeRoute === screen.name}
+                                onPress={() => navigation.navigate(screen.name)}
+                            />
+                        )
+                )}
             </SafeAreaView>
         </ScrollView>
     );

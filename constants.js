@@ -1,16 +1,3 @@
-export const SCREEN_NAMES = {
-    HOME: 'Home',
-    SIGN_IN: 'Welcome',
-    SIGN_UP: 'Sign up',
-};
-
-export const DRAWER_ITEMS = {
-    [SCREEN_NAMES.HOME]: {
-        name: SCREEN_NAMES.HOME,
-        icon: 'home-outline',
-    },
-};
-
 export const AUTH_MODES = {
     SIGN_IN: 'sign-in',
     SIGN_UP: 'sign-up',

@@ -10,10 +10,7 @@ import { MaterialYouTheme } from './components/MaterialYouTheme';
 import { UserContext } from './components/logic/auth/UserContext';
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
 import PaperDrawer from './components/ui/PaperDrawer';
-
-import { SCREEN_NAMES } from './constants';
-import { SignInScreen, SignUpScreen } from './screens/Authentication';
-import HomeScreen from './screens/Home';
+import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -48,27 +45,22 @@ export default function App() {
                     header: (props) => <PaperNavigationBar {...props} />,
                 }}
             >
-                {!user ? (
-                    <>
-                        <Stack.Screen
-                            name={SCREEN_NAMES.SIGN_IN}
-                            component={SignInScreen}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name={SCREEN_NAMES.SIGN_UP}
-                            component={SignUpScreen}
-                            options={{ headerShown: false }}
-                        />
-                    </>
-                ) : (
-                    <>
-                        <Stack.Screen
-                            name={SCREEN_NAMES.HOME}
-                            component={HomeScreen}
-                        />
-                    </>
-                )}
+                {!user
+                    ? AUTH_SCREENS.map((screen) => (
+                          <Stack.Screen
+                              key={screen.name}
+                              name={screen.name}
+                              component={screen.component}
+                              options={{ headerShown: false }}
+                          />
+                      ))
+                    : MAIN_SCREENS.map((screen) => (
+                          <Stack.Screen
+                              key={screen.name}
+                              name={screen.name}
+                              component={screen.component}
+                          />
+                      ))}
             </Stack.Navigator>
         );
     };
