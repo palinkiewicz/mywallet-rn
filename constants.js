@@ -1,3 +1,9 @@
+export const SCREENS_NAMES = {
+    sign_in: 'Welcome',
+    sign_up: 'Sign up',
+    home: 'Home',
+};
+
 export const AUTH_MODES = {
     SIGN_IN: 'sign-in',
     SIGN_UP: 'sign-up',
