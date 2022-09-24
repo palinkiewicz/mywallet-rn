@@ -16,9 +16,24 @@ export default function AccountCard({ icon, title, amount }) {
                         <Menu
                             visible={menuShown}
                             onDismiss={() => setMenuShown(false)}
-                            anchor={<IconButton {...props} icon="dots-vertical" onPress={() => setMenuShown(true)} />}>
-                            <Menu.Item onPress={() => {}} leadingIcon="pencil-outline" title="Edit" />
-                            <Menu.Item onPress={() => {}} leadingIcon="delete-outline" title="Delete" />
+                            anchor={
+                                <IconButton
+                                    {...props}
+                                    icon="dots-vertical"
+                                    onPress={() => setMenuShown(true)}
+                                />
+                            }
+                        >
+                            <Menu.Item
+                                onPress={() => {}}
+                                leadingIcon="pencil-outline"
+                                title="Edit"
+                            />
+                            <Menu.Item
+                                onPress={() => {}}
+                                leadingIcon="delete-outline"
+                                title="Delete"
+                            />
                         </Menu>
                     </View>
                 )}
