@@ -71,11 +71,7 @@ export default function App() {
                 <NavigationContainer theme={MaterialYouTheme}>
                     <Drawer.Navigator
                         screenOptions={{
-                            drawerStyle: {
-                                backgroundColor:
-                                    MaterialYouTheme.colors.surface,
-                                width: '80%',
-                            },
+                            drawerStyle: styles.drawer,
                             headerShown: false,
                             swipeEnabled: !user ? false : true,
                         }}
@@ -94,4 +90,9 @@ export default function App() {
     );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    drawer: {
+        backgroundColor: MaterialYouTheme.colors.surface,
+        width: '80%',
+    }
+});
