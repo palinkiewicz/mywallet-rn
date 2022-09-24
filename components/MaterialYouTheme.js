@@ -37,12 +37,19 @@ const getUpdatedColors = () => {
             surface: palette.system_neutral1[1],
             // surfaceDisabled
             surfaceVariant: palette.system_neutral2[3],
+            surfaceTint: palette.system_accent1[8] + '14',
             tertiary: palette.system_accent3[8],
             tertiaryContainer: palette.system_accent3[3]
         }
     }
 
-    return {}
+    let surfaceTint = DefaultTheme.colors.primary.split(',');
+    surfaceTint[3] = ' 0.08)';
+    surfaceTint = surfaceTint.join(',')
+
+    return {
+        surfaceTint: surfaceTint,
+    }
 }
 
 export const MaterialYouTheme = {

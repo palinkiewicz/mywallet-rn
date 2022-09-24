@@ -4,7 +4,7 @@ import { Drawer, Text } from 'react-native-paper';
 import { useNavigationState } from '@react-navigation/native';
 import { MAIN_SCREENS } from '../../screens/_ScreensData';
 
-export default function CustomDrawer({ navigation }) {
+export default function CustomDrawer({ navigation, colors }) {
     const activeRoute = useNavigationState((state) => {
         if (state === undefined) return '';
 
@@ -13,7 +13,7 @@ export default function CustomDrawer({ navigation }) {
     });
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor: colors.surfaceTint}}>
             <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
                 <View style={styles.titleContainer}>
                     <Text variant="titleLarge">myWallet</Text>

@@ -8,7 +8,7 @@ export default function CustomNavigationBar({ navigation, back }) {
     const onDrawer = !screen ? false : !screen.onDrawer ? false : true;
 
     return (
-        <Appbar.Header>
+        <Appbar.Header elevated>
             {onDrawer && (
                 <Appbar.Action onPress={navigation.openDrawer} icon="menu" />
             )}

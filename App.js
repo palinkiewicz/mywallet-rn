@@ -3,6 +3,7 @@ import { StyleSheet, StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { color } from 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -75,7 +76,12 @@ export default function App() {
                             headerShown: false,
                             swipeEnabled: !user ? false : true,
                         }}
-                        drawerContent={(props) => <PaperDrawer {...props} />}
+                        drawerContent={(props) => (
+                            <PaperDrawer
+                                {...props}
+                                colors={MaterialYouTheme.colors}
+                            />
+                        )}
                     >
                         <Drawer.Screen name="Screens" component={Screens} />
                     </Drawer.Navigator>
@@ -94,5 +100,5 @@ const styles = StyleSheet.create({
     drawer: {
         backgroundColor: MaterialYouTheme.colors.surface,
         width: '80%',
-    }
+    },
 });
