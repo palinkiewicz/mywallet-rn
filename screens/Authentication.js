@@ -3,8 +3,8 @@ import { Text, Button } from 'react-native-paper';
 import signInUserWithGoogle from '../components/logic/auth/GoogleSignIn';
 import {
     AUTH_MODES as modes,
-    SCREEN_NAMES as screens,
     AUTH_SCREENS_TEXTS as texts,
+    SCREENS_NAMES as screens,
 } from '../constants';
 import ScreenAnimatingOnKeyboard from '../components/ui/ScreenAnimatingOnKeyboard';
 import EmailAuthenticationForm from '../components/ui/auth/EmailAuthenticationForm';
@@ -38,9 +38,9 @@ function AuthenticationScreen({ navigation, mode = modes.SIGN_IN }) {
                     style={styles.signUpButton}
                     onPress={() => {
                         navigation.navigate(
-                            (mode === modes.SIGN_IN
-                                ? screens.SIGN_UP
-                                : screens.SIGN_IN)
+                            mode === modes.SIGN_IN
+                                ? screens.sign_up
+                                : screens.sign_in
                         );
                     }}
                 >
@@ -56,11 +56,15 @@ function AuthenticationScreen({ navigation, mode = modes.SIGN_IN }) {
  * so it can be used as an actual React Navigation Screen.
  */
 export function SignInScreen({ navigation }) {
-    return <AuthenticationScreen mode={modes.SIGN_IN} navigation={navigation} />
+    return (
+        <AuthenticationScreen mode={modes.SIGN_IN} navigation={navigation} />
+    );
 }
 
 export function SignUpScreen({ navigation }) {
-    return <AuthenticationScreen mode={modes.SIGN_UP} navigation={navigation} />
+    return (
+        <AuthenticationScreen mode={modes.SIGN_UP} navigation={navigation} />
+    );
 }
 
 const styles = StyleSheet.create({
