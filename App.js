@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, StatusBar } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import { MaterialYouTheme } from './components/MaterialYouTheme';
 import { UserContext } from './components/logic/auth/UserContext';
-
-import { SCREEN_NAMES } from './constants';
-import HomeScreen from './screens/Home';
-import { SignInScreen, SignUpScreen } from './screens/Authentication';
-
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
+import PaperDrawer from './components/ui/PaperDrawer';
+import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
 
+const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -39,40 +38,47 @@ export default function App() {
 
     if (initializing) return null;
 
+    const Screens = () => {
+        return (
+            <Stack.Navigator
+                screenOptions={{
+                    header: (props) => <PaperNavigationBar {...props} />,
+                }}
+            >
+                {!user
+                    ? AUTH_SCREENS.map((screen) => (
+                          <Stack.Screen
+                              key={screen.name}
+                              name={screen.name}
+                              component={screen.component}
+                              options={{ headerShown: false }}
+                          />
+                      ))
+                    : MAIN_SCREENS.map((screen) => (
+                          <Stack.Screen
+                              key={screen.name}
+                              name={screen.name}
+                              component={screen.component}
+                          />
+                      ))}
+            </Stack.Navigator>
+        );
+    };
+
     return (
         <PaperProvider theme={MaterialYouTheme}>
             <UserContext.Provider value={user}>
                 <NavigationContainer theme={MaterialYouTheme}>
-                    <Stack.Navigator
-                        initialRouteName={SCREEN_NAMES.HOME}
+                    <Drawer.Navigator
                         screenOptions={{
-                            header: (props) => (
-                                <PaperNavigationBar {...props} />
-                            ),
+                            drawerStyle: styles.drawer,
+                            headerShown: false,
+                            swipeEnabled: !user ? false : true,
                         }}
+                        drawerContent={(props) => <PaperDrawer {...props} />}
                     >
-                        {!user ? (
-                            <>
-                                <Stack.Screen
-                                    name={SCREEN_NAMES.SIGN_IN}
-                                    component={SignInScreen}
-                                    options={{ headerShown: false }}
-                                />
-                                <Stack.Screen
-                                    name={SCREEN_NAMES.SIGN_UP}
-                                    component={SignUpScreen}
-                                    options={{ headerShown: false }}
-                                />
-                            </>
-                        ) : (
-                            <>
-                                <Stack.Screen
-                                    name={SCREEN_NAMES.HOME}
-                                    component={HomeScreen}
-                                />
-                            </>
-                        )}
-                    </Stack.Navigator>
+                        <Drawer.Screen name="Screens" component={Screens} />
+                    </Drawer.Navigator>
                 </NavigationContainer>
             </UserContext.Provider>
             <StatusBar
@@ -84,4 +90,9 @@ export default function App() {
     );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    drawer: {
+        backgroundColor: MaterialYouTheme.colors.surface,
+        width: '80%',
+    }
+});
