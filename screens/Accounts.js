@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { StyleSheet, FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
+import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
 import AccountCard from '../components/ui/accounts/AccountCard';
 
@@ -11,44 +12,27 @@ export default function AccountsScreen({ navigation }) {
         setFabExtended((Math.floor(nativeEvent?.contentOffset?.y) ?? 0) <= 0);
     };
 
-    const data = [
-        {
-            name: 'Account',
-            amount: '600.00',
-            icon: 'currency-usd',
-            id: '1222223',
-        },
-        {
-            name: 'Bank account',
-            amount: '1600.00',
-            icon: 'bank',
-            id: '123',
-        },
-        {
-            name: 'Wallet',
-            amount: '500.00',
-            icon: 'wallet',
-            id: '12633',
-        },
-        {
-            name: 'Piggy bank',
-            amount: '16.23',
-            icon: 'piggy-bank',
-            id: '1923',
-        },
-    ];
+    const accountsData = useContext(DataContext).accounts;
+
+    const getAccountAmount = (accountHistory) => {
+        let amount = 0;
+        accountHistory.map(
+            (record) => (amount += record.value)
+        );
+        return String(amount);
+    }
 
     return (
         <>
             <LazyLoadingContent callback={() => setFabExtended(true)}>
                 <FlatList
                     contentContainerStyle={styles.cardContainer}
-                    data={data}
-                    renderItem={(accountData) => (
+                    data={accountsData}
+                    renderItem={(account) => (
                         <AccountCard
-                            title={accountData.item.name}
-                            amount={accountData.item.amount}
-                            icon={accountData.item.icon}
+                            title={account.item.data.name}
+                            icon={account.item.data.icon}
+                            amount={getAccountAmount(account.item.data.history)}
                         />
                     )}
                     keyExtractor={(item) => {
