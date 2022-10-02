@@ -12,6 +12,14 @@ const getUpdatedColors = () => {
     if (deviceSupportsMaterialYou()) {
         return {
             background: palette.system_neutral1[1],
+            elevation: {
+                level0: 'transparent',
+                level1: palette.system_neutral1[1],
+                level2: palette.system_neutral1[2],
+                level3: palette.system_neutral1[3],
+                level4: palette.system_neutral1[4],
+                level5: palette.system_neutral1[5],
+            },
             error: '#b3261e',
             errorContainer: '#f9dedc',
             inverseOnSurface: palette.system_neutral1[11],
