@@ -7,11 +7,11 @@ import firestore from '@react-native-firebase/firestore';
  * A single history record consists of a value (amount) - either positive
  * or negative - and a name, which is an optional value.
  */
-export default function addCashAccountHistory(docId, value, name = '') {
+export default function addCashAccountHistory(docId = null, value = 0, name = '') {
     let errors = {};
 
     // Checking is all the required data provided and is it correct.
-    if (docId === '')
+    if (docId === null)
         errors.document = {
             active: true,
             msg: 'It is not clear to which account the record should be assigned.',
