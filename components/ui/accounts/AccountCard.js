@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Avatar, IconButton, Button, Menu } from 'react-native-paper';
 
-export default function AccountCard({ icon, title, amount }) {
+export default function AccountCard({ id, icon, title, amount, setRemoveData }) {
     const [menuShown, setMenuShown] = useState(false);
 
     return (
@@ -30,7 +30,7 @@ export default function AccountCard({ icon, title, amount }) {
                                 title="Edit"
                             />
                             <Menu.Item
-                                onPress={() => {}}
+                                onPress={() => {setMenuShown(false); setRemoveData({active: true, accountId: id})}}
                                 leadingIcon="delete-outline"
                                 title="Delete"
                             />

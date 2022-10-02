@@ -4,23 +4,27 @@ import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
 import AccountCard from '../components/ui/accounts/AccountCard';
+import AccountRemoveDialog from '../components/ui/accounts/AccountRemoveDialog';
 
 export default function AccountsScreen({ navigation }) {
+    const accountsData = useContext(DataContext).accounts;
+
+    const getAccountAmount = (accountHistory) => {
+        let amount = 0;
+        accountHistory.map((record) => (amount += record.value));
+        return String(amount);
+    };
+
     const [fabExtended, setFabExtended] = useState(false);
 
     const onScroll = ({ nativeEvent }) => {
         setFabExtended((Math.floor(nativeEvent?.contentOffset?.y) ?? 0) <= 0);
     };
 
-    const accountsData = useContext(DataContext).accounts;
-
-    const getAccountAmount = (accountHistory) => {
-        let amount = 0;
-        accountHistory.map(
-            (record) => (amount += record.value)
-        );
-        return String(amount);
-    }
+    const [removeData, setRemoveData] = useState({
+        active: false,
+        accountId: null,
+    });
 
     return (
         <>
@@ -30,9 +34,11 @@ export default function AccountsScreen({ navigation }) {
                     data={accountsData}
                     renderItem={(account) => (
                         <AccountCard
+                            id={account.item.id}
                             title={account.item.data.name}
                             icon={account.item.data.icon}
                             amount={getAccountAmount(account.item.data.history)}
+                            setRemoveData={setRemoveData}
                         />
                     )}
                     keyExtractor={(item) => {
@@ -47,6 +53,10 @@ export default function AccountsScreen({ navigation }) {
                 extended={fabExtended}
                 onPress={() => {}}
                 style={styles.fabStyle}
+            />
+            <AccountRemoveDialog
+                removeData={removeData}
+                setRemoveData={setRemoveData}
             />
         </>
     );
