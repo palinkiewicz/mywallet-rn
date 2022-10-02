@@ -3,15 +3,16 @@ import { StyleSheet, StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider as PaperProvider } from 'react-native-paper';
-import { color } from 'react-native-reanimated';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import { MaterialYouTheme } from './components/MaterialYouTheme';
-import { UserContext } from './components/logic/auth/UserContext';
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
 import PaperDrawer from './components/ui/PaperDrawer';
+import { MaterialYouTheme } from './components/MaterialYouTheme';
+import { UserContext } from './components/logic/auth/UserContext';
+import { DataContext } from './components/logic/DataContext';
 import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
+import getCashAccounts from './components/logic/accounts/GetCashAccounts';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -37,32 +38,49 @@ export default function App() {
         return subscriber; // unsubscribe on unmount
     }, []);
 
+    // Getting data from Firestore
+    const [fsData, setFsData] = useState({});
+
+    useEffect(() => {
+        if (!user) return;
+
+        const unsubscribe = getCashAccounts(user, (data) => {
+            setFsData((current) => ({ ...current, accounts: data }));
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, [user]);
+
     if (initializing) return null;
 
     const Screens = () => {
         return (
-            <Stack.Navigator
-                screenOptions={{
-                    header: (props) => <PaperNavigationBar {...props} />,
-                }}
-            >
-                {!user
-                    ? AUTH_SCREENS.map((screen) => (
-                          <Stack.Screen
-                              key={screen.name}
-                              name={screen.name}
-                              component={screen.component}
-                              options={{ headerShown: false }}
-                          />
-                      ))
-                    : MAIN_SCREENS.map((screen) => (
-                          <Stack.Screen
-                              key={screen.name}
-                              name={screen.name}
-                              component={screen.component}
-                          />
-                      ))}
-            </Stack.Navigator>
+            <DataContext.Provider value={fsData}>
+                <Stack.Navigator
+                    screenOptions={{
+                        header: (props) => <PaperNavigationBar {...props} />,
+                    }}
+                >
+                    {!user
+                        ? AUTH_SCREENS.map((screen) => (
+                            <Stack.Screen
+                                key={screen.name}
+                                name={screen.name}
+                                component={screen.component}
+                                options={{ headerShown: false }}
+                            />
+                        ))
+                        : MAIN_SCREENS.map((screen) => (
+                            <Stack.Screen
+                                key={screen.name}
+                                name={screen.name}
+                                component={screen.component}
+                            />
+                        ))}
+                </Stack.Navigator>
+            </DataContext.Provider>
         );
     };
 
