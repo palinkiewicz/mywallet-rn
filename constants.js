@@ -30,3 +30,20 @@ export const AUTH_FORM_ERROR_INITIAL_STATE = {
     password: { active: false, msg: '' },
     confirmPassword: { active: false, msg: '' },
 };
+
+export const SELECTABLE_ICONS = [
+    'wallet',
+    'currency-usd',
+    'bank',
+    'piggy-bank',
+    'account',
+    'account-supervisor',
+    'atm',
+    'basket',
+    'book',
+    'cart',
+    'cloud',
+    'cookie',
+    'trending-up',
+    'wrench'
+]
