@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StatusBar } from 'react-native';
+import * as TransparentStatusAndNavigationBar from 'react-native-transparent-status-and-navigation-bar';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -12,6 +12,8 @@ import { DynamicLightTheme } from './components/DynamicLightTheme';
 import { DynamicDarkTheme } from './components/DynamicDarkTheme';
 import { UserContext } from './components/logic/auth/UserContext';
 import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
+
+TransparentStatusAndNavigationBar.init();
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -38,6 +40,13 @@ export default function App() {
     }, []);
 
     const [darkTheme, setDarkTheme] = useState(true);
+
+    useEffect(() => {
+        TransparentStatusAndNavigationBar.setBarsStyle(
+            false,
+            darkTheme ? 'light-content' : 'dark-content'
+        );
+    }, [darkTheme]);
 
     if (initializing) return null;
 
@@ -106,11 +115,6 @@ export default function App() {
                     </Drawer.Navigator>
                 </NavigationContainer>
             </UserContext.Provider>
-            <StatusBar
-                translucent
-                backgroundColor="transparent"
-                barStyle={darkTheme ? 'light-content' : 'dark-content'}
-            />
         </PaperProvider>
     );
 }
