@@ -2,6 +2,7 @@ import { SCREENS_NAMES } from '../constants';
 import { SignInScreen, SignUpScreen } from './Authentication';
 import HomeScreen from './Home';
 import AccountsScreen from './Accounts';
+import AddAccountScreen from './AccountAdd';
 import AccountHistoryScreen from './AccountHistory';
 
 // Screens' data, used by Navigators
@@ -34,5 +35,9 @@ export const MAIN_SCREENS = [
     {
         name: SCREENS_NAMES.accountHistory,
         component: AccountHistoryScreen,
+    },
+    {
+        name: SCREENS_NAMES.addAccount,
+        component: AddAccountScreen,
     },
 ];

@@ -52,7 +52,7 @@ export default function AccountsScreen({ navigation }) {
                 icon="plus"
                 label="New account"
                 extended={fabExtended}
-                onPress={() => {}}
+                onPress={() => {navigation.navigate('Add new account')}}
                 style={styles.fabStyle}
             />
             <AccountRemoveDialog
