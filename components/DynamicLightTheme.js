@@ -60,7 +60,7 @@ const getUpdatedColors = () => {
     }
 }
 
-export const MaterialYouTheme = {
+export const DynamicLightTheme = {
     ...DefaultTheme,
     ...{
         colors: {

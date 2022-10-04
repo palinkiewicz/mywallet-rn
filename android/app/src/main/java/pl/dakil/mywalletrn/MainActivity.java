@@ -8,6 +8,7 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 
 import expo.modules.ReactActivityDelegateWrapper;
+import io.moox.rntransparentstatusandnavigationbar.RNTransparentStatusAndNavigationBar;
 
 public class MainActivity extends ReactActivity {
   @Override
@@ -17,6 +18,8 @@ public class MainActivity extends ReactActivity {
     // This is required for expo-splash-screen.
     setTheme(R.style.AppTheme);
     super.onCreate(null);
+
+    RNTransparentStatusAndNavigationBar.init(MainActivity.this);
   }
 
   /**
