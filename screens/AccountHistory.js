@@ -1,11 +1,12 @@
 import { useContext, useState } from 'react';
-import { StyleSheet, FlatList } from 'react-native';
+import { FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
 import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
 import AccountHistoryRemoveDialog from '../components/ui/accounts/AccountHistoryRemoveDialog';
 import { SCREENS_NAMES } from '../constants';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function AccountHistoryScreen({ navigation, route }) {
     const { accountId } = route.params;
@@ -13,6 +14,8 @@ export default function AccountHistoryScreen({ navigation, route }) {
     const selectedAccountData = accountsData.find(
         (item) => item.id === accountId
     ).data;
+
+    const { bottom } = useSafeAreaInsets();
 
     const [fabExtended, setFabExtended] = useState(false);
 
@@ -31,7 +34,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
         <>
             <LazyLoadingContent callback={() => setFabExtended(true)}>
                 <FlatList
-                    contentContainerStyle={styles.cardContainer}
+                    contentContainerStyle={{ paddingBottom: 80 + bottom }}
                     data={selectedAccountData.history}
                     renderItem={({ item, index }) => (
                         <HistoryRecordCard
@@ -57,7 +60,11 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         accountId: accountId,
                     });
                 }}
-                style={styles.fabStyle}
+                style={{
+                    bottom: 16 + bottom,
+                    right: 16,
+                    position: 'absolute',
+                }}
             />
             <AccountHistoryRemoveDialog
                 removeData={removeData}
@@ -66,14 +73,3 @@ export default function AccountHistoryScreen({ navigation, route }) {
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    cardContainer: {
-        paddingBottom: 80,
-    },
-    fabStyle: {
-        bottom: 16,
-        right: 16,
-        position: 'absolute',
-    },
-});
