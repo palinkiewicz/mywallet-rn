@@ -33,7 +33,7 @@ export default async function signInUserWithEmail(email, password) {
                 case 'auth/user-not-found':
                     return (errors.email = {
                         active: true,
-                        msg: 'There is no such a user.',
+                        msg: 'There is no such user.',
                     });
                 case 'auth/invalid-email':
                     return (errors.email = {
