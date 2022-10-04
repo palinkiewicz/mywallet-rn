@@ -50,7 +50,11 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 icon="plus"
                 label="New record"
                 extended={fabExtended}
-                onPress={() => {}}
+                onPress={() => {
+                    navigation.navigate('Add account history', {
+                        accountId: accountId,
+                    });
+                }}
                 style={styles.fabStyle}
             />
         </>

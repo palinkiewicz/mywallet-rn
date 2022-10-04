@@ -4,6 +4,7 @@ import HomeScreen from './Home';
 import AccountsScreen from './Accounts';
 import AddAccountScreen from './AccountAdd';
 import AccountHistoryScreen from './AccountHistory';
+import AddAccountHistoryScreen from './AccountHistoryAdd';
 
 // Screens' data, used by Navigators
 export const AUTH_SCREENS = [
@@ -39,5 +40,9 @@ export const MAIN_SCREENS = [
     {
         name: SCREENS_NAMES.addAccount,
         component: AddAccountScreen,
+    },
+    {
+        name: SCREENS_NAMES.addAccountHistory,
+        component: AddAccountHistoryScreen,
     },
 ];

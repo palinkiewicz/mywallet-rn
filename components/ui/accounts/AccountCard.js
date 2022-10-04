@@ -40,7 +40,7 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData, na
             />
             <Card.Actions>
                 <Button onPress={() => {navigation.navigate('Account history', {accountId: id})}}>See history</Button>
-                <Button onPress={() => {}}>Add record</Button>
+                <Button onPress={() => {navigation.navigate('Add account history', {accountId: id})}}>Add record</Button>
             </Card.Actions>
         </Card>
     );
