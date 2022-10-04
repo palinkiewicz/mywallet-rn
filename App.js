@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import { MaterialYouTheme } from './components/MaterialYouTheme';
-import { UserContext } from './components/logic/auth/UserContext';
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
 import PaperDrawer from './components/ui/PaperDrawer';
+import { MaterialYouTheme } from './components/MaterialYouTheme';
+import { DynamicDarkTheme } from './components/DynamicDarkTheme';
+import { UserContext } from './components/logic/auth/UserContext';
 import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
 
 const Drawer = createDrawerNavigator();
@@ -36,6 +37,8 @@ export default function App() {
         return subscriber; // unsubscribe on unmount
     }, []);
 
+    const [darkTheme, setDarkTheme] = useState(true);
+
     if (initializing) return null;
 
     const Screens = () => {
@@ -59,6 +62,12 @@ export default function App() {
                               key={screen.name}
                               name={screen.name}
                               component={screen.component}
+                              initialParams={{
+                                  darkTheme: {
+                                      value: darkTheme,
+                                      set: setDarkTheme,
+                                  },
+                              }}
                           />
                       ))}
             </Stack.Navigator>
@@ -66,16 +75,28 @@ export default function App() {
     };
 
     return (
-        <PaperProvider theme={MaterialYouTheme}>
+        <PaperProvider theme={darkTheme ? DynamicDarkTheme : MaterialYouTheme}>
             <UserContext.Provider value={user}>
-                <NavigationContainer theme={MaterialYouTheme}>
+                <NavigationContainer
+                    theme={darkTheme ? DynamicDarkTheme : MaterialYouTheme}
+                >
                     <Drawer.Navigator
                         screenOptions={{
-                            drawerStyle: styles.drawer,
+                            drawerStyle: {
+                                backgroundColor: darkTheme
+                                    ? DynamicDarkTheme.colors.surface
+                                    : MaterialYouTheme.colors.surface,
+                                width: '80%',
+                            },
                             headerShown: false,
                             swipeEnabled: !user ? false : true,
                         }}
-                        drawerContent={(props) => <PaperDrawer {...props} />}
+                        drawerContent={(props) => (
+                            <PaperDrawer
+                                {...props}
+                                colors={MaterialYouTheme.colors}
+                            />
+                        )}
                     >
                         <Drawer.Screen name="Screens" component={Screens} />
                     </Drawer.Navigator>
@@ -84,15 +105,8 @@ export default function App() {
             <StatusBar
                 translucent
                 backgroundColor="transparent"
-                barStyle="dark-content"
+                barStyle={darkTheme ? 'light-content' : 'dark-content'}
             />
         </PaperProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    drawer: {
-        backgroundColor: MaterialYouTheme.colors.surface,
-        width: '80%',
-    }
-});
