@@ -3,17 +3,14 @@ import { StyleSheet, FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
-import AccountCard from '../components/ui/accounts/AccountCard';
-import AccountRemoveDialog from '../components/ui/accounts/AccountRemoveDialog';
+import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
 
-export default function AccountsScreen({ navigation }) {
+export default function AccountHistoryScreen({ navigation, route }) {
+    const { accountId } = route.params;
     const accountsData = useContext(DataContext).accounts;
-
-    const getAccountAmount = (accountHistory) => {
-        let amount = 0;
-        accountHistory.map((record) => (amount += record.value));
-        return String(amount);
-    };
+    const selectedAccountData = accountsData.find(
+        (item) => item.id === accountId
+    ).data;
 
     const [fabExtended, setFabExtended] = useState(false);
 
@@ -22,8 +19,10 @@ export default function AccountsScreen({ navigation }) {
     };
 
     const [removeData, setRemoveData] = useState({
+        accountId: accountId,
+        index: null,
+        history: selectedAccountData.history,
         active: false,
-        accountId: null,
     });
 
     return (
@@ -31,33 +30,28 @@ export default function AccountsScreen({ navigation }) {
             <LazyLoadingContent callback={() => setFabExtended(true)}>
                 <FlatList
                     contentContainerStyle={styles.cardContainer}
-                    data={accountsData}
-                    renderItem={(account) => (
-                        <AccountCard
-                            id={account.item.id}
-                            title={account.item.data.name}
-                            icon={account.item.data.icon}
-                            amount={getAccountAmount(account.item.data.history)}
+                    data={selectedAccountData.history}
+                    renderItem={({ item, index }) => (
+                        <HistoryRecordCard
+                            name={item.name}
+                            value={item.value}
+                            date={item.date}
+                            index={index}
                             setRemoveData={setRemoveData}
-                            navigation={navigation}
                         />
                     )}
-                    keyExtractor={(item) => {
-                        return item.id;
+                    keyExtractor={(item, index) => {
+                        return `${accountId}-${index}`;
                     }}
                     onScroll={onScroll}
                 />
             </LazyLoadingContent>
             <AnimatedFAB
                 icon="plus"
-                label="New account"
+                label="New record"
                 extended={fabExtended}
                 onPress={() => {}}
                 style={styles.fabStyle}
-            />
-            <AccountRemoveDialog
-                removeData={removeData}
-                setRemoveData={setRemoveData}
             />
         </>
     );

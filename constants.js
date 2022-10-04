@@ -3,6 +3,7 @@ export const SCREENS_NAMES = {
     sign_up: 'Sign up',
     home: 'Home',
     accounts: 'Accounts',
+    accountHistory: 'Account history',
 };
 
 export const AUTH_MODES = {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Avatar, IconButton, Button, Menu } from 'react-native-paper';
 
-export default function AccountCard({ id, icon, title, amount, setRemoveData }) {
+export default function AccountCard({ id, icon, title, amount, setRemoveData, navigation }) {
     const [menuShown, setMenuShown] = useState(false);
 
     return (
@@ -39,7 +39,7 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData }) 
                 )}
             />
             <Card.Actions>
-                <Button onPress={() => {}}>See history</Button>
+                <Button onPress={() => {navigation.navigate('Account history', {accountId: id})}}>See history</Button>
                 <Button onPress={() => {}}>Add record</Button>
             </Card.Actions>
         </Card>
