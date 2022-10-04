@@ -36,6 +36,7 @@ export default function addCashAccountHistory(docId = null, value = 0, name = ''
         .doc(docId)
         .update({
             history: firestore.FieldValue.arrayUnion({
+                date: Date.now(),
                 name: name,
                 value: value,
             }),
