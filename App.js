@@ -58,7 +58,7 @@ export default function App() {
 
         const unsubscribe = getCashAccounts(user, (data) => {
             setFsData((current) => ({ ...current, accounts: data }));
-        });    
+        });
 
         return () => {
             unsubscribe();
