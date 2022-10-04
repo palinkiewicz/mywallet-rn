@@ -5,6 +5,7 @@ import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
 import AccountCard from '../components/ui/accounts/AccountCard';
 import AccountRemoveDialog from '../components/ui/accounts/AccountRemoveDialog';
+import { SCREENS_NAMES } from '../constants';
 
 export default function AccountsScreen({ navigation }) {
     const accountsData = useContext(DataContext).accounts;
@@ -52,7 +53,7 @@ export default function AccountsScreen({ navigation }) {
                 icon="plus"
                 label="New account"
                 extended={fabExtended}
-                onPress={() => {navigation.navigate('Add new account')}}
+                onPress={() => {navigation.navigate(SCREENS_NAMES.addAccount)}}
                 style={styles.fabStyle}
             />
             <AccountRemoveDialog

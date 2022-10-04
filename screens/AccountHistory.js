@@ -5,6 +5,7 @@ import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
 import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
 import AccountHistoryRemoveDialog from '../components/ui/accounts/AccountHistoryRemoveDialog';
+import { SCREENS_NAMES } from '../constants';
 
 export default function AccountHistoryScreen({ navigation, route }) {
     const { accountId } = route.params;
@@ -52,7 +53,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 label="New record"
                 extended={fabExtended}
                 onPress={() => {
-                    navigation.navigate('Add account history', {
+                    navigation.navigate(SCREENS_NAMES.addAccountHistory, {
                         accountId: accountId,
                     });
                 }}
