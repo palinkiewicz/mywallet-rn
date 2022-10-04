@@ -4,6 +4,7 @@ import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
 import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
+import AccountHistoryRemoveDialog from '../components/ui/accounts/AccountHistoryRemoveDialog';
 
 export default function AccountHistoryScreen({ navigation, route }) {
     const { accountId } = route.params;
@@ -56,6 +57,10 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     });
                 }}
                 style={styles.fabStyle}
+            />
+            <AccountHistoryRemoveDialog
+                removeData={removeData}
+                setRemoveData={setRemoveData}
             />
         </>
     );
