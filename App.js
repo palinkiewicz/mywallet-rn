@@ -8,7 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import PaperNavigationBar from './components/ui/PaperNavigationBar';
 import PaperDrawer from './components/ui/PaperDrawer';
-import { MaterialYouTheme } from './components/MaterialYouTheme';
+import { DynamicLightTheme } from './components/DynamicLightTheme';
 import { DynamicDarkTheme } from './components/DynamicDarkTheme';
 import { UserContext } from './components/logic/auth/UserContext';
 import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
@@ -75,17 +75,17 @@ export default function App() {
     };
 
     return (
-        <PaperProvider theme={darkTheme ? DynamicDarkTheme : MaterialYouTheme}>
+        <PaperProvider theme={darkTheme ? DynamicDarkTheme : DynamicLightTheme}>
             <UserContext.Provider value={user}>
                 <NavigationContainer
-                    theme={darkTheme ? DynamicDarkTheme : MaterialYouTheme}
+                    theme={darkTheme ? DynamicDarkTheme : DynamicLightTheme}
                 >
                     <Drawer.Navigator
                         screenOptions={{
                             drawerStyle: {
                                 backgroundColor: darkTheme
                                     ? DynamicDarkTheme.colors.surface
-                                    : MaterialYouTheme.colors.surface,
+                                    : DynamicLightTheme.colors.surface,
                                 width: '80%',
                             },
                             headerShown: false,
@@ -94,7 +94,11 @@ export default function App() {
                         drawerContent={(props) => (
                             <PaperDrawer
                                 {...props}
-                                colors={MaterialYouTheme.colors}
+                                colors={
+                                    darkTheme
+                                        ? DynamicDarkTheme.colors
+                                        : DynamicLightTheme.colors
+                                }
                             />
                         )}
                     >
