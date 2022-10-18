@@ -20,7 +20,7 @@ export default function HistoryRecordCard({
         <Card style={styles.card} mode="elevated">
             <Card.Title
                 title={value + ' zł'}
-                subtitle={name + (name === '' ? '' : ' - ') + dateString}
+                subtitle={dateString + (name === '' ? '' : ' - ') + name}
                 right={(props) => (
                     <View style={{ flexDirection: 'row' }}>
                         <Menu
