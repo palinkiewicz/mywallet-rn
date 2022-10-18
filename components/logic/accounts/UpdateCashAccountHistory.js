@@ -10,7 +10,8 @@ export function updateCashAccountHistory(
     indexInHistory = null,
     history = null,
     value = null,
-    name = null
+    name = null,
+    date = null
 ) {
     let errors = {};
 
@@ -49,6 +50,9 @@ export function updateCashAccountHistory(
     if (name !== null && name.length > 32)
         errors.name = { active: true, msg: 'Provided name is too long.' };
 
+    if (date > Date.now())
+        errors.date = { active: true, msg: 'The date cannot be further in the future.' };
+
     if (Object.keys(errors).length !== 0) return errors;
 
     // Checking whether the provided values differ from those in Firestore.
@@ -56,13 +60,15 @@ export function updateCashAccountHistory(
 
     if (
         (record.value === value || value === null) &&
-        (record.name === name || name === null)
+        (record.name === name || name === null) &&
+        (record.date === date || date === null)
     ) {
         return errors;
     } else {
         history[indexInHistory] = {
             name: name === null ? record.name : name,
             value: value === null ? record.value : value,
+            date: date === null ? record.date : date,
         };
     }
 
