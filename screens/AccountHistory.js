@@ -40,7 +40,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     renderItem={({ item, index }) => (
                         <HistoryRecordCard
                             name={item.name}
-                            value={item.value}
+                            value={item.value.toFixed(2)}
                             date={item.date}
                             index={index}
                             setRemoveData={setRemoveData}

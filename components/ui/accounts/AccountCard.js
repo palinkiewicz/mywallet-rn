@@ -9,7 +9,7 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData, na
         <Card style={styles.card}>
             <Card.Title
                 title={title}
-                subtitle={'$' + amount}
+                subtitle={amount + ' zł'}
                 left={(props) => <Avatar.Icon {...props} icon={icon} />}
                 right={(props) => (
                     <View style={{ flexDirection: 'row' }}>

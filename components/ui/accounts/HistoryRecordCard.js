@@ -19,7 +19,7 @@ export default function HistoryRecordCard({
     return (
         <Card style={styles.card} mode="elevated">
             <Card.Title
-                title={'$' + value}
+                title={value + ' zł'}
                 subtitle={name + (name === '' ? '' : ' - ') + dateString}
                 right={(props) => (
                     <View style={{ flexDirection: 'row' }}>
