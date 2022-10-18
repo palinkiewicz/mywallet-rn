@@ -3,8 +3,9 @@ import { FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
+import removeCashAccountHistory from '../components/logic/accounts/RemoveCashAccountHistory';
+import DeleteDialog from '../components/ui/DeleteDialog';
 import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
-import AccountHistoryRemoveDialog from '../components/ui/accounts/AccountHistoryRemoveDialog';
 import { SCREENS_NAMES } from '../constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -66,9 +67,20 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     position: 'absolute',
                 }}
             />
-            <AccountHistoryRemoveDialog
+            <DeleteDialog
                 removeData={removeData}
                 setRemoveData={setRemoveData}
+                onConfirm={() => {
+                    removeCashAccountHistory(
+                        removeData.accountId,
+                        removeData.index,
+                        removeData.history
+                    );
+                }}
+                paragraphs={[
+                    'Record will be removed permamently.',
+                    'You cannot recover it after this.'
+                ]}
             />
         </>
     );

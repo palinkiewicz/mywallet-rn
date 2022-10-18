@@ -3,8 +3,9 @@ import { FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
+import removeCashAccount from '../components/logic/accounts/RemoveCashAccount';
+import DeleteDialog from '../components/ui/DeleteDialog';
 import AccountCard from '../components/ui/accounts/AccountCard';
-import AccountRemoveDialog from '../components/ui/accounts/AccountRemoveDialog';
 import { SCREENS_NAMES } from '../constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -64,9 +65,16 @@ export default function AccountsScreen({ navigation }) {
                     position: 'absolute',
                 }}
             />
-            <AccountRemoveDialog
+            <DeleteDialog
                 removeData={removeData}
                 setRemoveData={setRemoveData}
+                onConfirm={() => {
+                    removeCashAccount(removeData.accountId);
+                }}
+                paragraphs={[
+                    'Account will be removed permamently.',
+                    'You cannot recover the account and all its records after this.',
+                ]}
             />
         </>
     );
