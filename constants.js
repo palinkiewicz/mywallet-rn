@@ -49,4 +49,4 @@ export const SELECTABLE_ICONS = [
     'cookie',
     'trending-up',
     'wrench'
-]
+];
