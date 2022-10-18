@@ -39,11 +39,14 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     data={selectedAccountData.history}
                     renderItem={({ item, index }) => (
                         <HistoryRecordCard
+                            accountId={accountId}
                             name={item.name}
                             value={item.value.toFixed(2)}
                             date={item.date}
                             index={index}
+                            fullHistory={selectedAccountData.history}
                             setRemoveData={setRemoveData}
+                            navigation={navigation}
                         />
                     )}
                     keyExtractor={(item, index) => {

@@ -7,6 +7,7 @@ export const SCREENS_NAMES = {
     editAccount: 'Edit account',
     accountHistory: 'Account history',
     addAccountHistory: 'Add account history',
+    editAccountHistory: 'Edit history record',
 };
 
 export const AUTH_MODES = {
