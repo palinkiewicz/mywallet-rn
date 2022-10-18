@@ -2,7 +2,14 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Avatar, IconButton, Button, Menu } from 'react-native-paper';
 
-export default function AccountCard({ id, icon, title, amount, setRemoveData, navigation }) {
+export default function AccountCard({
+    id,
+    icon,
+    title,
+    amount,
+    setRemoveData,
+    navigation,
+}) {
     const [menuShown, setMenuShown] = useState(false);
 
     return (
@@ -25,12 +32,25 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData, na
                             }
                         >
                             <Menu.Item
-                                onPress={() => {}}
+                                onPress={() => {
+                                    setMenuShown(false);
+                                    navigation.navigate('Edit account', {
+                                        docId: id,
+                                        name: title,
+                                        icon: icon,
+                                    });
+                                }}
                                 leadingIcon="pencil-outline"
                                 title="Edit"
                             />
                             <Menu.Item
-                                onPress={() => {setMenuShown(false); setRemoveData({active: true, accountId: id})}}
+                                onPress={() => {
+                                    setMenuShown(false);
+                                    setRemoveData({
+                                        active: true,
+                                        accountId: id,
+                                    });
+                                }}
                                 leadingIcon="delete-outline"
                                 title="Delete"
                             />
@@ -39,8 +59,24 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData, na
                 )}
             />
             <Card.Actions>
-                <Button onPress={() => {navigation.navigate('Account history', {accountId: id})}}>See history</Button>
-                <Button onPress={() => {navigation.navigate('Add account history', {accountId: id})}}>Add record</Button>
+                <Button
+                    onPress={() => {
+                        navigation.navigate('Account history', {
+                            accountId: id,
+                        });
+                    }}
+                >
+                    See history
+                </Button>
+                <Button
+                    onPress={() => {
+                        navigation.navigate('Add account history', {
+                            accountId: id,
+                        });
+                    }}
+                >
+                    Add record
+                </Button>
             </Card.Actions>
         </Card>
     );

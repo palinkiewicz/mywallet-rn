@@ -4,6 +4,7 @@ export const SCREENS_NAMES = {
     home: 'Home',
     accounts: 'Accounts',
     addAccount: 'Add account',
+    editAccount: 'Edit account',
     accountHistory: 'Account history',
     addAccountHistory: 'Add account history',
 };
