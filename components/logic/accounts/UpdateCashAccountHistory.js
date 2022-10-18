@@ -5,7 +5,7 @@ import firestore from '@react-native-firebase/firestore';
  * by overwriting the history value of the document with the provided docId
  * with updated an history array that has the updated value and name of a map on indexInHistory.
  */
-export default function updateCashAccountHistory(
+export function updateCashAccountHistory(
     docId = null,
     indexInHistory = null,
     history = null,

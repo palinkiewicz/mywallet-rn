@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
  * A function that tries to update a cash account of the given docId,
  * replacing its name value with the provided name.
  */
-export default function updateCashAccount(docId = null, name = null) {
+export function updateCashAccount(docId = null, name = null) {
     let errors = {};
 
     // Checking is all the data provided and is it correct.

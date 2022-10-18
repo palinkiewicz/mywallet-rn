@@ -6,7 +6,7 @@ import { AUTH_FORM_ERROR_INITIAL_STATE as initState } from '../../../constants';
  * using the email and password provided as arguments,
  * and returns errors if any.
  */
-export default async function createNewUser(
+export async function createNewUser(
     email,
     password,
     confirmPassword = null

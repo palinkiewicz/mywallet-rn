@@ -3,7 +3,7 @@ import { FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import LazyLoadingContent from '../components/ui/LazyLoadingContent';
-import removeCashAccount from '../components/logic/accounts/RemoveCashAccount';
+import { removeCashAccount } from '../components/logic/accounts/RemoveCashAccount';
 import DeleteDialog from '../components/ui/DeleteDialog';
 import AccountCard from '../components/ui/accounts/AccountCard';
 import { SCREENS_NAMES } from '../constants';

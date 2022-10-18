@@ -13,7 +13,7 @@ import { DynamicDarkTheme } from './components/DynamicDarkTheme';
 import { UserContext } from './components/logic/auth/UserContext';
 import { DataContext } from './components/logic/DataContext';
 import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
-import getCashAccounts from './components/logic/accounts/GetCashAccounts';
+import { getCashAccounts } from './components/logic/accounts/GetCashAccounts';
 
 TransparentStatusAndNavigationBar.init();
 

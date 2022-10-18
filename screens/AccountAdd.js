@@ -3,7 +3,7 @@ import { StyleSheet, View, Keyboard} from 'react-native';
 import { TextInput, HelperText, Text, Button } from 'react-native-paper';
 import ChooseIcon from '../components/ui/accounts/ChooseIcon';
 import { UserContext } from '../components/logic/auth/UserContext';
-import addCashAccount from '../components/logic/accounts/AddCashAccount';
+import { addCashAccount } from '../components/logic/accounts/AddCashAccount';
 import { SELECTABLE_ICONS } from '../constants';
 
 export default function AddAccountScreen({ navigation }) {

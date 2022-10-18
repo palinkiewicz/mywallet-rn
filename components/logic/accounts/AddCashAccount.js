@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
  * A function that tries to add to the Firebase a new cash account
  * that belongs to the provided user and has the provided name and icon.
  */
-export default function addCashAccount(user = null, name = '', icon = '') {
+export function addCashAccount(user = null, name = '', icon = '') {
     let errors = {};
 
     // Checking is all the provided data correct.

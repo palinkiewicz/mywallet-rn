@@ -8,7 +8,7 @@ import firestore from '@react-native-firebase/firestore';
  * It works like that, because Firebase's arrayRemove method removes all the records that are similar,
  * but here, a user can have many records that look exactly the same, but may want to remove just one of them.
  */
-export default function removeCashAccountHistory(
+export function removeCashAccountHistory(
     docId = null,
     indexInHistory = null,
     history = null

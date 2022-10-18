@@ -6,7 +6,7 @@ import { AUTH_FORM_ERROR_INITIAL_STATE as initState } from '../../../constants';
  * using the email and password provided as arguments,
  * and returns errors if any.
  */
-export default async function signInUserWithEmail(email, password) {
+export async function signInUserWithEmail(email, password) {
     let errors = {};
 
     // Checking is all the data is provided.

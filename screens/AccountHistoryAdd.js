@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import { TextInput, HelperText, Text, Button } from 'react-native-paper';
-import addCashAccountHistory from '../components/logic/accounts/AddCashAccountHistory';
+import { addCashAccountHistory } from '../components/logic/accounts/AddCashAccountHistory';
 
 export default function AddAccountHistoryScreen({ navigation, route }) {
     const { accountId } = route.params;

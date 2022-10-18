@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
  * A single history record consists of a value (amount) - either positive
  * or negative - and a name, which is an optional value.
  */
-export default function addCashAccountHistory(docId = null, value = 0, name = '') {
+export function addCashAccountHistory(docId = null, value = 0, name = '') {
     let errors = {};
 
     // Checking is all the required data provided and is it correct.

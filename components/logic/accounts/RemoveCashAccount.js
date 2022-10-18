@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 /**
  * A function that tries to remove a cash account with provided docId.
  */
-export default function removeCashAccount(docId = null) {
+export function removeCashAccount(docId = null) {
     let errors = {};
 
     // Checking is all the provided data correct.

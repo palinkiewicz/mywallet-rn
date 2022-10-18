@@ -7,7 +7,7 @@ import firestore from '@react-native-firebase/firestore';
  *
  * Should be used inside the useEffect hook.
  */
-export default function getCashAccounts(user, setAccounts) {
+export function getCashAccounts(user, setAccounts) {
     const subscriber = firestore()
         .collection('Accounts')
         .where('user_id', '==', user.uid)

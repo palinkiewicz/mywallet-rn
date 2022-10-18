@@ -5,8 +5,8 @@ import {
     AUTH_FORM_ERROR_INITIAL_STATE as initState,
     AUTH_MODES as modes,
 } from '../../../constants';
-import signInUserWithEmail from '../../logic/auth/EmailSignIn';
-import createNewUser from '../../logic/auth/EmailSignUp';
+import { signInUserWithEmail } from '../../logic/auth/EmailSignIn';
+import { createNewUser } from '../../logic/auth/EmailSignUp';
 
 /**
  * A functional component that returns the appropriate authentication form,
