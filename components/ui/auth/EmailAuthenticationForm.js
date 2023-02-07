@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, TextInput, HelperText } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
+import TextInputWithHelper from '../TextInputWithHelper';
 import {
     AUTH_FORM_ERROR_INITIAL_STATE as initState,
     AUTH_MODES as modes,
@@ -63,7 +64,7 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
 
     return (
         <View style={styles.signUpWrapper}>
-            <TextInput
+            <TextInputWithHelper
                 style={styles.textInput}
                 label="Email"
                 onChangeText={(text) => {
@@ -71,14 +72,10 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
                 }}
                 value={dataEntered.email}
                 error={errors.email.active ? true : false}
+                helperVisible={errors.email.active ? true : false}
+                helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                visible={errors.email.active ? true : false}
-            >
-                {errors.email.msg}
-            </HelperText>
-            <TextInput
+            <TextInputWithHelper
                 style={styles.textInput}
                 label="Password"
                 secureTextEntry={
@@ -99,16 +96,12 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
                 }}
                 value={dataEntered.password}
                 error={errors.password.active ? true : false}
+                helperVisible={errors.password.active ? true : false}
+                helperText={errors.password.msg}
             />
-            <HelperText
-                type="error"
-                visible={errors.password.active ? true : false}
-            >
-                {errors.password.msg}
-            </HelperText>
             {mode === modes.SIGN_UP && (
                 <>
-                    <TextInput
+                    <TextInputWithHelper
                         style={styles.textInput}
                         label="Confirm password"
                         secureTextEntry
@@ -117,13 +110,9 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
                         }}
                         value={dataEntered.confirmPassword}
                         error={errors.confirmPassword.active ? true : false}
+                        helperVisible={errors.confirmPassword.active ? true : false}
+                        helperText={errors.confirmPassword.msg}
                     />
-                    <HelperText
-                        type="error"
-                        visible={errors.confirmPassword.active ? true : false}
-                    >
-                        {errors.confirmPassword.msg}
-                    </HelperText>
                 </>
             )}
             <Button

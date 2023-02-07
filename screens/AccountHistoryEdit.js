@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Keyboard, StyleSheet } from 'react-native';
-import { TextInput, HelperText, Button, Text } from 'react-native-paper';
+import { Button, Text } from 'react-native-paper';
+import TextInputWithHelper from '../components/ui/TextInputWithHelper';
 import { updateCashAccountHistory } from '../components/logic/accounts/UpdateCashAccountHistory';
 
 export default function EditAccountHistoryScreen({ navigation, route }) {
@@ -31,43 +32,30 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
     };
 
     return (
-        <View style={{ marginVertical: 12 }}>
-            <TextInput
+        <View style={styles.view}>
+            <TextInputWithHelper
                 mode="outlined"
-                style={styles.textInput}
                 label="Title"
                 onChangeText={(text) => {
                     setRecordName(text);
                 }}
                 value={recordName}
                 // error={errors.email.active ? true : false}
+                // helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                // visible={errors.email.active ? true : false}
-            >
-                {/* {errors.email.msg} */}
-            </HelperText>
-            <TextInput
+            <TextInputWithHelper
                 mode="outlined"
-                style={styles.textInput}
                 label="Value"
                 onChangeText={(text) => {
                     setRecordValue(text);
                 }}
                 value={recordValue}
                 // error={errors.email.active ? true : false}
+                // helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                // visible={errors.email.active ? true : false}
-            >
-                {/* {errors.email.msg} */}
-            </HelperText>
             <Button
                 onPress={onSubmit}
                 mode="contained"
-                style={styles.textInput}
             >
                 Edit record
             </Button>
@@ -78,8 +66,7 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-    textInput: {
-        marginHorizontal: 16,
-        marginVertical: 4,
-    },
+    view: {
+        margin: 16,
+    }
 });

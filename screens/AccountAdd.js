@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { StyleSheet, View, Keyboard} from 'react-native';
-import { TextInput, HelperText, Text, Button } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
+import TextInputWithHelper from '../components/ui/TextInputWithHelper';
 import ChooseIcon from '../components/ui/accounts/ChooseIcon';
 import { UserContext } from '../components/logic/auth/UserContext';
 import { addCashAccount } from '../components/logic/accounts/AddCashAccount';
@@ -27,42 +28,30 @@ export default function AddAccountScreen({ navigation }) {
     };
 
     return (
-        <View style={{marginVertical: 12}}>
-            <TextInput
+        <View style={styles.view}>
+            <TextInputWithHelper
                 mode='outlined'
-                style={styles.textInput}
                 label="Account's name"
                 onChangeText={(text) => {
                     setAccountName(text);
                 }}
                 value={accountName}
                 // error={errors.email.active ? true : false}
+                // helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                // visible={errors.email.active ? true : false}
-            >
-                {/* {errors.email.msg} */}
-            </HelperText>
             <ChooseIcon selectedIcon={selectedIcon} setSelectedIcon={setSelectedIcon} />
             <Text style={{marginHorizontal: 16}} variant="labelSmall">Not required:</Text>
-            <TextInput
+            <TextInputWithHelper
                 mode='outlined'
-                style={styles.textInput}
                 label="Custom icon (only native android icons)"
                 onChangeText={(text) => {
                     setSelectedIcon(text);
                 }}
                 value={selectedIcon}
                 // error={errors.email.active ? true : false}
+                // helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                // visible={errors.email.active ? true : false}
-            >
-                {/* {errors.email.msg} */}
-            </HelperText>
-            <Button onPress={onSubmit} mode="contained" style={styles.textInput}>Add account</Button>
+            <Button onPress={onSubmit} mode="contained">Add account</Button>
             {/* This will be replaced: */}
             <Text>{errors}</Text>
         </View>
@@ -70,8 +59,7 @@ export default function AddAccountScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    textInput: {
-        marginHorizontal: 16,
-        marginVertical: 4,
+    view: {
+        margin: 16,
     }
 });

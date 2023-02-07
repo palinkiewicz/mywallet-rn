@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
-import { TextInput, HelperText, Text, Button } from 'react-native-paper';
+import { Text, Button } from 'react-native-paper';
+import TextInputWithHelper from '../components/ui/TextInputWithHelper';
 import { addCashAccountHistory } from '../components/logic/accounts/AddCashAccountHistory';
 
 export default function AddAccountHistoryScreen({ navigation, route }) {
@@ -24,43 +25,30 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
     };
 
     return (
-        <View style={{ marginVertical: 12 }}>
-            <TextInput
+        <View style={styles.view}>
+            <TextInputWithHelper
                 mode="outlined"
-                style={styles.textInput}
                 label="Title"
                 onChangeText={(text) => {
                     setName(text);
                 }}
                 value={name}
                 // error={errors.email.active ? true : false}
+                // helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                // visible={errors.email.active ? true : false}
-            >
-                {/* {errors.email.msg} */}
-            </HelperText>
-            <TextInput
+            <TextInputWithHelper
                 mode="outlined"
-                style={styles.textInput}
                 label="Value"
                 onChangeText={(text) => {
                     setValue(text);
                 }}
                 value={value}
                 // error={errors.email.active ? true : false}
+                // helperText={errors.email.msg}
             />
-            <HelperText
-                type="error"
-                // visible={errors.email.active ? true : false}
-            >
-                {/* {errors.email.msg} */}
-            </HelperText>
             <Button
                 onPress={onSubmit}
                 mode="contained"
-                style={styles.textInput}
             >
                 Add record
             </Button>
@@ -71,8 +59,7 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-    textInput: {
-        marginHorizontal: 16,
-        marginVertical: 4,
-    },
+    view: {
+        margin: 16,
+    }
 });
