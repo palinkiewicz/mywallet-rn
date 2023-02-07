@@ -2,12 +2,10 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import TextInputWithHelper from '../TextInputWithHelper';
-import {
-    AUTH_FORM_ERROR_INITIAL_STATE as initState,
-    AUTH_MODES as modes,
-} from '../../../constants';
+import { AUTH_MODES as modes } from '../../../constants';
 import { signInUserWithEmail } from '../../logic/auth/EmailSignIn';
 import { createNewUser } from '../../logic/auth/EmailSignUp';
+import getInitialErrorState from '../../logic/GetInitialErrorState';
 
 /**
  * A functional component that returns the appropriate authentication form,
@@ -19,7 +17,7 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
         password: '',
         confirmPassword: '',
     });
-    const [errors, setErrors] = useState(initState);
+    const [errors, setErrors] = useState(getInitialErrorState(['email', 'password', 'confirmPassword']));
     const [passwordShown, setPasswordShown] = useState(false);
 
     const onProceedButton = async () => {
@@ -40,7 +38,9 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
             console.error("EmailAuthenticationForm's mode prop is invalid");
         }
 
-        setErrors(updatedErrors);
+        setErrors((prev) => {
+            return { ...prev, ...updatedErrors };
+        });
     };
 
     const onChangeInputText = (key, text) => {
@@ -110,7 +110,9 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
                         }}
                         value={dataEntered.confirmPassword}
                         error={errors.confirmPassword.active ? true : false}
-                        helperVisible={errors.confirmPassword.active ? true : false}
+                        helperVisible={
+                            errors.confirmPassword.active ? true : false
+                        }
                         helperText={errors.confirmPassword.msg}
                     />
                 </>

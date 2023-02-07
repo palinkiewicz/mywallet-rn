@@ -33,7 +33,7 @@ export async function createNewUser(
             };
     }
 
-    if (Object.keys(errors).length !== 0) return { ...initState, ...errors };
+    if (Object.keys(errors).length !== 0) return errors;
 
     // Calling the Firebase function that checks if arguments are valid, and creates a new user in Auth.
     await auth()
@@ -67,7 +67,6 @@ export async function createNewUser(
             }
         });
 
-    // Returning errors if any, otherwise returning false as an indicator that there were no errors.
-    if (Object.keys(errors).length !== 0) return { ...initState, ...errors };
-    else return initState;
+    // Returning errors if any
+    return errors;
 }

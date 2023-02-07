@@ -30,12 +30,6 @@ export const AUTH_SCREENS_TEXTS = {
     },
 };
 
-export const AUTH_FORM_ERROR_INITIAL_STATE = {
-    email: { active: false, msg: '' },
-    password: { active: false, msg: '' },
-    confirmPassword: { active: false, msg: '' },
-};
-
 export const SELECTABLE_ICONS = [
     'wallet',
     'currency-usd',

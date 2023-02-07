@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import { View, Keyboard, StyleSheet } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import { Button } from 'react-native-paper';
 import TextInputWithHelper from '../components/ui/TextInputWithHelper';
 import { updateCashAccountHistory } from '../components/logic/accounts/UpdateCashAccountHistory';
+import getInitialErrorState from '../components/logic/GetInitialErrorState';
 
 export default function EditAccountHistoryScreen({ navigation, route }) {
     const { docId, indexInHistory, history, value, name } = route.params;
 
     const [recordName, setRecordName] = useState(name);
     const [recordValue, setRecordValue] = useState(value);
-    const [errors, setErrors] = useState('');
+    const [errors, setErrors] = useState(
+        getInitialErrorState(['document', 'record', 'history', 'name', 'value'])
+    );
 
     const onSubmit = () => {
-        let errors = updateCashAccountHistory(
+        let newErrors = updateCashAccountHistory(
             docId,
             indexInHistory,
             history,
@@ -20,15 +23,14 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
             recordName
         );
 
-        if (Object.keys(errors).length === 0) {
+        if (Object.keys(newErrors).length === 0) {
             Keyboard.dismiss();
             return navigation.goBack();
         }
 
-        setErrors('');
-        for (let i in errors) {
-            setErrors((current) => (current += errors[i].msg + '\n'));
-        }
+        setErrors((prev) => {
+            return { ...prev, ...newErrors };
+        });
     };
 
     return (
@@ -40,8 +42,8 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
                     setRecordName(text);
                 }}
                 value={recordName}
-                // error={errors.email.active ? true : false}
-                // helperText={errors.email.msg}
+                error={errors.name.active}
+                helperText={errors.name.msg}
             />
             <TextInputWithHelper
                 mode="outlined"
@@ -50,17 +52,16 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
                     setRecordValue(text);
                 }}
                 value={recordValue}
-                // error={errors.email.active ? true : false}
-                // helperText={errors.email.msg}
+                error={errors.value.active}
+                helperText={errors.value.msg}
             />
             <Button
                 onPress={onSubmit}
                 mode="contained"
+                style={styles.editButton}
             >
                 Edit record
             </Button>
-            {/* This will be replaced: */}
-            <Text>{errors}</Text>
         </View>
     );
 }
@@ -68,5 +69,8 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     view: {
         margin: 16,
-    }
+    },
+    editButton: {
+        marginTop: 8,
+    },
 });
