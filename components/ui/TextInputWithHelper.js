@@ -1,13 +1,16 @@
 import { View } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 
-function TextInputWithHelper({
+export default function TextInputWithHelper({
     style,
     mode,
     label,
     onChangeText,
     value,
+    secureTextEntry,
     error,
+    right,
+    left,
     inputStyle,
     helperStyle,
     helperText,
@@ -20,6 +23,9 @@ function TextInputWithHelper({
                 label={label}
                 onChangeText={onChangeText}
                 value={value}
+                secureTextEntry={secureTextEntry}
+                right={right}
+                left={left}
                 error={error}
                 style={inputStyle}
             />
@@ -33,5 +39,3 @@ function TextInputWithHelper({
         </View>
     );
 }
-
-export default TextInputWithHelper;
