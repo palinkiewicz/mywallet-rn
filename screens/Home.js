@@ -13,17 +13,10 @@ export default function HomeScreen({ navigation, route }) {
 
     return (
         <View style={{ margin: 16, alignItems: 'center' }}>
-            <Button
-                mode="outlined"
-                style={styles.button}
-                onPress={() => darkTheme.set((current) => !current)}
-            >
+            <Button mode="outlined" style={styles.button} onPress={() => darkTheme.set((current) => !current)}>
                 Toggle dark mode
             </Button>
-            <Button
-                style={styles.button}
-                onPress={() => navigation.navigate('Accounts')}
-            >
+            <Button style={styles.button} onPress={() => navigation.navigate('Accounts')}>
                 Accounts
             </Button>
             <Button style={styles.button} onPress={signOut}>

@@ -20,9 +20,7 @@ export default function DeleteDialog({
                 <Dialog.Title>{title}</Dialog.Title>
                 <Dialog.Content>
                     {paragraphs.map((paragraphText, index) => (
-                        <Paragraph key={paragraphText + index}>
-                            {paragraphText}
-                        </Paragraph>
+                        <Paragraph key={paragraphText + index}>{paragraphText}</Paragraph>
                     ))}
                 </Dialog.Content>
                 <Dialog.Actions>

@@ -13,7 +13,7 @@ export default function CustomDrawer({ navigation, colors }) {
     });
 
     return (
-        <ScrollView style={{backgroundColor: colors.surfaceTint}}>
+        <ScrollView style={{ backgroundColor: colors.surfaceTint }}>
             <SafeAreaView forceInset={{ top: 'always', horizontal: 'never' }}>
                 <View style={styles.titleContainer}>
                     <Text variant="titleLarge">myWallet</Text>

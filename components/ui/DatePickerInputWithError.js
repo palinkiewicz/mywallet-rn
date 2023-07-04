@@ -45,11 +45,7 @@ export default function DatePickerInputWithError({
                 autoFocus={autoFocus}
                 ref={inputRef}
             />
-            <HelperText
-                type="error"
-                visible={error}
-                style={{paddingLeft: 16, ...helperStyle}}
-            >
+            <HelperText type="error" visible={error} style={{ paddingLeft: 16, ...helperStyle }}>
                 {lastError}
             </HelperText>
         </View>

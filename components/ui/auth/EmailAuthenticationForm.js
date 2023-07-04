@@ -24,28 +24,17 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
             email: email.trim() === '' ? 'Please provide an email' : '',
             password: password.trim() === '' ? 'Please provide a password' : '',
             confirmPassword:
-                confirmPassword.trim() === '' && mode === modes.SIGN_UP
-                    ? 'Please rewrite the password'
-                    : '',
+                confirmPassword.trim() === '' && mode === modes.SIGN_UP ? 'Please rewrite the password' : '',
         };
 
         setErrors(newErrors);
 
-        if (
-            Object.values(newErrors)?.filter((err) => err !== '').length === 0
-        ) {
+        if (Object.values(newErrors)?.filter((err) => err !== '').length === 0) {
             if (mode === modes.SIGN_IN) {
-                const firebaseErrors = await signInUserWithEmail(
-                    email,
-                    password
-                );
+                const firebaseErrors = await signInUserWithEmail(email, password);
                 setErrors({ ...errors, ...firebaseErrors });
             } else if (mode === modes.SIGN_UP) {
-                const firebaseErrors = await createNewUser(
-                    email,
-                    password,
-                    confirmPassword
-                );
+                const firebaseErrors = await createNewUser(email, password, confirmPassword);
                 setErrors({ ...errors, ...firebaseErrors });
             }
         }
@@ -71,10 +60,7 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
         setConfirmPassword(text);
         setErrors({
             ...errors,
-            confirmPassword:
-                text.trim() === '' && mode === modes.SIGN_UP
-                    ? 'Please rewrite the password'
-                    : '',
+            confirmPassword: text.trim() === '' && mode === modes.SIGN_UP ? 'Please rewrite the password' : '',
         });
     };
 
@@ -94,15 +80,10 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
             <TextInputWithError
                 style={styles.textInput}
                 label="Password"
-                secureTextEntry={
-                    mode === modes.SIGN_IN && passwordShown ? false : true
-                }
+                secureTextEntry={mode === modes.SIGN_IN && passwordShown ? false : true}
                 right={
                     mode === modes.SIGN_IN && (
-                        <TextInput.Icon
-                            icon={passwordShown ? 'eye-off' : 'eye'}
-                            onPress={onClickShowPassword}
-                        />
+                        <TextInput.Icon icon={passwordShown ? 'eye-off' : 'eye'} onPress={onClickShowPassword} />
                     )
                 }
                 onChangeText={onChangePassword}

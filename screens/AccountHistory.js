@@ -12,9 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export default function AccountHistoryScreen({ navigation, route }) {
     const { accountId } = route.params;
     const accountsData = useContext(DataContext).accounts;
-    const selectedAccountData = accountsData.find(
-        (item) => item.id === accountId
-    ).data;
+    const selectedAccountData = accountsData.find((item) => item.id === accountId).data;
 
     const { bottom } = useSafeAreaInsets();
 
@@ -74,16 +72,9 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 removeData={removeData}
                 setRemoveData={setRemoveData}
                 onConfirm={() => {
-                    removeCashAccountHistory(
-                        removeData.accountId,
-                        removeData.index,
-                        removeData.history
-                    );
+                    removeCashAccountHistory(removeData.accountId, removeData.index, removeData.history);
                 }}
-                paragraphs={[
-                    'Record will be removed permamently.',
-                    'You cannot recover it after this.'
-                ]}
+                paragraphs={['Record will be removed permamently.', 'You cannot recover it after this.']}
             />
         </>
     );

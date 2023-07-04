@@ -9,12 +9,8 @@ export default function CustomNavigationBar({ navigation, back }) {
 
     return (
         <Appbar.Header elevated>
-            {onDrawer && (
-                <Appbar.Action onPress={navigation.openDrawer} icon="menu" />
-            )}
-            {back && !onDrawer ? (
-                <Appbar.BackAction onPress={navigation.goBack} />
-            ) : null}
+            {onDrawer && <Appbar.Action onPress={navigation.openDrawer} icon="menu" />}
+            {back && !onDrawer ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
             <Appbar.Content title={' ' + routeName} />
         </Appbar.Header>
     );

@@ -22,8 +22,7 @@ const Stack = createStackNavigator();
 
 export default function App() {
     GoogleSignin.configure({
-        webClientId:
-            '639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com',
+        webClientId: '639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com',
     });
 
     // Set an initializing state whilst Firebase connects
@@ -44,10 +43,7 @@ export default function App() {
     const [darkTheme, setDarkTheme] = useState(true);
 
     useEffect(() => {
-        TransparentStatusAndNavigationBar.setBarsStyle(
-            false,
-            darkTheme ? 'light-content' : 'dark-content'
-        );
+        TransparentStatusAndNavigationBar.setBarsStyle(false, darkTheme ? 'light-content' : 'dark-content');
     }, [darkTheme]);
 
     // Getting data from Firestore
@@ -77,26 +73,26 @@ export default function App() {
                 >
                     {!user
                         ? AUTH_SCREENS.map((screen) => (
-                            <Stack.Screen
-                                key={screen.name}
-                                name={screen.name}
-                                component={screen.component}
-                                options={{ headerShown: false }}
-                            />
-                        ))
+                              <Stack.Screen
+                                  key={screen.name}
+                                  name={screen.name}
+                                  component={screen.component}
+                                  options={{ headerShown: false }}
+                              />
+                          ))
                         : MAIN_SCREENS.map((screen) => (
-                            <Stack.Screen
-                                key={screen.name}
-                                name={screen.name}
-                                component={screen.component}
-                              initialParams={{
-                                  darkTheme: {
-                                      value: darkTheme,
-                                      set: setDarkTheme,
-                                  },
-                              }}
-                            />
-                        ))}
+                              <Stack.Screen
+                                  key={screen.name}
+                                  name={screen.name}
+                                  component={screen.component}
+                                  initialParams={{
+                                      darkTheme: {
+                                          value: darkTheme,
+                                          set: setDarkTheme,
+                                      },
+                                  }}
+                              />
+                          ))}
                 </Stack.Navigator>
             </DataContext.Provider>
         );
@@ -105,9 +101,7 @@ export default function App() {
     return (
         <PaperProvider theme={darkTheme ? DynamicDarkTheme : DynamicLightTheme}>
             <UserContext.Provider value={user}>
-                <NavigationContainer
-                    theme={darkTheme ? DynamicDarkTheme : DynamicLightTheme}
-                >
+                <NavigationContainer theme={darkTheme ? DynamicDarkTheme : DynamicLightTheme}>
                     <Drawer.Navigator
                         screenOptions={{
                             drawerStyle: {
@@ -122,11 +116,7 @@ export default function App() {
                         drawerContent={(props) => (
                             <PaperDrawer
                                 {...props}
-                                colors={
-                                    darkTheme
-                                        ? DynamicDarkTheme.colors
-                                        : DynamicLightTheme.colors
-                                }
+                                colors={darkTheme ? DynamicDarkTheme.colors : DynamicLightTheme.colors}
                             />
                         )}
                     >

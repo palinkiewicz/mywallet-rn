@@ -1,6 +1,6 @@
 import { registerRootComponent } from 'expo';
 import 'react-native-gesture-handler';
-import { enGB, registerTranslation } from 'react-native-paper-dates'
+import { enGB, registerTranslation } from 'react-native-paper-dates';
 
 import App from './App';
 
@@ -8,4 +8,4 @@ import App from './App';
 // It also ensures that whether you load the app in Expo Go or in a native build,
 // the environment is set up appropriately
 registerRootComponent(App);
-registerTranslation('en-GB', enGB)
+registerTranslation('en-GB', enGB);

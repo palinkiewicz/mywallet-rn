@@ -2,14 +2,7 @@ import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Card, Avatar, IconButton, Button, Menu } from 'react-native-paper';
 
-export default function AccountCard({
-    id,
-    icon,
-    title,
-    amount,
-    setRemoveData,
-    navigation,
-}) {
+export default function AccountCard({ id, icon, title, amount, setRemoveData, navigation }) {
     const [menuShown, setMenuShown] = useState(false);
 
     return (
@@ -19,43 +12,35 @@ export default function AccountCard({
                 subtitle={amount + ' zł'}
                 left={(props) => <Avatar.Icon {...props} icon={icon} />}
                 right={(props) => (
-                    <View style={{ flexDirection: 'row' }}>
-                        <Menu
-                            visible={menuShown}
-                            onDismiss={() => setMenuShown(false)}
-                            anchor={
-                                <IconButton
-                                    {...props}
-                                    icon="dots-vertical"
-                                    onPress={() => setMenuShown(true)}
-                                />
-                            }
-                        >
-                            <Menu.Item
-                                onPress={() => {
-                                    setMenuShown(false);
-                                    navigation.navigate('Edit account', {
-                                        _docId: id,
-                                        _name: title,
-                                        _icon: icon,
-                                    });
-                                }}
-                                leadingIcon="pencil-outline"
-                                title="Edit"
-                            />
-                            <Menu.Item
-                                onPress={() => {
-                                    setMenuShown(false);
-                                    setRemoveData({
-                                        active: true,
-                                        accountId: id,
-                                    });
-                                }}
-                                leadingIcon="delete-outline"
-                                title="Delete"
-                            />
-                        </Menu>
-                    </View>
+                    <Menu
+                        visible={menuShown}
+                        onDismiss={() => setMenuShown(false)}
+                        anchor={<IconButton {...props} icon="dots-vertical" onPress={() => setMenuShown(true)} />}
+                    >
+                        <Menu.Item
+                            onPress={() => {
+                                setMenuShown(false);
+                                navigation.navigate('Edit account', {
+                                    _docId: id,
+                                    _name: title,
+                                    _icon: icon,
+                                });
+                            }}
+                            leadingIcon="pencil-outline"
+                            title="Edit"
+                        />
+                        <Menu.Item
+                            onPress={() => {
+                                setMenuShown(false);
+                                setRemoveData({
+                                    active: true,
+                                    accountId: id,
+                                });
+                            }}
+                            leadingIcon="delete-outline"
+                            title="Delete"
+                        />
+                    </Menu>
                 )}
             />
             <Card.Actions>

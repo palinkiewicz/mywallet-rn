@@ -18,9 +18,5 @@ export default function LazyLoadingContent({ children, callback }) {
         }, 10);
     }, []);
 
-    return ready ? (
-        children
-    ) : (
-        <ProgressBar indeterminate />
-    );
+    return ready ? children : <ProgressBar indeterminate />;
 }

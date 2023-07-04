@@ -1,21 +1,11 @@
 import firestore from '@react-native-firebase/firestore';
+import { ToastAndroid } from 'react-native';
 
-/**
- * A function that tries to remove a cash account with provided docId.
- */
 export function removeCashAccount(docId = null) {
-    let errors = {};
+    if (docId === null) {
+        return ToastAndroid.show('It is not clear which account should be removed.', ToastAndroid.SHORT);
+    }
 
-    // Checking is all the provided data correct.
-    if (docId === null)
-        errors.document = {
-            active: true,
-            msg: 'It is not clear which account should be removed.',
-        };
-
-    if (Object.keys(errors).length !== 0) return errors;
-
-    // Calling the Firebase function that removes a document.
     firestore()
         .collection('Accounts')
         .doc(docId)

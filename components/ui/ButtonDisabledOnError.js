@@ -1,12 +1,6 @@
 import { Button } from 'react-native-paper';
 
-export default function ButtonDisabledOnError({
-    children,
-    onPress,
-    mode,
-    style,
-    errors,
-}) {
+export default function ButtonDisabledOnError({ children, onPress, mode, style, errors }) {
     return (
         <Button
             onPress={onPress}

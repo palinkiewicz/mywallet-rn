@@ -44,17 +44,8 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
 
         setErrors(newErrors);
 
-        if (
-            Object.values(newErrors)?.filter((err) => err !== '').length === 0
-        ) {
-            updateCashAccountHistory(
-                _docId,
-                _indexInHistory,
-                _history,
-                Number(value),
-                name,
-                date
-            );
+        if (Object.values(newErrors)?.filter((err) => err !== '').length === 0) {
+            updateCashAccountHistory(_docId, _indexInHistory, _history, Number(value), name, date);
 
             Keyboard.dismiss();
             return navigation.goBack();
@@ -90,12 +81,7 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
                 endYear={new Date().getFullYear()}
                 error={errors.date}
             />
-            <ButtonDisabledOnError
-                onPress={onSubmit}
-                mode="contained"
-                style={styles.editButton}
-                errors={errors}
-            >
+            <ButtonDisabledOnError onPress={onSubmit} mode="contained" style={styles.editButton} errors={errors}>
                 Edit record
             </ButtonDisabledOnError>
         </View>

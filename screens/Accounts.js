@@ -41,9 +41,7 @@ export default function AccountsScreen({ navigation }) {
                             id={account.item.id}
                             title={account.item.data.name}
                             icon={account.item.data.icon}
-                            amount={getAccountAmount(
-                                account.item.data.history
-                            ).toFixed(2)}
+                            amount={getAccountAmount(account.item.data.history).toFixed(2)}
                             setRemoveData={setRemoveData}
                             navigation={navigation}
                         />

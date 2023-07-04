@@ -17,13 +17,13 @@ export default function AddAccountScreen({ navigation }) {
 
     const onNameChange = (text) => {
         setName(text);
-        setErrors({...errors, name: validateAccountName(text)});
-    }
+        setErrors({ ...errors, name: validateAccountName(text) });
+    };
 
     const onIconChange = (text) => {
         setIcon(text);
-        setErrors({...errors, icon: validateAccountIcon(text)});
-    }
+        setErrors({ ...errors, icon: validateAccountIcon(text) });
+    };
 
     const onSubmit = () => {
         const newErrors = {
@@ -34,9 +34,7 @@ export default function AddAccountScreen({ navigation }) {
 
         setErrors(newErrors);
 
-        if (
-            Object.values(newErrors)?.filter((err) => err !== '').length === 0
-        ) {
+        if (Object.values(newErrors)?.filter((err) => err !== '').length === 0) {
             addCashAccount(user, name, icon);
 
             Keyboard.dismiss();
@@ -54,10 +52,7 @@ export default function AddAccountScreen({ navigation }) {
                 error={errors.name}
                 autoFocus
             />
-            <ChooseIcon
-                selectedIcon={icon}
-                setSelectedIcon={onIconChange}
-            />
+            <ChooseIcon selectedIcon={icon} setSelectedIcon={onIconChange} />
             <TextInputWithError
                 mode="outlined"
                 label="Custom icon (only native android icons)"
@@ -65,12 +60,7 @@ export default function AddAccountScreen({ navigation }) {
                 value={icon}
                 error={errors.icon}
             />
-            <ButtonDisabledOnError
-                onPress={onSubmit}
-                mode="contained"
-                style={styles.addButton}
-                errors={errors}
-            >
+            <ButtonDisabledOnError onPress={onSubmit} mode="contained" style={styles.addButton} errors={errors}>
                 Add account
             </ButtonDisabledOnError>
         </View>

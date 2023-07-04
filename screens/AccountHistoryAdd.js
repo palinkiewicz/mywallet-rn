@@ -44,9 +44,7 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
 
         setErrors(newErrors);
 
-        if (
-            Object.values(newErrors)?.filter((err) => err !== '').length === 0
-        ) {
+        if (Object.values(newErrors)?.filter((err) => err !== '').length === 0) {
             addCashAccountHistory(accountId, parseFloat(value), name, date);
 
             Keyboard.dismiss();
@@ -83,12 +81,7 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
                 endYear={new Date().getFullYear()}
                 error={errors.date}
             />
-            <ButtonDisabledOnError
-                style={styles.addButton}
-                onPress={onSubmit}
-                mode="contained"
-                errors={errors}
-            >
+            <ButtonDisabledOnError style={styles.addButton} onPress={onSubmit} mode="contained" errors={errors}>
                 Add record
             </ButtonDisabledOnError>
         </View>

@@ -22,47 +22,39 @@ export default function HistoryRecordCard({
                 title={value + ' zł'}
                 subtitle={dateObj.toLocaleDateString('en-GB') + (name ? ' - ' : '') + name}
                 right={(props) => (
-                    <View style={{ flexDirection: 'row' }}>
-                        <Menu
-                            visible={menuShown}
-                            onDismiss={() => setMenuShown(false)}
-                            anchor={
-                                <IconButton
-                                    {...props}
-                                    icon="dots-vertical"
-                                    onPress={() => setMenuShown(true)}
-                                />
-                            }
-                        >
-                            <Menu.Item
-                                onPress={() => {
-                                    setMenuShown(false);
-                                    navigation.navigate('Edit history record', {
-                                        _docId: accountId,
-                                        _indexInHistory: index,
-                                        _history: fullHistory,
-                                        _value: value,
-                                        _name: name,
-                                        _date: dateObj
-                                    });
-                                }}
-                                leadingIcon="pencil-outline"
-                                title="Edit"
-                            />
-                            <Menu.Item
-                                onPress={() => {
-                                    setMenuShown(false);
-                                    setRemoveData((current) => ({
-                                        ...current,
-                                        active: true,
-                                        index: index,
-                                    }));
-                                }}
-                                leadingIcon="delete-outline"
-                                title="Delete"
-                            />
-                        </Menu>
-                    </View>
+                    <Menu
+                        visible={menuShown}
+                        onDismiss={() => setMenuShown(false)}
+                        anchor={<IconButton {...props} icon="dots-vertical" onPress={() => setMenuShown(true)} />}
+                    >
+                        <Menu.Item
+                            onPress={() => {
+                                setMenuShown(false);
+                                navigation.navigate('Edit history record', {
+                                    _docId: accountId,
+                                    _indexInHistory: index,
+                                    _history: fullHistory,
+                                    _value: value,
+                                    _name: name,
+                                    _date: dateObj,
+                                });
+                            }}
+                            leadingIcon="pencil-outline"
+                            title="Edit"
+                        />
+                        <Menu.Item
+                            onPress={() => {
+                                setMenuShown(false);
+                                setRemoveData((current) => ({
+                                    ...current,
+                                    active: true,
+                                    index: index,
+                                }));
+                            }}
+                            leadingIcon="delete-outline"
+                            title="Delete"
+                        />
+                    </Menu>
                 )}
             />
         </Card>
