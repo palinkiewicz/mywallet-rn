@@ -15,15 +15,12 @@ export default function HistoryRecordCard({
     const [menuShown, setMenuShown] = useState(false);
 
     const dateObj = new Date(date);
-    const dateString = `${dateObj.getDate()}/${
-        dateObj.getMonth() + 1
-    }/${dateObj.getFullYear()}`;
 
     return (
         <Card style={styles.card} mode="elevated">
             <Card.Title
                 title={value + ' zł'}
-                subtitle={dateString + (name === '' ? '' : ' - ') + name}
+                subtitle={dateObj.toLocaleDateString('en-GB') + (name ? ' - ' : '') + name}
                 right={(props) => (
                     <View style={{ flexDirection: 'row' }}>
                         <Menu
@@ -46,6 +43,7 @@ export default function HistoryRecordCard({
                                         history: fullHistory,
                                         value: value,
                                         name: name,
+                                        _date: dateObj
                                     });
                                 }}
                                 leadingIcon="pencil-outline"

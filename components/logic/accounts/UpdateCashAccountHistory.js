@@ -61,14 +61,14 @@ export function updateCashAccountHistory(
     if (
         (record.value === value || value === null) &&
         (record.name === name || name === null) &&
-        (record.date === date || date === null)
+        (record.date === date.getTime() || date === null)
     ) {
         return errors;
     } else {
         history[indexInHistory] = {
             name: name === null ? record.name : name,
             value: value === null ? record.value : value,
-            date: date === null ? record.date : date,
+            date: date === null ? record.date : date.getTime(),
         };
     }
 
