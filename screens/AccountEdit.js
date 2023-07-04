@@ -50,6 +50,7 @@ export default function EditAccountScreen({ navigation, route }) {
                 onChangeText={onNameChange}
                 value={name}
                 error={errors.name}
+                autoFocus
             />
             <ChooseIcon
                 selectedIcon={icon}

@@ -62,6 +62,7 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
                 onChangeText={onNameChange}
                 value={name}
                 error={errors.name}
+                autoFocus
             />
             <TextInputWithError
                 mode="outlined"

@@ -1,6 +1,5 @@
 import { useState, useContext } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
-import { Button } from 'react-native-paper';
 import TextInputWithError from '../components/ui/TextInputWithError';
 import ChooseIcon from '../components/ui/accounts/ChooseIcon';
 import { UserContext } from '../components/logic/auth/UserContext';
@@ -53,6 +52,7 @@ export default function AddAccountScreen({ navigation }) {
                 onChangeText={onNameChange}
                 value={name}
                 error={errors.name}
+                autoFocus
             />
             <ChooseIcon
                 selectedIcon={icon}
