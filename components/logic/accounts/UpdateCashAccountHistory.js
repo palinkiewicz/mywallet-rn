@@ -1,10 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
+import { ToastAndroid } from 'react-native';
 
-/**
- * A function that tries to update a cash account history record
- * by overwriting the history value of the document with the provided docId
- * with updated an history array that has the updated value and name of a map on indexInHistory.
- */
 export function updateCashAccountHistory(
     docId = null,
     indexInHistory = null,
@@ -13,66 +9,29 @@ export function updateCashAccountHistory(
     name = null,
     date = null
 ) {
-    let errors = {};
-
-    // Checking is all the required data provided and is it correct.
-    if (docId === null)
-        errors.document = {
-            active: true,
-            msg: "It is not clear which account's record should be updated.",
-        };
+    if (docId === null) {
+        return ToastAndroid.show('It is not clear which account\'s record should be updated.', ToastAndroid.SHORT);
+    }
 
     if (
         indexInHistory === null ||
         isNaN(indexInHistory) ||
         indexInHistory >= history.length ||
         indexInHistory < 0
-    )
-        errors.record = {
-            active: true,
-            msg: 'It is not clear which record should be updated.',
-        };
-
-    if (history === null)
-        errors.history = {
-            active: true,
-            msg: 'Accounts history is undefined.',
-        };
-
-    if (value !== null && parseFloat(value) !== value)
-        errors.value = { active: true, msg: 'Provided value is not a number.' };
-    else if (value === 0)
-        errors.value = {
-            active: true,
-            msg: 'Provided value must not be equal to 0.',
-        };
-
-    if (name !== null && name.length > 32)
-        errors.name = { active: true, msg: 'Provided name is too long.' };
-
-    if (date > Date.now())
-        errors.date = { active: true, msg: 'The date cannot be further in the future.' };
-
-    if (Object.keys(errors).length !== 0) return errors;
-
-    // Checking whether the provided values differ from those in Firestore.
-    let record = history[indexInHistory];
-
-    if (
-        (record.value === value || value === null) &&
-        (record.name === name || name === null) &&
-        (record.date === date.getTime() || date === null)
     ) {
-        return errors;
-    } else {
-        history[indexInHistory] = {
-            name: name === null ? record.name : name,
-            value: value === null ? record.value : value,
-            date: date === null ? record.date : date.getTime(),
-        };
+        return ToastAndroid.show('It is not clear which record should be updated.', ToastAndroid.SHORT);
     }
 
-    // Calling the Firebase function that updates a document and asking it to overwrite the history value.
+    if (history === null) {
+        return ToastAndroid.show('Accounts history is undefined.', ToastAndroid.SHORT);
+    }
+
+    history[indexInHistory] = {
+        name: name === null ? record.name : name,
+        value: value === null ? record.value : value,
+        date: date === null ? record.date : date.getTime(),
+    };
+
     firestore()
         .collection('Accounts')
         .doc(docId)
@@ -82,6 +41,4 @@ export function updateCashAccountHistory(
         .then(() => {
             console.log('Account history updated!');
         });
-
-    return errors;
 }

@@ -1,65 +1,75 @@
 import { useState } from 'react';
 import { View, StyleSheet, Keyboard } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import TextInputWithHelper from '../components/ui/TextInputWithHelper';
+import TextInputWithError from '../components/ui/TextInputWithError';
 import { updateCashAccount } from '../components/logic/accounts/UpdateCashAccount';
-import getInitialErrorState from '../components/logic/GetInitialErrorState';
 import ChooseIcon from '../components/ui/accounts/ChooseIcon';
+import { validateAccountName, validateAccountIcon } from '../components/logic/validation/AccountDataValidation';
+import ButtonDisabledOnError from '../components/ui/ButtonDisabledOnError';
 
 export default function EditAccountScreen({ navigation, route }) {
-    const { docId, name, icon } = route.params;
+    const { docId, _name, _icon } = route.params;
 
-    const [accountName, setAccountName] = useState(name);
-    const [selectedIcon, setSelectedIcon] = useState(icon);
-    const [errors, setErrors] = useState(getInitialErrorState(['document', 'name', 'icon']));
+    const [name, setName] = useState(_name);
+    const [icon, setIcon] = useState(_icon);
+    const [errors, setErrors] = useState({});
+
+    const onNameChange = (text) => {
+        setName(text);
+        setErrors({...errors, name: validateAccountName(text)});
+    }
+
+    const onIconChange = (text) => {
+        setIcon(text);
+        setErrors({...errors, icon: validateAccountIcon(text)});
+    }
 
     const onSubmit = () => {
-        let newErrors = updateCashAccount(docId, accountName, selectedIcon);
+        const newErrors = {
+            ...errors,
+            name: validateAccountName(name),
+            icon: validateAccountIcon(icon),
+        };
 
-        if (Object.keys(newErrors).length === 0) {
+        setErrors(newErrors);
+
+        if (
+            Object.values(newErrors)?.filter((err) => err !== '').length === 0
+        ) {
+            updateCashAccount(docId, name, icon);
+
             Keyboard.dismiss();
             return navigation.goBack();
         }
-
-        setErrors((prev) => { return {...prev, ...newErrors} });
     };
 
     return (
         <View style={styles.view}>
-            <TextInputWithHelper
+            <TextInputWithError
                 mode="outlined"
                 label="Account's name"
-                onChangeText={(text) => {
-                    setAccountName(text);
-                }}
-                value={accountName}
-                error={errors.name.active}
-                helperText={errors.name.msg}
+                onChangeText={onNameChange}
+                value={name}
+                error={errors.name}
             />
             <ChooseIcon
-                selectedIcon={selectedIcon}
-                setSelectedIcon={setSelectedIcon}
+                selectedIcon={icon}
+                setSelectedIcon={onIconChange}
             />
-            <Text style={{ marginHorizontal: 16 }} variant="labelSmall">
-                Not required:
-            </Text>
-            <TextInputWithHelper
+            <TextInputWithError
                 mode="outlined"
                 label="Custom icon (only native android icons)"
-                onChangeText={(text) => {
-                    setSelectedIcon(text);
-                }}
-                value={selectedIcon}
-                error={errors.icon.active}
-                helperText={errors.icon.msg}
+                onChangeText={onIconChange}
+                value={icon}
+                error={errors.icon}
             />
-            <Button
+            <ButtonDisabledOnError
                 onPress={onSubmit}
                 mode="contained"
                 style={styles.editButton}
+                errors={errors}
             >
                 Edit account
-            </Button>
+            </ButtonDisabledOnError>
         </View>
     );
 }

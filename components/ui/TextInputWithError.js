@@ -1,7 +1,8 @@
+import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { TextInput, HelperText } from 'react-native-paper';
 
-export default function TextInputWithHelper({
+export default function TextInputWithError({
     style,
     mode,
     label,
@@ -13,12 +14,20 @@ export default function TextInputWithHelper({
     left,
     inputStyle,
     helperStyle,
-    helperText,
-    helperVisible,
+    keyboardType,
+    autoFocus,
+    inputRef,
 }) {
+    const [lastError, setLastError] = useState('');
+
+    useEffect(() => {
+        if (error !== '') setLastError(error);
+    }, [error]);
+
     return (
         <View style={style}>
             <TextInput
+                style={inputStyle}
                 mode={mode}
                 label={label}
                 onChangeText={onChangeText}
@@ -27,14 +36,16 @@ export default function TextInputWithHelper({
                 right={right}
                 left={left}
                 error={error}
-                style={inputStyle}
+                keyboardType={keyboardType}
+                autoFocus={autoFocus}
+                ref={inputRef}
             />
             <HelperText
-                type={error ? "error" : "info"}
-                visible={helperVisible}
+                type="error"
+                visible={error}
                 style={{paddingLeft: 16, ...helperStyle}}
             >
-                {helperText}
+                {lastError}
             </HelperText>
         </View>
     );

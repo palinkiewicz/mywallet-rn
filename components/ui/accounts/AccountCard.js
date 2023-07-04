@@ -36,8 +36,8 @@ export default function AccountCard({
                                     setMenuShown(false);
                                     navigation.navigate('Edit account', {
                                         docId: id,
-                                        name: title,
-                                        icon: icon,
+                                        _name: title,
+                                        _icon: icon,
                                     });
                                 }}
                                 leadingIcon="pencil-outline"

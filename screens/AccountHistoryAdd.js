@@ -1,10 +1,14 @@
 import { useState } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
-import { Button, HelperText } from 'react-native-paper';
-import { DatePickerInput } from 'react-native-paper-dates';
-import TextInputWithHelper from '../components/ui/TextInputWithHelper';
+import TextInputWithError from '../components/ui/TextInputWithError';
 import { addCashAccountHistory } from '../components/logic/accounts/AddCashAccountHistory';
-import getInitialErrorState from '../components/logic/GetInitialErrorState';
+import DatePickerInputWithError from '../components/ui/DatePickerInputWithError';
+import {
+    validateAccountHistoryDate,
+    validateAccountHistoryName,
+    validateAccountHistoryValue,
+} from '../components/logic/validation/AccountHistoryDataValidation';
+import ButtonDisabledOnError from '../components/ui/ButtonDisabledOnError';
 
 export default function AddAccountHistoryScreen({ navigation, route }) {
     const { accountId } = route.params;
@@ -12,67 +16,61 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
     const [name, setName] = useState('');
     const [value, setValue] = useState('');
     const [date, setDate] = useState(new Date());
+    const [errors, setErrors] = useState({});
 
-    const [errors, setErrors] = useState(
-        getInitialErrorState(['document', 'name', 'value', 'date'])
-    );
+    const onNameChange = (text) => {
+        setName(text);
+        setErrors({ ...errors, name: validateAccountHistoryName(text) });
+    };
+
+    const onValueChange = (text) => {
+        text = text.replace(',', '.');
+        setValue(text);
+        setErrors({ ...errors, value: validateAccountHistoryValue(text) });
+    };
 
     const onDateChange = (d) => {
-        const minimumDate = new Date(1970, 0, 1);
-        const currentDate = new Date();
-
         setDate(d);
-
-        if (d < minimumDate || d > currentDate) {
-            errors.date = {
-                active: true,
-                msg: 'Should be between ' + minimumDate.toLocaleDateString('en-GB') + ' and ' + currentDate.toLocaleDateString('en-GB'),
-            }
-        } else {
-            errors.date.active = false;
-        }
-    }
+        setErrors({ ...errors, date: validateAccountHistoryDate(d) });
+    };
 
     const onSubmit = () => {
-        let newErrors = addCashAccountHistory(
-            accountId,
-            parseFloat(value),
-            name
-        );
+        const newErrors = {
+            ...errors,
+            name: validateAccountHistoryName(name),
+            value: validateAccountHistoryValue(value),
+            date: validateAccountHistoryDate(date),
+        };
 
-        if (Object.keys(newErrors).length === 0) {
+        setErrors(newErrors);
+
+        if (
+            Object.values(newErrors)?.filter((err) => err !== '').length === 0
+        ) {
+            addCashAccountHistory(accountId, parseFloat(value), name, date);
+
             Keyboard.dismiss();
             return navigation.goBack();
         }
-
-        setErrors((prev) => {
-            return { ...prev, ...newErrors };
-        });
     };
 
     return (
         <View style={styles.view}>
-            <TextInputWithHelper
+            <TextInputWithError
                 mode="outlined"
                 label="Title"
-                onChangeText={(text) => {
-                    setName(text);
-                }}
+                onChangeText={onNameChange}
                 value={name}
-                error={errors.name.active}
-                helperText={errors.name.msg}
+                error={errors.name}
             />
-            <TextInputWithHelper
+            <TextInputWithError
                 mode="outlined"
                 label="Value"
-                onChangeText={(text) => {
-                    setValue(text);
-                }}
+                onChangeText={onValueChange}
                 value={value}
-                error={errors.value.active}
-                helperText={errors.value.msg}
+                error={errors.value}
             />
-            <DatePickerInput
+            <DatePickerInputWithError
                 mode="outlined"
                 locale="en-GB"
                 label="Date"
@@ -80,23 +78,17 @@ export default function AddAccountHistoryScreen({ navigation, route }) {
                 onChange={onDateChange}
                 inputMode="start"
                 startYear={1970}
-                endYear={(new Date()).getFullYear()}
-                hasError={errors.date.active}
+                endYear={new Date().getFullYear()}
+                error={errors.date}
             />
-            <HelperText
-                type="error"
-                visible={errors.date.active}
-                style={styles.helper}
-            >
-                {errors.date.msg}
-            </HelperText>
-            <Button
+            <ButtonDisabledOnError
                 style={styles.addButton}
                 onPress={onSubmit}
                 mode="contained"
+                errors={errors}
             >
                 Add record
-            </Button>
+            </ButtonDisabledOnError>
         </View>
     );
 }
@@ -110,5 +102,5 @@ const styles = StyleSheet.create({
     },
     helper: {
         paddingLeft: 16,
-    }
+    },
 });

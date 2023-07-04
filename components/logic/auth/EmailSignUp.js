@@ -1,72 +1,39 @@
 import auth from '@react-native-firebase/auth';
-import { AUTH_FORM_ERROR_INITIAL_STATE as initState } from '../../../constants';
+import { ToastAndroid } from 'react-native';
 
-/**
- * A function that attempts to create a new user in the Firebase Auth,
- * using the email and password provided as arguments,
- * and returns errors if any.
- */
-export async function createNewUser(
-    email,
-    password,
-    confirmPassword = null
-) {
-    let errors = {};
-
-    // Checking is all the data is provided.
-    if (email === '')
-        errors.email = { active: true, msg: 'Please provide an email.' };
-
-    if (password === '')
-        errors.password = { active: true, msg: 'Please provide a password.' };
-
-    if (confirmPassword !== null) {
-        if (confirmPassword === '')
-            errors.confirmPassword = {
-                active: true,
-                msg: 'Please rewrite the password provided above.',
-            };
-        else if (password !== confirmPassword)
-            errors.confirmPassword = {
-                active: true,
-                msg: 'Passwords are not the same.',
-            };
+export async function createNewUser(email, password, confirmPassword = null) {
+    if (password !== confirmPassword) {
+        return { confirmPassword: 'Passwords are not the same' };
     }
 
-    if (Object.keys(errors).length !== 0) return errors;
+    let errors = {};
 
-    // Calling the Firebase function that checks if arguments are valid, and creates a new user in Auth.
     await auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
             console.log('User account created & signed in!');
         })
         .catch((error) => {
+            ToastAndroid.show('Try again', ToastAndroid.SHORT);
+
             switch (error.code) {
                 case 'auth/invalid-email':
-                    return (errors.email = {
-                        active: true,
-                        msg: 'That email address is invalid!',
-                    });
+                    errors = { email: 'Invalid email address' };
+                    break;
                 case 'auth/email-already-in-use':
-                    return (errors.email = {
-                        active: true,
-                        msg: 'The email address is already in use!',
-                    });
+                    errors = { email: 'Already in use' };
+                    break;
                 case 'auth/weak-password':
-                    return (errors.password = {
-                        active: true,
-                        msg: 'The password is too weak!',
-                    });
+                    errors = { email: 'Too weak' };
+                    break;
                 case 'auth/operation-not-allowed':
-                    return console.error(
-                        'email/password accounts are not enabled'
-                    );
+                    errors = { email: 'Email accounts are not enabled' };
+                    break;
                 default:
-                    return console.error(error.code);
+                    console.error(error.code);
+                    ToastAndroid.show(error.code, ToastAndroid.SHORT);
             }
         });
 
-    // Returning errors if any
     return errors;
 }

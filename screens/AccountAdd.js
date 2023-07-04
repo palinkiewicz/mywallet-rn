@@ -1,68 +1,78 @@
 import { useState, useContext } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import TextInputWithHelper from '../components/ui/TextInputWithHelper';
+import { Button } from 'react-native-paper';
+import TextInputWithError from '../components/ui/TextInputWithError';
 import ChooseIcon from '../components/ui/accounts/ChooseIcon';
 import { UserContext } from '../components/logic/auth/UserContext';
 import { addCashAccount } from '../components/logic/accounts/AddCashAccount';
-import getInitialErrorState from '../components/logic/GetInitialErrorState';
 import { SELECTABLE_ICONS } from '../constants';
+import { validateAccountName, validateAccountIcon } from '../components/logic/validation/AccountDataValidation';
+import ButtonDisabledOnError from '../components/ui/ButtonDisabledOnError';
 
 export default function AddAccountScreen({ navigation }) {
     const user = useContext(UserContext);
-    const [accountName, setAccountName] = useState('');
-    const [selectedIcon, setSelectedIcon] = useState(SELECTABLE_ICONS[0]);
-    const [errors, setErrors] = useState(
-        getInitialErrorState(['user', 'name', 'icon'])
-    );
+
+    const [name, setName] = useState('');
+    const [icon, setIcon] = useState(SELECTABLE_ICONS[0]);
+    const [errors, setErrors] = useState({});
+
+    const onNameChange = (text) => {
+        setName(text);
+        setErrors({...errors, name: validateAccountName(text)});
+    }
+
+    const onIconChange = (text) => {
+        setIcon(text);
+        setErrors({...errors, icon: validateAccountIcon(text)});
+    }
 
     const onSubmit = () => {
-        let newErrors = addCashAccount(user, accountName, selectedIcon);
+        const newErrors = {
+            ...errors,
+            name: validateAccountName(name),
+            icon: validateAccountIcon(icon),
+        };
 
-        if (Object.keys(newErrors).length === 0) {
+        setErrors(newErrors);
+
+        if (
+            Object.values(newErrors)?.filter((err) => err !== '').length === 0
+        ) {
+            addCashAccount(user, name, icon);
+
             Keyboard.dismiss();
             return navigation.goBack();
         }
-
-        setErrors((prev) => { return {...prev, ...newErrors} });
     };
 
     return (
         <View style={styles.view}>
-            <TextInputWithHelper
+            <TextInputWithError
                 mode="outlined"
                 label="Account's name"
-                onChangeText={(text) => {
-                    setAccountName(text);
-                }}
-                value={accountName}
-                error={errors.name.active}
-                helperText={errors.name.msg}
+                onChangeText={onNameChange}
+                value={name}
+                error={errors.name}
             />
             <ChooseIcon
-                selectedIcon={selectedIcon}
-                setSelectedIcon={setSelectedIcon}
+                selectedIcon={icon}
+                setSelectedIcon={onIconChange}
             />
-            <Text style={{ marginHorizontal: 16 }} variant="labelSmall">
-                Not required:
-            </Text>
-            <TextInputWithHelper
+            <TextInputWithError
                 mode="outlined"
                 label="Custom icon (only native android icons)"
-                onChangeText={(text) => {
-                    setSelectedIcon(text);
-                }}
-                value={selectedIcon}
-                error={errors.icon.active}
-                helperText={errors.icon.msg}
+                onChangeText={onIconChange}
+                value={icon}
+                error={errors.icon}
             />
-            <Button
+            <ButtonDisabledOnError
                 onPress={onSubmit}
                 mode="contained"
                 style={styles.addButton}
+                errors={errors}
             >
                 Add account
-            </Button>
+            </ButtonDisabledOnError>
         </View>
     );
 }

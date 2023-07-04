@@ -1,81 +1,97 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, TextInput } from 'react-native-paper';
-import TextInputWithHelper from '../TextInputWithHelper';
+import { TextInput } from 'react-native-paper';
+import TextInputWithError from '../TextInputWithError';
 import { AUTH_MODES as modes } from '../../../constants';
 import { signInUserWithEmail } from '../../logic/auth/EmailSignIn';
 import { createNewUser } from '../../logic/auth/EmailSignUp';
-import getInitialErrorState from '../../logic/GetInitialErrorState';
+import ButtonDisabledOnError from '../ButtonDisabledOnError';
 
 /**
  * A functional component that returns the appropriate authentication form,
  * depending on the mode provided as a prop.
  */
 export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
-    const [dataEntered, setDataEntered] = useState({
-        email: '',
-        password: '',
-        confirmPassword: '',
-    });
-    const [errors, setErrors] = useState(getInitialErrorState(['email', 'password', 'confirmPassword']));
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errors, setErrors] = useState({});
     const [passwordShown, setPasswordShown] = useState(false);
 
     const onProceedButton = async () => {
-        let updatedErrors = {};
+        let newErrors = {
+            ...errors,
+            email: email.trim() === '' ? 'Please provide an email' : '',
+            password: password.trim() === '' ? 'Please provide a password' : '',
+            confirmPassword:
+                confirmPassword.trim() === '' && mode === modes.SIGN_UP
+                    ? 'Please rewrite the password'
+                    : '',
+        };
 
-        if (mode === modes.SIGN_IN) {
-            updatedErrors = await signInUserWithEmail(
-                dataEntered.email,
-                dataEntered.password
-            );
-        } else if (mode === modes.SIGN_UP) {
-            updatedErrors = await createNewUser(
-                dataEntered.email,
-                dataEntered.password,
-                dataEntered.confirmPassword
-            );
-        } else {
-            console.error("EmailAuthenticationForm's mode prop is invalid");
+        setErrors(newErrors);
+
+        if (
+            Object.values(newErrors)?.filter((err) => err !== '').length === 0
+        ) {
+            if (mode === modes.SIGN_IN) {
+                const firebaseErrors = await signInUserWithEmail(
+                    email,
+                    password
+                );
+                setErrors({ ...errors, ...firebaseErrors });
+            } else if (mode === modes.SIGN_UP) {
+                const firebaseErrors = await createNewUser(
+                    email,
+                    password,
+                    confirmPassword
+                );
+                setErrors({ ...errors, ...firebaseErrors });
+            }
         }
+    };
 
-        setErrors((prev) => {
-            return { ...prev, ...updatedErrors };
+    const onChangeEmail = (text) => {
+        setEmail(text);
+        setErrors({
+            ...errors,
+            email: text.trim() === '' ? 'Please provide an email' : '',
         });
     };
 
-    const onChangeInputText = (key, text) => {
-        setDataEntered((current) => ({
-            ...current,
-            ...{ [key]: text },
-        }));
+    const onChangePassword = (text) => {
+        setPassword(text);
+        setErrors({
+            ...errors,
+            password: text.trim() === '' ? 'Please provide a password' : '',
+        });
+    };
 
-        if (key in errors) {
-            setErrors((current) => ({
-                ...current,
-                ...{
-                    [key]: {
-                        active: false,
-                        msg: errors[key].msg,
-                    },
-                },
-            }));
-        }
+    const onChangeConfirmPassword = (text) => {
+        setConfirmPassword(text);
+        setErrors({
+            ...errors,
+            confirmPassword:
+                text.trim() === '' && mode === modes.SIGN_UP
+                    ? 'Please rewrite the password'
+                    : '',
+        });
+    };
+
+    const onClickShowPassword = () => {
+        setPasswordShown(!passwordShown);
     };
 
     return (
         <View style={styles.signUpWrapper}>
-            <TextInputWithHelper
+            <TextInputWithError
                 style={styles.textInput}
                 label="Email"
-                onChangeText={(text) => {
-                    onChangeInputText('email', text);
-                }}
-                value={dataEntered.email}
-                error={errors.email.active ? true : false}
-                helperVisible={errors.email.active ? true : false}
-                helperText={errors.email.msg}
+                onChangeText={onChangeEmail}
+                value={email}
+                error={errors.email}
             />
-            <TextInputWithHelper
+            <TextInputWithError
                 style={styles.textInput}
                 label="Password"
                 secureTextEntry={
@@ -85,45 +101,32 @@ export default function EmailAuthenticationForm({ mode = modes.SIGN_IN }) {
                     mode === modes.SIGN_IN && (
                         <TextInput.Icon
                             icon={passwordShown ? 'eye-off' : 'eye'}
-                            onPress={() => {
-                                setPasswordShown(!passwordShown);
-                            }}
+                            onPress={onClickShowPassword}
                         />
                     )
                 }
-                onChangeText={(text) => {
-                    onChangeInputText('password', text);
-                }}
-                value={dataEntered.password}
-                error={errors.password.active ? true : false}
-                helperVisible={errors.password.active ? true : false}
-                helperText={errors.password.msg}
+                onChangeText={onChangePassword}
+                value={password}
+                error={errors.password}
             />
             {mode === modes.SIGN_UP && (
-                <>
-                    <TextInputWithHelper
-                        style={styles.textInput}
-                        label="Confirm password"
-                        secureTextEntry
-                        onChangeText={(text) => {
-                            onChangeInputText('confirmPassword', text);
-                        }}
-                        value={dataEntered.confirmPassword}
-                        error={errors.confirmPassword.active ? true : false}
-                        helperVisible={
-                            errors.confirmPassword.active ? true : false
-                        }
-                        helperText={errors.confirmPassword.msg}
-                    />
-                </>
+                <TextInputWithError
+                    style={styles.textInput}
+                    label="Confirm password"
+                    secureTextEntry
+                    onChangeText={onChangeConfirmPassword}
+                    value={confirmPassword}
+                    error={errors.confirmPassword}
+                />
             )}
-            <Button
+            <ButtonDisabledOnError
                 style={styles.signUpButton}
                 mode="contained"
                 onPress={onProceedButton}
+                errors={errors}
             >
                 {mode === modes.SIGN_UP ? 'Sign up' : 'Sign in'}
-            </Button>
+            </ButtonDisabledOnError>
         </View>
     );
 }
