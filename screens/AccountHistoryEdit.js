@@ -77,6 +77,7 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
                 onChangeText={onValueChange}
                 value={recordValue}
                 error={errors.value}
+                keyboardType="numeric"
             />
             <DatePickerInputWithError
                 mode="outlined"
