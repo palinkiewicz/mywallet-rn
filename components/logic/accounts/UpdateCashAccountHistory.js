@@ -1,5 +1,10 @@
 import firestore from '@react-native-firebase/firestore';
 import { ToastAndroid } from 'react-native';
+import {
+    validateAccountHistoryDate,
+    validateAccountHistoryName,
+    validateAccountHistoryValue,
+} from '../validation/AccountHistoryDataValidation';
 
 export function updateCashAccountHistory(
     docId = null,
@@ -10,15 +15,10 @@ export function updateCashAccountHistory(
     date = null
 ) {
     if (docId === null) {
-        return ToastAndroid.show('It is not clear which account\'s record should be updated.', ToastAndroid.SHORT);
+        return ToastAndroid.show("It is not clear which account's record should be updated.", ToastAndroid.SHORT);
     }
 
-    if (
-        indexInHistory === null ||
-        isNaN(indexInHistory) ||
-        indexInHistory >= history.length ||
-        indexInHistory < 0
-    ) {
+    if (indexInHistory === null || isNaN(indexInHistory) || indexInHistory >= history.length || indexInHistory < 0) {
         return ToastAndroid.show('It is not clear which record should be updated.', ToastAndroid.SHORT);
     }
 
@@ -26,10 +26,18 @@ export function updateCashAccountHistory(
         return ToastAndroid.show('Accounts history is undefined.', ToastAndroid.SHORT);
     }
 
+    if (
+        validateAccountHistoryName(name) !== '' ||
+        validateAccountHistoryValue(icon) !== '' ||
+        validateAccountHistoryDate(date) !== ''
+    ) {
+        return ToastAndroid.show('Invalid data.', ToastAndroid.SHORT);
+    }
+
     history[indexInHistory] = {
-        name: name === null ? record.name : name,
-        value: value === null ? record.value : value,
-        date: date === null ? record.date : date.getTime(),
+        name: name.trim(),
+        value: value,
+        date: date.getTime(),
     };
 
     firestore()
