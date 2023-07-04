@@ -7,7 +7,7 @@ import { validateAccountName, validateAccountIcon } from '../components/logic/va
 import ButtonDisabledOnError from '../components/ui/ButtonDisabledOnError';
 
 export default function EditAccountScreen({ navigation, route }) {
-    const { docId, _name, _icon } = route.params;
+    const { _docId, _name, _icon } = route.params;
 
     const [name, setName] = useState(_name);
     const [icon, setIcon] = useState(_icon);
@@ -35,7 +35,7 @@ export default function EditAccountScreen({ navigation, route }) {
         if (
             Object.values(newErrors)?.filter((err) => err !== '').length === 0
         ) {
-            updateCashAccount(docId, name, icon);
+            updateCashAccount(_docId, name, icon);
 
             Keyboard.dismiss();
             return navigation.goBack();

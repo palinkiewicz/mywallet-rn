@@ -11,10 +11,10 @@ import {
 } from '../components/logic/validation/AccountHistoryDataValidation';
 
 export default function EditAccountHistoryScreen({ navigation, route }) {
-    const { docId, indexInHistory, history, value, name, _date } = route.params;
+    const { _docId, _indexInHistory, _history, _value, _name, _date } = route.params;
 
-    const [recordName, setName] = useState(name);
-    const [recordValue, setValue] = useState(value);
+    const [name, setName] = useState(_name);
+    const [value, setValue] = useState(_value);
     const [date, setDate] = useState(_date);
     const [errors, setErrors] = useState({});
 
@@ -48,11 +48,11 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
             Object.values(newErrors)?.filter((err) => err !== '').length === 0
         ) {
             updateCashAccountHistory(
-                docId,
-                indexInHistory,
-                history,
-                parseFloat(recordValue),
-                recordName,
+                _docId,
+                _indexInHistory,
+                _history,
+                Number(value),
+                name,
                 date
             );
 
@@ -67,7 +67,7 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
                 mode="outlined"
                 label="Title"
                 onChangeText={onNameChange}
-                value={recordName}
+                value={name}
                 error={errors.name}
                 autoFocus
             />
@@ -75,7 +75,7 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
                 mode="outlined"
                 label="Value"
                 onChangeText={onValueChange}
-                value={recordValue}
+                value={value}
                 error={errors.value}
                 keyboardType="numeric"
             />

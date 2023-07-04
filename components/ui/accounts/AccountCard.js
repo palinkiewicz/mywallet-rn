@@ -35,7 +35,7 @@ export default function AccountCard({
                                 onPress={() => {
                                     setMenuShown(false);
                                     navigation.navigate('Edit account', {
-                                        docId: id,
+                                        _docId: id,
                                         _name: title,
                                         _icon: icon,
                                     });

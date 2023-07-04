@@ -38,11 +38,11 @@ export default function HistoryRecordCard({
                                 onPress={() => {
                                     setMenuShown(false);
                                     navigation.navigate('Edit history record', {
-                                        docId: accountId,
-                                        indexInHistory: index,
-                                        history: fullHistory,
-                                        value: value,
-                                        name: name,
+                                        _docId: accountId,
+                                        _indexInHistory: index,
+                                        _history: fullHistory,
+                                        _value: value,
+                                        _name: name,
                                         _date: dateObj
                                     });
                                 }}
