@@ -21,10 +21,6 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 export default function App() {
-    GoogleSignin.configure({
-        webClientId: '639721758917-drqcq2m2kj4j05pb1fsage1qa6u4dbuq.apps.googleusercontent.com',
-    });
-
     // Set an initializing state whilst Firebase connects
     const [initializing, setInitializing] = useState(true);
     const [user, setUser] = useState();
@@ -73,6 +69,9 @@ export default function App() {
                                   key={screen.name}
                                   name={screen.name}
                                   component={screen.component}
+                                  options={{
+                                    headerShown: false,
+                                  }}
                               />
                           ))
                         : MAIN_SCREENS.map((screen) => (
