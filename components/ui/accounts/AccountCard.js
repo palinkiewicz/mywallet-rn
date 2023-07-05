@@ -6,7 +6,7 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData, na
     const [menuShown, setMenuShown] = useState(false);
 
     return (
-        <Card style={styles.card}>
+        <Card style={styles.card} mode="outlined">
             <Card.Title
                 title={title}
                 subtitle={amount + ' zł'}
@@ -50,6 +50,7 @@ export default function AccountCard({ id, icon, title, amount, setRemoveData, na
                             accountId: id,
                         });
                     }}
+                    mode="contained-tonal"
                 >
                     See history
                 </Button>

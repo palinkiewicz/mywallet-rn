@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Card, IconButton, Menu, useTheme } from 'react-native-paper';
+import { Card, IconButton, Menu, Text, useTheme } from 'react-native-paper';
 
 export default function HistoryRecordCard({
     accountId,
@@ -15,10 +15,10 @@ export default function HistoryRecordCard({
     const [menuShown, setMenuShown] = useState(false);
 
     const dateObj = new Date(date);
-    const {colors} = useTheme();
+    const { colors } = useTheme();
 
     return (
-        <Card style={styles.card} mode="elevated">
+        <Card style={styles.card} mode="outlined">
             <Card.Title
                 title={(value > 0 ? '+' : '') + value + ' zł'}
                 titleVariant='titleMedium'
