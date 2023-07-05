@@ -13,6 +13,4 @@ export function removeCashAccount(docId = null) {
         .then(() => {
             console.log('Account removed!');
         });
-
-    return errors;
 }

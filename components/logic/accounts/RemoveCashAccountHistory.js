@@ -25,6 +25,4 @@ export function removeCashAccountHistory(docId = null, indexInHistory = null, hi
         .then(() => {
             console.log('Account history removed!');
         });
-
-    return errors;
 }
