@@ -4,7 +4,7 @@ import {
     validateAccountHistoryDate,
     validateAccountHistoryName,
     validateAccountHistoryValue,
-} from '../validation/AccountHistoryDataValidation';
+} from '../../validation/AccountHistoryDataValidation';
 
 export function addCashAccountHistory(docId = null, value = 0, name = '', date = new Date()) {
     if (docId === null) {

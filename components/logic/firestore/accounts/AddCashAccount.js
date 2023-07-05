@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import { ToastAndroid } from 'react-native';
-import { validateAccountIcon, validateAccountName } from '../validation/AccountDataValidation';
+import { validateAccountIcon, validateAccountName } from '../../validation/AccountDataValidation';
 
 export function addCashAccount(user = null, name = '', icon = '') {
     if (user === null || !user.uid) {

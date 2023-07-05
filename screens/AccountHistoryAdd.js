@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, View, Keyboard } from 'react-native';
 import TextInputWithError from '../components/ui/TextInputWithError';
-import { addCashAccountHistory } from '../components/logic/accounts/AddCashAccountHistory';
+import { addCashAccountHistory } from '../components/logic/firestore/accounts/AddCashAccountHistory';
 import DatePickerInputWithError from '../components/ui/DatePickerInputWithError';
 import {
     validateAccountHistoryDate,

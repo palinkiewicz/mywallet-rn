@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { View, StyleSheet, Keyboard } from 'react-native';
 import TextInputWithError from '../components/ui/TextInputWithError';
-import { updateCashAccount } from '../components/logic/accounts/UpdateCashAccount';
+import { updateCashAccount } from '../components/logic/firestore/accounts/UpdateCashAccount';
 import ChooseIcon from '../components/ui/accounts/ChooseIcon';
 import { validateAccountName, validateAccountIcon } from '../components/logic/validation/AccountDataValidation';
 import ButtonDisabledOnError from '../components/ui/ButtonDisabledOnError';

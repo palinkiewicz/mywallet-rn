@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { SectionList } from 'react-native';
 import { AnimatedFAB, Text } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
-import { removeCashAccountHistory } from '../components/logic/accounts/RemoveCashAccountHistory';
+import { removeCashAccountHistory } from '../components/logic/firestore/accounts/RemoveCashAccountHistory';
 import DeleteDialog from '../components/ui/DeleteDialog';
 import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
 import { SCREENS_NAMES } from '../constants';

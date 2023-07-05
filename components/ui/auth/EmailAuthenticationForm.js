@@ -3,8 +3,8 @@ import { View, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import TextInputWithError from '../TextInputWithError';
 import { AUTH_MODES as modes } from '../../../constants';
-import { signInUserWithEmail } from '../../logic/auth/EmailSignIn';
-import { createNewUser } from '../../logic/auth/EmailSignUp';
+import { signInUserWithEmail } from '../../logic/firestore/auth/EmailSignIn';
+import { createNewUser } from '../../logic/firestore/auth/EmailSignUp';
 import ButtonDisabledOnError from '../ButtonDisabledOnError';
 
 /**

@@ -3,7 +3,7 @@ import { View, Keyboard, StyleSheet } from 'react-native';
 import TextInputWithError from '../components/ui/TextInputWithError';
 import DatePickerInputWithError from '../components/ui/DatePickerInputWithError';
 import ButtonDisabledOnError from '../components/ui/ButtonDisabledOnError';
-import { updateCashAccountHistory } from '../components/logic/accounts/UpdateCashAccountHistory';
+import { updateCashAccountHistory } from '../components/logic/firestore/accounts/UpdateCashAccountHistory';
 import {
     validateAccountHistoryDate,
     validateAccountHistoryName,

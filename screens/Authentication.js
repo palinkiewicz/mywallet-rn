@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-import { signInUserWithGoogle } from '../components/logic/auth/GoogleSignIn';
+import { signInUserWithGoogle } from '../components/logic/firestore/auth/GoogleSignIn';
 import { AUTH_MODES as modes, AUTH_SCREENS_TEXTS as texts, SCREENS_NAMES as screens } from '../constants';
 import ScreenAnimatingOnKeyboard from '../components/ui/ScreenAnimatingOnKeyboard';
 import EmailAuthenticationForm from '../components/ui/auth/EmailAuthenticationForm';

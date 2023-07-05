@@ -10,10 +10,10 @@ import PaperNavigationBar from './components/ui/PaperNavigationBar';
 import PaperDrawer from './components/ui/PaperDrawer';
 import { DynamicLightTheme } from './components/DynamicLightTheme';
 import { DynamicDarkTheme } from './components/DynamicDarkTheme';
-import { UserContext } from './components/logic/auth/UserContext';
+import { UserContext } from './components/logic/UserContext';
 import { DataContext } from './components/logic/DataContext';
 import { AUTH_SCREENS, MAIN_SCREENS } from './screens/_ScreensData';
-import { getCashAccounts } from './components/logic/accounts/GetCashAccounts';
+import { getCashAccounts } from './components/logic/firestore/accounts/GetCashAccounts';
 
 TransparentStatusAndNavigationBar.init();
 
