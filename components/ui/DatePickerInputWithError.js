@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View } from 'react-native';
-import { HelperText } from 'react-native-paper';
-import { DatePickerInput } from 'react-native-paper-dates';
+import { TextInput, HelperText } from 'react-native-paper';
+import { DatePickerInput, DatePickerModal } from 'react-native-paper-dates';
 
 export default function DatePickerInputWithError({
     style,
@@ -14,6 +14,7 @@ export default function DatePickerInputWithError({
     error,
     startYear,
     endYear,
+    modalMode = 'single',
     inputMode,
     inputStyle,
     helperStyle,
@@ -21,11 +22,25 @@ export default function DatePickerInputWithError({
     autoFocus,
     inputRef,
 }) {
+    const [modalOpen, setModalOpen] = useState(false);
     const [lastError, setLastError] = useState('');
 
     useEffect(() => {
         if (error !== '') setLastError(error);
     }, [error]);
+
+    const onOpenModal = () => {
+        setModalOpen(true);
+    };
+
+    const onDismissModal = () => {
+        setModalOpen(false);
+    };
+
+    const onConfirmModal = (params) => {
+        setModalOpen(false);
+        onChange(params.date);
+    }
 
     return (
         <View style={style}>
@@ -44,10 +59,25 @@ export default function DatePickerInputWithError({
                 keyboardType={keyboardType}
                 autoFocus={autoFocus}
                 ref={inputRef}
+                // Default modal button is not centered
+                right={
+                    <TextInput.Icon icon="calendar" onPress={onOpenModal} />
+                }
+                withModal={false}
             />
             <HelperText type="error" visible={error} style={{ paddingLeft: 16, ...helperStyle }}>
                 {lastError}
             </HelperText>
+            <DatePickerModal
+                locale={locale}
+                mode={modalMode}
+                visible={modalOpen}
+                date={value}
+                startYear={startYear}
+                endYear={endYear}
+                onDismiss={onDismissModal}
+                onConfirm={onConfirmModal}
+            />
         </View>
     );
 }
