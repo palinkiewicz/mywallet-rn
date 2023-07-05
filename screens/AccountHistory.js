@@ -39,15 +39,15 @@ export default function AccountHistoryScreen({ navigation, route }) {
         let sections = [];
         let lastDate = '';
 
-        for (record of account.history) {
+        for (const [index, record] of account.history.entries()) {
             const date = new Date(record.date).toLocaleDateString('en-GB');
 
             if (date === lastDate) {
-                sections[sections.length - 1].data.push(record);
+                sections[sections.length - 1].data.push({...record, index: index});
             } else {
                 sections.push({
                     title: date,
-                    data: [record],
+                    data: [{...record, index: index}],
                 });
 
                 lastDate = date;
@@ -62,21 +62,21 @@ export default function AccountHistoryScreen({ navigation, route }) {
             <SectionList
                 contentContainerStyle={{ paddingBottom: 80 + bottom }}
                 sections={getHistoryWithSections()}
-                renderItem={({ item, index }) => (
+                renderItem={({ item }) => (
                     <HistoryRecordCard
                         accountId={accountId}
                         name={item.name}
                         value={item.value.toFixed(2)}
                         date={item.date}
-                        index={index}
+                        index={item.index}
                         fullHistory={account.history}
                         setRemoveData={setRemoveData}
                         navigation={navigation}
                     />
                 )}
                 renderSectionHeader={({ section }) => <HistoryRecordSectionHeader title={section.title} />}
-                keyExtractor={(item, index) => {
-                    return `${accountId}-${item}-${index}`;
+                keyExtractor={(item) => {
+                    return `${accountId}-${item.index}-${item.name}`;
                 }}
                 onScroll={onScroll}
                 stickySectionHeadersEnabled
