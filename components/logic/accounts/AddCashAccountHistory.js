@@ -13,7 +13,7 @@ export function addCashAccountHistory(docId = null, value = 0, name = '', date =
 
     if (
         validateAccountHistoryName(name) !== '' ||
-        validateAccountHistoryValue(icon) !== '' ||
+        validateAccountHistoryValue(value.toString()) !== '' ||
         validateAccountHistoryDate(date) !== ''
     ) {
         return ToastAndroid.show('Invalid data.', ToastAndroid.SHORT);

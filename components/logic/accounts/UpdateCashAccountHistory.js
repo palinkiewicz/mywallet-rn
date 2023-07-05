@@ -28,7 +28,7 @@ export function updateCashAccountHistory(
 
     if (
         validateAccountHistoryName(name) !== '' ||
-        validateAccountHistoryValue(icon) !== '' ||
+        validateAccountHistoryValue(value.toString()) !== '' ||
         validateAccountHistoryDate(date) !== ''
     ) {
         return ToastAndroid.show('Invalid data.', ToastAndroid.SHORT);
