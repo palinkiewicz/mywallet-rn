@@ -16,10 +16,10 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     const { bottom } = useSafeAreaInsets();
 
-    const [fabExtended, setFabExtended] = useState(false);
+    const [scrollPos, setScrollPos] = useState(0);
 
     const onScroll = ({ nativeEvent }) => {
-        setFabExtended((Math.floor(nativeEvent?.contentOffset?.y) ?? 0) <= 0);
+        setScrollPos(Math.floor(nativeEvent?.contentOffset?.y) ?? 0);
     };
 
     const [removeData, setRemoveData] = useState({
@@ -84,7 +84,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
             <AnimatedFAB
                 icon="plus"
                 label="New record"
-                extended={fabExtended}
+                extended={scrollPos <= 0}
                 onPress={() => {
                     navigation.navigate(SCREENS_NAMES.addAccountHistory, {
                         accountId: accountId,
