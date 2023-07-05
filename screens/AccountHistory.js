@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { FlatList } from 'react-native';
 import { AnimatedFAB } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
@@ -8,11 +8,11 @@ import DeleteDialog from '../components/ui/DeleteDialog';
 import HistoryRecordCard from '../components/ui/accounts/HistoryRecordCard';
 import { SCREENS_NAMES } from '../constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import CustomNavigationBar from '../components/ui/PaperNavigationBar';
 
 export default function AccountHistoryScreen({ navigation, route }) {
-    const { accountId } = route.params;
-    const accountsData = useContext(DataContext).accounts;
-    const selectedAccountData = accountsData.find((item) => item.id === accountId).data;
+    const { accountId, navbarMode } = route.params;
+    const account = useContext(DataContext).accounts.find((item) => item.id === accountId).data;
 
     const { bottom } = useSafeAreaInsets();
 
@@ -25,16 +25,22 @@ export default function AccountHistoryScreen({ navigation, route }) {
     const [removeData, setRemoveData] = useState({
         accountId: accountId,
         index: null,
-        history: selectedAccountData.history,
+        history: account.history,
         active: false,
     });
+
+    useEffect(() => {
+        navigation.setOptions({
+            header: (props) => <CustomNavigationBar {...props} displayName={account.name} mode={navbarMode}/>
+        });
+    }, []);
 
     return (
         <>
             <LazyLoadingContent callback={() => setFabExtended(true)}>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 80 + bottom }}
-                    data={selectedAccountData.history}
+                    data={account.history}
                     renderItem={({ item, index }) => (
                         <HistoryRecordCard
                             accountId={accountId}
@@ -42,7 +48,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                             value={item.value.toFixed(2)}
                             date={item.date}
                             index={index}
-                            fullHistory={selectedAccountData.history}
+                            fullHistory={account.history}
                             setRemoveData={setRemoveData}
                             navigation={navigation}
                         />

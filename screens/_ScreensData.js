@@ -38,6 +38,7 @@ export const MAIN_SCREENS = [
     {
         name: SCREENS_NAMES.accountHistory,
         component: AccountHistoryScreen,
+        navbarMode: 'medium',
     },
     {
         name: SCREENS_NAMES.addAccount,

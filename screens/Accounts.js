@@ -19,10 +19,10 @@ export default function AccountsScreen({ navigation }) {
         return amount;
     };
 
-    const [fabExtended, setFabExtended] = useState(false);
+    const [scrollPos, setScrollPos] = useState(0);
 
     const onScroll = ({ nativeEvent }) => {
-        setFabExtended((Math.floor(nativeEvent?.contentOffset?.y) ?? 0) <= 0);
+        setScrollPos(Math.floor(nativeEvent?.contentOffset?.y) ?? 0);
     };
 
     const [removeData, setRemoveData] = useState({
@@ -32,7 +32,7 @@ export default function AccountsScreen({ navigation }) {
 
     return (
         <>
-            <LazyLoadingContent callback={() => setFabExtended(true)}>
+            <LazyLoadingContent>
                 <FlatList
                     contentContainerStyle={{ paddingBottom: 80 + bottom }}
                     data={accountsData}
@@ -55,7 +55,7 @@ export default function AccountsScreen({ navigation }) {
             <AnimatedFAB
                 icon="plus"
                 label="New account"
-                extended={fabExtended}
+                extended={scrollPos <= 0}
                 onPress={() => {
                     navigation.navigate(SCREENS_NAMES.addAccount);
                 }}

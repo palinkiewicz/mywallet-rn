@@ -14,7 +14,7 @@ export default function LazyLoadingContent({ children, callback }) {
         // and then replace its content with the provided children.
         setTimeout(() => {
             setReady(true);
-            callback();
+            callback?.();
         }, 10);
     }, []);
 

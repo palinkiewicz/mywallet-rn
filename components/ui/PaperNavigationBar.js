@@ -1,17 +1,15 @@
 import { Appbar } from 'react-native-paper';
 import { useRoute } from '@react-navigation/native';
-import { MAIN_SCREENS } from '../../screens/_ScreensData';
 
-export default function CustomNavigationBar({ navigation, back }) {
-    const routeName = useRoute().name;
-    const screen = MAIN_SCREENS.find((screen) => screen.name === routeName);
-    const onDrawer = !screen ? false : !screen.onDrawer ? false : true;
+export default function CustomNavigationBar({ navigation, back, displayName, onDrawer = false, mode = 'small', buttons }) {
+    const name = displayName ?? useRoute().name;
 
     return (
-        <Appbar.Header elevated>
-            {onDrawer && <Appbar.Action onPress={navigation.openDrawer} icon="menu" />}
+        <Appbar.Header elevated mode={mode}>
+            {onDrawer && <Appbar.Action onPress={navigation.openDrawer} icon="menu" isLeading/>}
             {back && !onDrawer ? <Appbar.BackAction onPress={navigation.goBack} /> : null}
-            <Appbar.Content title={' ' + routeName} />
+            <Appbar.Content title={' ' + name} />
+            {buttons}
         </Appbar.Header>
     );
 }

@@ -66,18 +66,13 @@ export default function App() {
     const Screens = () => {
         return (
             <DataContext.Provider value={fsData}>
-                <Stack.Navigator
-                    screenOptions={{
-                        header: (props) => <PaperNavigationBar {...props} />,
-                    }}
-                >
+                <Stack.Navigator>
                     {!user
                         ? AUTH_SCREENS.map((screen) => (
                               <Stack.Screen
                                   key={screen.name}
                                   name={screen.name}
                                   component={screen.component}
-                                  options={{ headerShown: false }}
                               />
                           ))
                         : MAIN_SCREENS.map((screen) => (
@@ -90,6 +85,10 @@ export default function App() {
                                           value: darkTheme,
                                           set: setDarkTheme,
                                       },
+                                      navbarMode: screen.navbarMode,
+                                  }}
+                                  options={{
+                                    header: (props) => <PaperNavigationBar {...props} onDrawer={screen.onDrawer} mode={screen.navbarMode} />,
                                   }}
                               />
                           ))}
