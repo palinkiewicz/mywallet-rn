@@ -7,10 +7,11 @@ export default function HistoryRecordSectionHeader({ title }) {
         <Text
             style={{
                 backgroundColor: colors.surface,
-                paddingTop: 8,
-                paddingBottom: 4,
+                paddingTop: 16,
+                paddingBottom: 8,
                 paddingLeft: 24,
             }}
+            variant='labelLarge'
         >
             {title}
         </Text>
