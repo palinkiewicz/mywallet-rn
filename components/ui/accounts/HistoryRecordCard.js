@@ -19,8 +19,8 @@ export default function HistoryRecordCard({
     return (
         <Card style={styles.card} mode="elevated">
             <Card.Title
-                title={value + ' zł'}
-                subtitle={dateObj.toLocaleDateString('en-GB') + (name ? ' - ' : '') + name}
+                title={(value > 0 ? '+' : '') + value + ' zł'}
+                subtitle={name}
                 right={(props) => (
                     <Menu
                         visible={menuShown}
@@ -64,6 +64,6 @@ export default function HistoryRecordCard({
 const styles = StyleSheet.create({
     card: {
         marginHorizontal: 8,
-        marginTop: 8,
+        marginVertical: 4,
     },
 });
