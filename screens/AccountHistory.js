@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { SectionList } from 'react-native';
-import { AnimatedFAB, IconButton } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import { removeCashAccountHistory } from '../components/logic/firestore/accounts/RemoveCashAccountHistory';
 import DeleteDialog from '../components/ui/DeleteDialog';
@@ -9,6 +9,7 @@ import { SCREENS_NAMES } from '../constants';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomNavigationBar from '../components/ui/PaperNavigationBar';
 import HistoryRecordSectionHeader from '../components/ui/accounts/HistoryRecordSectionHeader';
+import AnimatedHideableFAB from '../components/ui/AnimatedHideableFAB';
 
 export default function AccountHistoryScreen({ navigation, route }) {
     const { bottom } = useSafeAreaInsets();
@@ -125,8 +126,8 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 }}
                 onScroll={onScroll}
             />
-            <AnimatedFAB
-                icon="plus"
+            <AnimatedHideableFAB
+                // icon="plus"
                 label="New record"
                 extended={scrollPos <= 0}
                 onPress={() => {
@@ -134,11 +135,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         accountId: accountId,
                     });
                 }}
-                style={{
-                    bottom: 16 + bottom,
-                    right: 16,
-                    position: 'absolute',
-                }}
+                visible={selectedRecords.length === 0}
             />
             <DeleteDialog
                 visible={deleteDialogVisible}

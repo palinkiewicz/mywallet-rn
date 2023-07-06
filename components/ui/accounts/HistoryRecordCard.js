@@ -108,7 +108,9 @@ export default function HistoryRecordCard({
                     </Text>
                     <Text numberOfLines={1}>{name}</Text>
                 </View>
-                <Animated.View style={{transform: [{scale: checkboxScale}]}}><Checkbox status={selected ? 'checked' : 'unchecked'} onPress={onCheckboxPress} /></Animated.View>
+                <Animated.View style={{ transform: [{ scale: checkboxScale }] }}>
+                    <Checkbox status={selected ? 'checked' : 'unchecked'} onPress={onCheckboxPress} />
+                </Animated.View>
             </View>
         </TouchableRipple>
     );
