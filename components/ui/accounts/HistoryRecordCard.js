@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 import { View, Animated } from 'react-native';
 import { TouchableRipple, useTheme, Text, Checkbox } from 'react-native-paper';
 
-export default function HistoryRecordCard({
+function HistoryRecordCard({
     accountId,
     value,
     name,
@@ -116,3 +116,5 @@ export default function HistoryRecordCard({
         </TouchableRipple>
     );
 }
+
+export default memo(HistoryRecordCard);
