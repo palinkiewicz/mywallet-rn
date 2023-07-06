@@ -69,7 +69,7 @@ export default function App() {
                                   name={screen.name}
                                   component={screen.component}
                                   options={{
-                                    headerShown: false,
+                                      headerShown: false,
                                   }}
                               />
                           ))
@@ -86,7 +86,14 @@ export default function App() {
                                       navbarMode: screen.navbarMode,
                                   }}
                                   options={{
-                                    header: (props) => <PaperNavigationBar {...props} onDrawer={screen.onDrawer} mode={screen.navbarMode} />,
+                                      header: (props) => (
+                                          <PaperNavigationBar
+                                              {...props}
+                                              onDrawer={screen.onDrawer}
+                                              mode={screen.navbarMode}
+                                              displayName={screen.name}
+                                          />
+                                      ),
                                   }}
                               />
                           ))}
