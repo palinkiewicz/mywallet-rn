@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useMemo } from 'react';
 import { SectionList } from 'react-native';
 import { IconButton } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
@@ -19,6 +19,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     const [scrollPos, setScrollPos] = useState(0);
     const [selectedRecords, setSelectedRecords] = useState([]);
+    const [selectionMode, setSelectionMode] = useState(false);
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
     const onScroll = ({ nativeEvent }) => {
@@ -27,6 +28,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     const onRecordSelect = (recordIndex) => {
         setSelectedRecords([...new Set([...selectedRecords, recordIndex])]);
+        setSelectionMode(true);
     };
 
     const onRecordDeselect = (recordIndex) => {
@@ -42,23 +44,30 @@ export default function AccountHistoryScreen({ navigation, route }) {
         removeCashAccountHistory(accountId, selectedRecords, account.history);
     };
 
-    const onDeletePress = () => {
+    const onDelete = () => {
         setDeleteDialogVisible(true);
+    };
+
+    const onCheckAll = () => {
+        if (selectedRecords.length === account.history.length) {
+            setSelectedRecords([]);
+        } else {
+            setSelectedRecords([...Array(account.history.length).keys()]);
+        }
+    };
+
+    const onCloseToolbar = () => {
+        setSelectedRecords([]);
+        setSelectionMode(false);
     };
 
     useEffect(() => {
         navigation.setOptions({
-            header: (props) => (
-                <CustomNavigationBar
-                    {...props}
-                    displayName={account.name}
-                    mode={navbarMode}
-                />
-            ),
+            header: (props) => <CustomNavigationBar {...props} displayName={account.name} mode={navbarMode} />,
         });
-    });
+    }, []);
 
-    const getHistoryWithSections = () => {
+    const historyWithSections = useMemo(() => {
         let sections = [];
         let lastDate = null;
 
@@ -96,14 +105,14 @@ export default function AccountHistoryScreen({ navigation, route }) {
         setLastPreviousSectionRecordPosition(previousSectionIndex);
 
         return sections;
-    };
+    }, [account.history]);
 
     return (
         <>
             <SectionList
                 contentContainerStyle={{ paddingBottom: 80 + bottom }}
                 initialNumToRender={15}
-                sections={getHistoryWithSections()}
+                sections={historyWithSections}
                 renderItem={({ item }) => (
                     <HistoryRecordCard
                         accountId={accountId}
@@ -114,7 +123,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         fullHistory={account.history}
                         navigation={navigation}
                         sectionPosition={item.sectionPosition}
-                        selectionMode={selectedRecords.length > 0}
+                        selectionMode={selectionMode}
                         selected={selectedRecords.includes(item.index)}
                         onSelect={onRecordSelect}
                         onDeselect={onRecordDeselect}
@@ -135,7 +144,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         accountId: accountId,
                     });
                 }}
-                visible={selectedRecords.length === 0}
+                visible={!selectionMode}
             />
             <DeleteDialog
                 visible={deleteDialogVisible}
@@ -145,11 +154,17 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 paragraphs={[`You will not be able to recover ${selectedRecords.length > 1 ? 'them' : 'it'}.`]}
             />
             <AnimatedToolbar
-                visible={selectedRecords.length > 0}
-                title={`Selected: ${selectedRecords.length} record${selectedRecords.length > 1 ? 's' : ''}`}
+                visible={selectionMode}
+                title={`Selected: ${selectedRecords.length} record${selectedRecords.length === 1 ? '' : 's'}`}
                 buttons={
                     <>
-                        <IconButton icon="delete-outline" onPress={onDeletePress} />
+                        <IconButton icon="delete-outline" onPress={onDelete} />
+                        <IconButton
+                            icon="check-all"
+                            selected={selectedRecords.length === account.history.length}
+                            onPress={onCheckAll}
+                        />
+                        <IconButton icon="close" onPress={onCloseToolbar} />
                     </>
                 }
             />
