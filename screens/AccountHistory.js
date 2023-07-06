@@ -35,24 +35,45 @@ export default function AccountHistoryScreen({ navigation, route }) {
         });
     }, []);
 
+    const getLastPreviousSectionRecordPosition = (previousSectionIndex) => {
+    }
+
     const getHistoryWithSections = () => {
         let sections = [];
-        let lastDate = '';
+        let lastDate = null;
+
+        const setLastPreviousSectionRecordPosition = (previousSectionIndex) => {
+            if (lastDate) {
+                const previousRecordIndex = sections[previousSectionIndex].data.length - 1;
+
+                if (previousRecordIndex === 0) {
+                    sections[previousSectionIndex].data[previousRecordIndex].sectionPosition = 'startend';
+                } else {
+                    sections[previousSectionIndex].data[previousRecordIndex].sectionPosition = 'end';
+                }
+            }
+        }
 
         for (const [index, record] of account.history.entries()) {
             const date = new Date(record.date).toLocaleDateString('en-GB');
 
             if (date === lastDate) {
-                sections[sections.length - 1].data.push({...record, index: index});
+                sections[sections.length - 1].data.push({ ...record, index: index, sectionPosition: 'center' });
             } else {
                 sections.push({
                     title: date,
-                    data: [{...record, index: index}],
+                    data: [{ ...record, index: index, sectionPosition: 'start' }],
                 });
+
+                const previousSectionIndex = sections.length - 2;
+                setLastPreviousSectionRecordPosition(previousSectionIndex);
 
                 lastDate = date;
             }
         }
+
+        const previousSectionIndex = sections.length - 1;
+        setLastPreviousSectionRecordPosition(previousSectionIndex);
 
         return sections;
     };
@@ -73,6 +94,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         fullHistory={account.history}
                         setRemoveData={setRemoveData}
                         navigation={navigation}
+                        sectionPosition={item.sectionPosition}
                     />
                 )}
                 renderSectionHeader={({ section }) => <HistoryRecordSectionHeader title={section.title} />}
@@ -80,7 +102,6 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     return `${accountId}-${item.index}-${item.name}`;
                 }}
                 onScroll={onScroll}
-                stickySectionHeadersEnabled
             />
             <AnimatedFAB
                 icon="plus"
