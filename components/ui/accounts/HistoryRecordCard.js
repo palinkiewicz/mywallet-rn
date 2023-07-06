@@ -86,8 +86,9 @@ export default function HistoryRecordCard({
                 marginBottom: 4,
                 marginLeft: 8,
                 marginRight: 8,
-                backgroundColor: selected ? colors.secondaryContainer : colors.elevation.level2,
-                elevation: 1,
+                backgroundColor: selected ? colors.secondaryContainer : colors.surface,
+                borderColor: colors.outline,
+                borderWidth: 1,
             }}
         >
             <View

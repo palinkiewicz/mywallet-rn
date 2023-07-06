@@ -10,6 +10,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import CustomNavigationBar from '../components/ui/PaperNavigationBar';
 import HistoryRecordSectionHeader from '../components/ui/accounts/HistoryRecordSectionHeader';
 import AnimatedHideableFAB from '../components/ui/AnimatedHideableFAB';
+import AnimatedToolbar from '../components/ui/AnimatedToolbar';
 
 export default function AccountHistoryScreen({ navigation, route }) {
     const { bottom } = useSafeAreaInsets();
@@ -34,16 +35,16 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     const onDeleteDialogDismiss = () => {
         setDeleteDialogVisible(false);
-    }
+    };
 
     const onDeleteDialogConfirm = () => {
         setDeleteDialogVisible(false);
         removeCashAccountHistory(accountId, selectedRecords, account.history);
-    }
+    };
 
     const onDeletePress = () => {
         setDeleteDialogVisible(true);
-    }
+    };
 
     useEffect(() => {
         navigation.setOptions({
@@ -52,11 +53,10 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     {...props}
                     displayName={account.name}
                     mode={navbarMode}
-                    buttons={selectedRecords.length > 0 && <IconButton icon="delete" onPress={onDeletePress} />}
                 />
             ),
         });
-    }, [selectedRecords]);
+    });
 
     const getHistoryWithSections = () => {
         let sections = [];
@@ -143,6 +143,15 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 onConfirm={onDeleteDialogConfirm}
                 title={`Delete ${selectedRecords.length} record${selectedRecords.length > 1 ? 's' : ''} permamently?`}
                 paragraphs={[`You will not be able to recover ${selectedRecords.length > 1 ? 'them' : 'it'}.`]}
+            />
+            <AnimatedToolbar
+                visible={selectedRecords.length > 0}
+                title={`Selected: ${selectedRecords.length} record${selectedRecords.length > 1 ? 's' : ''}`}
+                buttons={
+                    <>
+                        <IconButton icon="delete-outline" onPress={onDeletePress} />
+                    </>
+                }
             />
         </>
     );

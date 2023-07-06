@@ -13,7 +13,7 @@ export default function AnimatedHideableFAB({
     fabStyle,
 }) {
     const { bottom } = useSafeAreaInsets();
-    const hideProgress = useRef(new Animated.Value(0)).current;
+    const hideProgress = useRef(new Animated.Value(visible ? 0 : 200)).current;
 
     useEffect(() => {
         if (visible) {
