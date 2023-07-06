@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { IconButton, TouchableRipple, useTheme, Text } from 'react-native-paper';
+import { useEffect, useRef } from 'react';
+import { View, Animated } from 'react-native';
+import { TouchableRipple, useTheme, Text, Checkbox } from 'react-native-paper';
 
 export default function HistoryRecordCard({
     accountId,
@@ -12,16 +12,18 @@ export default function HistoryRecordCard({
     setRemoveData,
     navigation,
     sectionPosition,
+    onSelect = () => {},
+    onDeselect = () => {},
+    selected = false,
+    selectionMode = false,
 }) {
-    const [menuShown, setMenuShown] = useState(false);
-
     const dateObj = new Date(date);
     const { colors } = useTheme();
     const posStart = sectionPosition === 'startend' || sectionPosition === 'start';
     const posEnd = sectionPosition === 'startend' || sectionPosition === 'end';
+    const checkboxScale = useRef(new Animated.Value(0)).current;
 
-    const onEdit = () => {
-        setMenuShown(false);
+    const edit = () => {
         navigation.navigate('Edit history record', {
             _docId: accountId,
             _indexInHistory: index,
@@ -30,6 +32,14 @@ export default function HistoryRecordCard({
             _name: name,
             _date: dateObj,
         });
+    };
+
+    const select = () => {
+        if (selected) {
+            onDeselect(index);
+        } else {
+            onSelect(index);
+        }
     };
 
     const onDelete = () => {
@@ -41,9 +51,42 @@ export default function HistoryRecordCard({
         }));
     };
 
+    const onCardPress = () => {
+        if (selectionMode) {
+            select();
+        } else {
+            edit();
+        }
+    };
+
+    const onCardLongPress = () => {
+        onSelect(index);
+    };
+
+    const onCheckboxPress = () => {
+        select();
+    };
+
+    useEffect(() => {
+        if (selectionMode) {
+            Animated.timing(checkboxScale, {
+                toValue: 1,
+                duration: 150,
+                useNativeDriver: true,
+            }).start();
+        } else {
+            Animated.timing(checkboxScale, {
+                toValue: 0,
+                duration: 150,
+                useNativeDriver: true,
+            }).start();
+        }
+    }, [selectionMode]);
+
     return (
         <TouchableRipple
-            onPress={onEdit}
+            onPress={onCardPress}
+            onLongPress={onCardLongPress}
             borderless
             style={{
                 borderBottomLeftRadius: posEnd ? 12 : 0,
@@ -53,8 +96,6 @@ export default function HistoryRecordCard({
                 marginBottom: 4,
                 marginLeft: 8,
                 marginRight: 8,
-                backgroundColor: colors.elevation.level2,
-                elevation: 1,
             }}
         >
             <View
@@ -63,6 +104,8 @@ export default function HistoryRecordCard({
                     alignItems: 'center',
                     paddingRight: 8,
                     paddingLeft: 16,
+                    backgroundColor: selected ? colors.secondaryContainer : colors.elevation.level2,
+                    elevation: 1,
                 }}
             >
                 <View style={{ flex: 1, justifyContent: 'center', paddingBottom: 12, paddingTop: 8 }}>
@@ -75,15 +118,8 @@ export default function HistoryRecordCard({
                     </Text>
                     <Text numberOfLines={1}>{name}</Text>
                 </View>
-                <IconButton icon="delete" onPress={onDelete} />
+                <Animated.View style={{transform: [{scale: checkboxScale}]}}><Checkbox status={selected ? 'checked' : 'unchecked'} onPress={onCheckboxPress} /></Animated.View>
             </View>
         </TouchableRipple>
     );
 }
-
-const styles = StyleSheet.create({
-    card: {
-        marginHorizontal: 8,
-        marginVertical: 4,
-    },
-});

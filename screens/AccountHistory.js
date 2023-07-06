@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { SectionList } from 'react-native';
-import { AnimatedFAB, Text } from 'react-native-paper';
+import { AnimatedFAB, IconButton } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import { removeCashAccountHistory } from '../components/logic/firestore/accounts/RemoveCashAccountHistory';
 import DeleteDialog from '../components/ui/DeleteDialog';
@@ -11,15 +11,23 @@ import CustomNavigationBar from '../components/ui/PaperNavigationBar';
 import HistoryRecordSectionHeader from '../components/ui/accounts/HistoryRecordSectionHeader';
 
 export default function AccountHistoryScreen({ navigation, route }) {
+    const { bottom } = useSafeAreaInsets();
     const { accountId, navbarMode } = route.params;
     const account = useContext(DataContext).accounts.find((item) => item.id === accountId).data;
 
-    const { bottom } = useSafeAreaInsets();
-
     const [scrollPos, setScrollPos] = useState(0);
+    const [selectedRecords, setSelectedRecords] = useState([]);
 
     const onScroll = ({ nativeEvent }) => {
         setScrollPos(Math.floor(nativeEvent?.contentOffset?.y) ?? 0);
+    };
+
+    const onRecordSelect = (recordIndex) => {
+        setSelectedRecords([...new Set([...selectedRecords, recordIndex])]);
+    };
+
+    const onRecordDeselect = (recordIndex) => {
+        setSelectedRecords(selectedRecords.filter((index) => index !== recordIndex));
     };
 
     const [removeData, setRemoveData] = useState({
@@ -31,12 +39,16 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     useEffect(() => {
         navigation.setOptions({
-            header: (props) => <CustomNavigationBar {...props} displayName={account.name} mode={navbarMode} />,
+            header: (props) => (
+                <CustomNavigationBar
+                    {...props}
+                    displayName={account.name}
+                    mode={navbarMode}
+                    buttons={selectedRecords.length > 0 && <IconButton icon="delete" />}
+                />
+            ),
         });
-    }, []);
-
-    const getLastPreviousSectionRecordPosition = (previousSectionIndex) => {
-    }
+    }, [selectedRecords]);
 
     const getHistoryWithSections = () => {
         let sections = [];
@@ -52,7 +64,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     sections[previousSectionIndex].data[previousRecordIndex].sectionPosition = 'end';
                 }
             }
-        }
+        };
 
         for (const [index, record] of account.history.entries()) {
             const date = new Date(record.date).toLocaleDateString('en-GB');
@@ -95,6 +107,10 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         setRemoveData={setRemoveData}
                         navigation={navigation}
                         sectionPosition={item.sectionPosition}
+                        selectionMode={selectedRecords.length > 0}
+                        selected={selectedRecords.includes(item.index)}
+                        onSelect={onRecordSelect}
+                        onDeselect={onRecordDeselect}
                     />
                 )}
                 renderSectionHeader={({ section }) => <HistoryRecordSectionHeader title={section.title} />}
