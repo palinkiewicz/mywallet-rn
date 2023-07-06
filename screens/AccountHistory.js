@@ -61,6 +61,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
         <>
             <SectionList
                 contentContainerStyle={{ paddingBottom: 80 + bottom }}
+                initialNumToRender={15}
                 sections={getHistoryWithSections()}
                 renderItem={({ item }) => (
                     <HistoryRecordCard

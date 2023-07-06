@@ -16,7 +16,7 @@ export default function EditAccountHistoryScreen({ navigation, route }) {
     const [name, setName] = useState(_name);
     const [value, setValue] = useState(_value);
     const [date, setDate] = useState(_date);
-    const [errors, setErrors] = useState({});console.log(_indexInHistory);
+    const [errors, setErrors] = useState({});
 
     const onNameChange = (text) => {
         setName(text);

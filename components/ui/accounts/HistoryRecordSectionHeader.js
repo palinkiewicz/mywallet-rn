@@ -9,7 +9,7 @@ export default function HistoryRecordSectionHeader({ title }) {
                 backgroundColor: colors.surface,
                 paddingTop: 16,
                 paddingBottom: 8,
-                paddingLeft: 24,
+                paddingLeft: 16,
             }}
             variant='labelLarge'
         >

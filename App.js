@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as TransparentStatusAndNavigationBar from 'react-native-transparent-status-and-navigation-bar';
 import auth from '@react-native-firebase/auth';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
