@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect, useMemo } from 'react';
 import { SectionList } from 'react-native';
-import { IconButton } from 'react-native-paper';
+import { IconButton, useTheme } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import { removeCashAccountHistory } from '../components/logic/firestore/accounts/RemoveCashAccountHistory';
 import DeleteDialog from '../components/ui/DeleteDialog';
@@ -14,6 +14,7 @@ import AnimatedToolbar from '../components/ui/AnimatedToolbar';
 
 export default function AccountHistoryScreen({ navigation, route }) {
     const { bottom } = useSafeAreaInsets();
+    const { colors } = useTheme();
     const { accountId, navbarMode } = route.params;
     const account = useContext(DataContext).accounts.find((item) => item.id === accountId).data;
 
@@ -63,9 +64,24 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     useEffect(() => {
         navigation.setOptions({
-            header: (props) => <CustomNavigationBar {...props} displayName={account.name} mode={navbarMode} />,
+            header: (props) => (
+                <CustomNavigationBar
+                    {...props}
+                    displayName={
+                        selectionMode
+                            ? `Selected: ${selectedRecords.length} record${selectedRecords.length === 1 ? '' : 's'}`
+                            : account.name
+                    }
+                    mode={navbarMode}
+                    customLeading={
+                        selectionMode && (
+                            <IconButton icon="close" iconColor={colors.onSurface} onPress={onCloseToolbar} />
+                        )
+                    }
+                />
+            ),
         });
-    }, []);
+    }, [selectionMode, selectedRecords]);
 
     const historyWithSections = useMemo(() => {
         let sections = [];
@@ -158,13 +174,13 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 title={`Selected: ${selectedRecords.length} record${selectedRecords.length === 1 ? '' : 's'}`}
                 buttons={
                     <>
-                        <IconButton icon="delete-outline" onPress={onDelete} />
                         <IconButton
                             icon="check-all"
                             selected={selectedRecords.length === account.history.length}
                             onPress={onCheckAll}
                         />
-                        <IconButton icon="close" onPress={onCloseToolbar} />
+                        <IconButton icon="chart-box-outline" onPress={() => {}} /> {/* Will implement in the future */}
+                        <IconButton icon="delete-outline" onPress={onDelete} />
                     </>
                 }
             />

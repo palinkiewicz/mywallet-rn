@@ -3,7 +3,7 @@ import { Animated, View } from 'react-native';
 import { Text, useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-function AnimatedToolbar({ title, buttons, visible = true }) {
+function AnimatedToolbar({ buttons, visible = true }) {
     const { bottom } = useSafeAreaInsets();
     const { colors } = useTheme();
     const hideProgress = useRef(new Animated.Value(visible ? 0 : 100)).current;
@@ -32,19 +32,16 @@ function AnimatedToolbar({ title, buttons, visible = true }) {
                 left: 0,
                 bottom: 0,
                 paddingBottom: bottom,
-                height: 72 + bottom,
+                height: 80 + bottom,
                 flexDirection: 'row',
                 alignItems: 'center',
                 backgroundColor: colors.elevation.level2,
                 elevation: 2,
-                paddingLeft: 24,
+                paddingLeft: 8,
                 paddingRight: 8,
                 transform: [{ translateY: hideProgress }],
             }}
         >
-            <View style={{ flex: 1 }}>
-                <Text variant="titleSmall">{title}</Text>
-            </View>
             {buttons}
         </Animated.View>
     );
