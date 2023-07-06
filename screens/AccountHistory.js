@@ -127,7 +127,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 onScroll={onScroll}
             />
             <AnimatedHideableFAB
-                // icon="plus"
+                icon="plus"
                 label="New record"
                 extended={scrollPos <= 0}
                 onPress={() => {

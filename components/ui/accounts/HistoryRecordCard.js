@@ -98,7 +98,7 @@ export default function HistoryRecordCard({
                     elevation: 1,
                 }}
             >
-                <View style={{ flex: 1, justifyContent: 'center', paddingBottom: 12, paddingTop: 8 }}>
+                <View style={{ flex: 1, justifyContent: 'center', height: 64, paddingBottom: name ? 2 : 0 }}>
                     <Text
                         numberOfLines={1}
                         variant="titleMedium"
@@ -106,7 +106,7 @@ export default function HistoryRecordCard({
                     >
                         {(value > 0 ? '+' : '') + value + ' zł'}
                     </Text>
-                    <Text numberOfLines={1}>{name}</Text>
+                    {name && <Text numberOfLines={1}>{name}</Text>}
                 </View>
                 <Animated.View style={{ transform: [{ scale: checkboxScale }] }}>
                     <Checkbox status={selected ? 'checked' : 'unchecked'} onPress={onCheckboxPress} />
