@@ -9,7 +9,6 @@ export default function HistoryRecordCard({
     date,
     index,
     fullHistory,
-    setRemoveData,
     navigation,
     sectionPosition,
     onSelect = () => {},
@@ -40,15 +39,6 @@ export default function HistoryRecordCard({
         } else {
             onSelect(index);
         }
-    };
-
-    const onDelete = () => {
-        setMenuShown(false);
-        setRemoveData((current) => ({
-            ...current,
-            active: true,
-            index: index,
-        }));
     };
 
     const onCardPress = () => {

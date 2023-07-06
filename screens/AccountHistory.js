@@ -17,6 +17,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
 
     const [scrollPos, setScrollPos] = useState(0);
     const [selectedRecords, setSelectedRecords] = useState([]);
+    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
     const onScroll = ({ nativeEvent }) => {
         setScrollPos(Math.floor(nativeEvent?.contentOffset?.y) ?? 0);
@@ -30,12 +31,18 @@ export default function AccountHistoryScreen({ navigation, route }) {
         setSelectedRecords(selectedRecords.filter((index) => index !== recordIndex));
     };
 
-    const [removeData, setRemoveData] = useState({
-        accountId: accountId,
-        index: null,
-        history: account.history,
-        active: false,
-    });
+    const onDeleteDialogDismiss = () => {
+        setDeleteDialogVisible(false);
+    }
+
+    const onDeleteDialogConfirm = () => {
+        setDeleteDialogVisible(false);
+        removeCashAccountHistory(accountId, selectedRecords, account.history);
+    }
+
+    const onDeletePress = () => {
+        setDeleteDialogVisible(true);
+    }
 
     useEffect(() => {
         navigation.setOptions({
@@ -44,7 +51,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     {...props}
                     displayName={account.name}
                     mode={navbarMode}
-                    buttons={selectedRecords.length > 0 && <IconButton icon="delete" />}
+                    buttons={selectedRecords.length > 0 && <IconButton icon="delete" onPress={onDeletePress} />}
                 />
             ),
         });
@@ -104,7 +111,6 @@ export default function AccountHistoryScreen({ navigation, route }) {
                         date={item.date}
                         index={item.index}
                         fullHistory={account.history}
-                        setRemoveData={setRemoveData}
                         navigation={navigation}
                         sectionPosition={item.sectionPosition}
                         selectionMode={selectedRecords.length > 0}
@@ -135,12 +141,11 @@ export default function AccountHistoryScreen({ navigation, route }) {
                 }}
             />
             <DeleteDialog
-                removeData={removeData}
-                setRemoveData={setRemoveData}
-                onConfirm={() => {
-                    removeCashAccountHistory(removeData.accountId, removeData.index, removeData.history);
-                }}
-                paragraphs={['Record will be removed permamently.', 'You cannot recover it after this.']}
+                visible={deleteDialogVisible}
+                onDismiss={onDeleteDialogDismiss}
+                onConfirm={onDeleteDialogConfirm}
+                title={`Delete ${selectedRecords.length} record${selectedRecords.length > 1 ? 's' : ''} permamently?`}
+                paragraphs={[`You will not be able to recover ${selectedRecords.length > 1 ? 'them' : 'it'}.`]}
             />
         </>
     );

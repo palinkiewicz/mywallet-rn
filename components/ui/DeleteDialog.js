@@ -1,22 +1,15 @@
 import { Portal, Dialog, Paragraph, Button } from 'react-native-paper';
 
 export default function DeleteDialog({
-    removeData,
-    setRemoveData,
+    visible,
+    onDismiss,
     onConfirm,
     title = 'Delete permamently?',
     paragraphs = [],
 }) {
-    const dismiss = () => {
-        setRemoveData((current) => ({
-            ...current,
-            active: false,
-        }));
-    };
-
     return (
         <Portal>
-            <Dialog visible={removeData.active} onDismiss={dismiss}>
+            <Dialog visible={visible} onDismiss={onDismiss}>
                 <Dialog.Title>{title}</Dialog.Title>
                 <Dialog.Content>
                     {paragraphs.map((paragraphText, index) => (
@@ -24,7 +17,7 @@ export default function DeleteDialog({
                     ))}
                 </Dialog.Content>
                 <Dialog.Actions>
-                    <Button onPress={dismiss}>Cancel</Button>
+                    <Button onPress={onDismiss}>Cancel</Button>
                     <Button onPress={onConfirm}>Remove</Button>
                 </Dialog.Actions>
             </Dialog>
