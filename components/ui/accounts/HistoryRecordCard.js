@@ -86,6 +86,8 @@ export default function HistoryRecordCard({
                 marginBottom: 4,
                 marginLeft: 8,
                 marginRight: 8,
+                backgroundColor: selected ? colors.secondaryContainer : colors.elevation.level2,
+                elevation: 1,
             }}
         >
             <View
@@ -94,8 +96,6 @@ export default function HistoryRecordCard({
                     alignItems: 'center',
                     paddingRight: 8,
                     paddingLeft: 16,
-                    backgroundColor: selected ? colors.secondaryContainer : colors.elevation.level2,
-                    elevation: 1,
                 }}
             >
                 <View style={{ flex: 1, justifyContent: 'center', height: 64, paddingBottom: name ? 2 : 0 }}>
