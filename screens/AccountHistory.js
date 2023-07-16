@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect, useMemo } from 'react';
-import { SectionList } from 'react-native';
+import { SectionList, ToastAndroid } from 'react-native';
 import { IconButton, useTheme } from 'react-native-paper';
 import { DataContext } from '../components/logic/DataContext';
 import { removeCashAccountHistory } from '../components/logic/firestore/accounts/RemoveCashAccountHistory';
@@ -46,7 +46,11 @@ export default function AccountHistoryScreen({ navigation, route }) {
     };
 
     const onDelete = () => {
-        setDeleteDialogVisible(true);
+        if (selectedRecords.length > 0) {
+            setDeleteDialogVisible(true);
+        } else {
+            ToastAndroid.show('Select any record first.', ToastAndroid.SHORT);
+        }
     };
 
     const onCheckAll = () => {
@@ -69,7 +73,7 @@ export default function AccountHistoryScreen({ navigation, route }) {
                     {...props}
                     displayName={
                         selectionMode
-                            ? `Selected: ${selectedRecords.length} record${selectedRecords.length === 1 ? '' : 's'}`
+                            ? selectedRecords.length > 0 ? `Selected: ${selectedRecords.length} record${selectedRecords.length === 1 ? '' : 's'}` : 'No records selected'
                             : account.name
                     }
                     mode={navbarMode}
@@ -171,7 +175,6 @@ export default function AccountHistoryScreen({ navigation, route }) {
             />
             <AnimatedToolbar
                 visible={selectionMode}
-                title={`Selected: ${selectedRecords.length} record${selectedRecords.length === 1 ? '' : 's'}`}
                 buttons={
                     <>
                         <IconButton
@@ -179,7 +182,8 @@ export default function AccountHistoryScreen({ navigation, route }) {
                             selected={selectedRecords.length === account.history.length}
                             onPress={onCheckAll}
                         />
-                        <IconButton icon="chart-box-outline" onPress={() => {}} /> {/* Will implement in the future */}
+                        {/* Will be implemented in the future */}
+                        <IconButton icon="chart-box-outline" onPress={() => {}} />
                         <IconButton icon="delete-outline" onPress={onDelete} />
                     </>
                 }

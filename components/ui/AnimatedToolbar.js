@@ -1,9 +1,9 @@
 import { memo, useEffect, useRef } from 'react';
-import { Animated, View } from 'react-native';
-import { Text, useTheme } from 'react-native-paper';
+import { Animated } from 'react-native';
+import { useTheme } from 'react-native-paper';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-function AnimatedToolbar({ buttons, visible = true }) {
+function AnimatedToolbar({ buttons = null, visible = true }) {
     const { bottom } = useSafeAreaInsets();
     const { colors } = useTheme();
     const hideProgress = useRef(new Animated.Value(visible ? 0 : 100)).current;
