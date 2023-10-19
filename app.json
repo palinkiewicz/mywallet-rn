@@ -37,6 +37,7 @@
         "projectId": "2d6ac7d3-7655-44b4-9612-33b722f1bbd4"
       }
     },
-    "plugins": ["@react-native-google-signin/google-signin"]
+    "plugins": ["@react-native-google-signin/google-signin"],
+    "jsEngine": "hermes"
   }
 }

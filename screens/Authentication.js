@@ -1,11 +1,7 @@
 import { View, StyleSheet } from 'react-native';
 import { Text, Button } from 'react-native-paper';
-import signInUserWithGoogle from '../components/logic/auth/GoogleSignIn';
-import {
-    AUTH_MODES as modes,
-    AUTH_SCREENS_TEXTS as texts,
-    SCREENS_NAMES as screens,
-} from '../constants';
+import { signInUserWithGoogle } from '../components/logic/firestore/auth/GoogleSignIn';
+import { AUTH_MODES as modes, AUTH_SCREENS_TEXTS as texts, SCREENS_NAMES as screens } from '../constants';
 import ScreenAnimatingOnKeyboard from '../components/ui/ScreenAnimatingOnKeyboard';
 import EmailAuthenticationForm from '../components/ui/auth/EmailAuthenticationForm';
 
@@ -24,11 +20,7 @@ function AuthenticationScreen({ navigation, mode = modes.SIGN_IN }) {
                 <Text style={styles.textBetween} variant="labelSmall">
                     OR
                 </Text>
-                <Button
-                    mode="contained-tonal"
-                    icon="google"
-                    onPress={signInUserWithGoogle}
-                >
+                <Button mode="contained-tonal" icon="google" onPress={signInUserWithGoogle}>
                     {texts[mode].GOOGLE}
                 </Button>
             </View>
@@ -37,11 +29,7 @@ function AuthenticationScreen({ navigation, mode = modes.SIGN_IN }) {
                 <Button
                     style={styles.signUpButton}
                     onPress={() => {
-                        navigation.navigate(
-                            mode === modes.SIGN_IN
-                                ? screens.sign_up
-                                : screens.sign_in
-                        );
+                        navigation.navigate(mode === modes.SIGN_IN ? screens.sign_up : screens.sign_in);
                     }}
                 >
                     {texts[mode].INSTEAD_BUTTON}
@@ -56,15 +44,11 @@ function AuthenticationScreen({ navigation, mode = modes.SIGN_IN }) {
  * so it can be used as an actual React Navigation Screen.
  */
 export function SignInScreen({ navigation }) {
-    return (
-        <AuthenticationScreen mode={modes.SIGN_IN} navigation={navigation} />
-    );
+    return <AuthenticationScreen mode={modes.SIGN_IN} navigation={navigation} />;
 }
 
 export function SignUpScreen({ navigation }) {
-    return (
-        <AuthenticationScreen mode={modes.SIGN_UP} navigation={navigation} />
-    );
+    return <AuthenticationScreen mode={modes.SIGN_UP} navigation={navigation} />;
 }
 
 const styles = StyleSheet.create({
