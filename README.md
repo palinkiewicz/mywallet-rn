@@ -15,6 +15,10 @@ App's purpose is to help people with managing and tracking money they spend. The
 I wanted this app to have functionalities such as different currencies, a currency exchange calculator, debt tracking, money spent/earned statistics, and many more.
 What the app is capable of at the moment, nonetheless, is only tracking profit and loss on different accounts and displaying a history of them. 
 
+## Download the app
+
+The incomplete app can be downloaded here: [Preview 2023_10_19_1 apk file](https://github.com/palinkiewicz/mywallet-rn/releases/download/Preview/pl_dakil_mywalletrn_2023_10_19_1_p.apk).
+
 ## Built with
 
 - [React](https://react.dev/)
