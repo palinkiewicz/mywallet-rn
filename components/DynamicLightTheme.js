@@ -33,7 +33,7 @@ const getUpdatedColors = () => {
             onSecondary: palette.system_accent2[0],
             onSecondaryContainer: palette.system_accent2[11],
             onSurface: palette.system_neutral1[11],
-            // onSurfaceDisabled
+            onSurfaceDisabled: palette.system_neutral1[7],
             onSurfaceVariant: palette.system_neutral2[9],
             onTertiary: palette.system_accent3[0],
             onTertiaryContainer: palette.system_accent3[11],
@@ -43,7 +43,7 @@ const getUpdatedColors = () => {
             secondary: palette.system_accent2[8],
             secondaryContainer: palette.system_accent2[3],
             surface: palette.system_neutral1[1],
-            // surfaceDisabled
+            surfaceDisabled: palette.system_neutral1[3],
             surfaceVariant: palette.system_neutral2[3],
             surfaceTint: palette.system_accent1[8] + '14',
             tertiary: palette.system_accent3[8],
@@ -62,10 +62,8 @@ const getUpdatedColors = () => {
 
 export const DynamicLightTheme = {
     ...DefaultTheme,
-    ...{
-        colors: {
-            ...DefaultTheme.colors,
-            ...getUpdatedColors(),
-        },
-    },
+    colors: {
+        ...DefaultTheme.colors,
+        ...getUpdatedColors(),
+    }
 };

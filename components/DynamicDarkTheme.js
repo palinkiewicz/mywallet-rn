@@ -14,11 +14,11 @@ const getUpdatedColors = () => {
             background: palette.system_neutral1[11],
             elevation: {
                 level0: 'transparent',
-                level1: palette.system_neutral2[12],
-                level2: palette.system_neutral2[11],
-                level3: palette.system_neutral2[10],
-                level4: palette.system_neutral2[9],
-                level5: palette.system_neutral2[8],
+                level1: palette.system_neutral2[11],
+                level2: palette.system_neutral2[10],
+                level3: palette.system_neutral2[9],
+                level4: palette.system_neutral2[8],
+                level5: palette.system_neutral2[7],
             },
             error: '#F2B8B5',
             errorContainer: '#8C1D18',
@@ -33,7 +33,7 @@ const getUpdatedColors = () => {
             onSecondary: palette.system_accent2[10],
             onSecondaryContainer: palette.system_accent2[3],
             onSurface: palette.system_neutral1[3],
-            // onSurfaceDisabled
+            onSurfaceDisabled: palette.system_neutral1[5],
             onSurfaceVariant: palette.system_neutral2[4],
             onTertiary: palette.system_accent3[10],
             onTertiaryContainer: palette.system_accent3[3],
@@ -43,7 +43,7 @@ const getUpdatedColors = () => {
             secondary: palette.system_accent2[4],
             secondaryContainer: palette.system_accent2[9],
             surface: palette.system_neutral1[11],
-            // surfaceDisabled
+            surfaceDisabled: palette.system_neutral1[9],
             surfaceVariant: palette.system_neutral2[9],
             surfaceTint: palette.system_accent1[4] + '14',
             tertiary: palette.system_accent3[4],
@@ -74,7 +74,7 @@ const getUpdatedColors = () => {
         onSecondary: '#332D41',
         onSecondaryContainer: '#E8DEF8',
         onSurface: '#E6E1E5',
-        // onSurfaceDisabled
+        onSurfaceDisabled: '#D6D1D5',
         onSurfaceVariant: '#CAC4D0',
         onTertiary: '#492532',
         onTertiaryContainer: '#FFD8E4',
@@ -84,7 +84,7 @@ const getUpdatedColors = () => {
         secondary: '#CCC2DC',
         secondaryContainer: '#4A4458',
         surface: '#1C1B1F',
-        // surfaceDisabled
+        surfaceDisabled: '#5C5B5F',
         surfaceVariant: '#49454F',
         surfaceTint: '#D0BCFF14',
         tertiary: '#EFB8C8',
@@ -94,10 +94,8 @@ const getUpdatedColors = () => {
 
 export const DynamicDarkTheme = {
     ...DefaultTheme,
-    ...{
-        colors: {
-            ...DefaultTheme.colors,
-            ...getUpdatedColors(),
-        },
-    },
+    colors: {
+        ...DefaultTheme.colors,
+        ...getUpdatedColors(),
+    }
 };
