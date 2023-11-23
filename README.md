@@ -19,6 +19,15 @@ What the app is capable of at the moment, nonetheless, is only tracking profit a
 
 The incomplete app can be downloaded here: [Preview 2023_10_19_1 apk file](https://github.com/palinkiewicz/mywallet-rn/releases/download/Preview/pl_dakil_mywalletrn_2023_10_19_1_p.apk).
 
+## Screenshots
+
+<div>
+  <img align="top" src="/screenshots/mywallet-1.jpg" style="width: 24%" />
+  <img align="top" src="/screenshots/mywallet-2.jpg" style="width: 24%" />
+  <img align="top" src="/screenshots/mywallet-3.jpg" style="width: 24%" />
+  <img align="top" src="/screenshots/mywallet-4.jpg" style="width: 24%" />
+</div>
+
 ## Built with
 
 - [React](https://react.dev/)
