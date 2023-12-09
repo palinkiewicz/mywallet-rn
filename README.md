@@ -21,12 +21,7 @@ The incomplete app can be downloaded here: [Preview 2023_10_19_1 apk file](https
 
 ## Screenshots
 
-<div>
-  <img align="top" src="/screenshots/mywallet-1.jpg" style="width: 24%" />
-  <img align="top" src="/screenshots/mywallet-2.jpg" style="width: 24%" />
-  <img align="top" src="/screenshots/mywallet-3.jpg" style="width: 24%" />
-  <img align="top" src="/screenshots/mywallet-4.jpg" style="width: 24%" />
-</div>
+<img src="/screenshots/mywallet-1.jpg" width="25%" /><img src="/screenshots/mywallet-2.jpg" width="25%" /><img src="/screenshots/mywallet-3.jpg" width="25%" /><img src="/screenshots/mywallet-4.jpg" width="25%" />
 
 ## Built with
 
